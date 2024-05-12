@@ -5,6 +5,7 @@ import Homepage from "../src/components/Homepage.jsx";
 import Gallery from "./components/Gallery.jsx";
 import Error from "./pages/Error.jsx";
 import App from "./App.jsx";
+import Login from "./components/LoginForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Homepage />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
       {
         path: "gallery",
