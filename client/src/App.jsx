@@ -1,9 +1,9 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import Room from "./Room";
-import CameraControls from "./CameraControls";
-import "../App.css";
+import Room from "../src/components/Room";
+import CameraControls from "../src/components/CameraControls";
+import "./App.css";
 
 function App() {
   return (
