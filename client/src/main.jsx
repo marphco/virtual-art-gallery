@@ -6,6 +6,7 @@ import Gallery from "./components/Gallery.jsx";
 import Error from "./pages/Error.jsx";
 import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
+import SignupForm from "./components/SignupForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/Signup",
+        element: <SignupForm />,
       },
       {
         path: "gallery",
