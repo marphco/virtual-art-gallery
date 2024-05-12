@@ -1,12 +1,10 @@
-import React from 'react';
-import { useThree } from '@react-three/fiber';
 import { Plane } from '@react-three/drei';
-import * as THREE from 'three'; // Ensure THREE is properly imported
+import * as THREE from 'three'; 
 
 function Room() {
   const lightGreyMaterial = new THREE.MeshStandardMaterial({ color: '#f0f0f0' }); // Light grey color
   const darkGreyMaterial = new THREE.MeshStandardMaterial({ color: '#9f9f9f' }); // Dark grey color
-  const blueMaterial = new THREE.MeshStandardMaterial({ color: '#48BEFF', opacity: '.5'}); // Dark grey color
+  const blueMaterial = new THREE.MeshStandardMaterial({ color: '#48BEFF', opacity: '.5'}); // Light blue color
 
 
   return (
