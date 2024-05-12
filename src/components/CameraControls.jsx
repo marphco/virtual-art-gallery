@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 
 function CameraControls() {
@@ -7,10 +7,10 @@ function CameraControls() {
   const moveBackward = useRef(false);
 
   useFrame(() => {
-    if (moveForward.current && camera.position.z > -10) {  // Assuming -10 is the back boundary
+    if (moveForward.current && camera.position.z > -10) {
       camera.translateZ(-0.1);
     }
-    if (moveBackward.current && camera.position.z < 10) {  // Assuming 10 is the front boundary
+    if (moveBackward.current && camera.position.z < 10) {
       camera.translateZ(0.1);
     }
   });
@@ -40,7 +40,7 @@ function CameraControls() {
     };
   }, []);
 
-  return null;  // This component does not render anything
+  return null;
 }
 
 export default CameraControls;
