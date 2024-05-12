@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "../Forms.css"
 
 const SignupForm = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleFullNameChange = (e) => {
     setFullName(e.target.value);
@@ -20,13 +21,13 @@ const SignupForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you can add your logic for handling the form submission, like sending a request to a server for user registration
-    console.log('Full Name:', fullName);
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log("Full Name:", fullName);
+    console.log("Email:", email);
+    console.log("Password:", password);
     // Reset the form fields
-    setFullName('');
-    setEmail('');
-    setPassword('');
+    setFullName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
