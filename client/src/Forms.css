@@ -1,5 +1,34 @@
-/* form.css */
+/* Navbar styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 0.5px darkslategray solid;
 
+}
+
+.navbar-item {
+  padding-right: 40px;
+  font-family: 'Roboto', sans-serif;
+  display: inline;
+  transition: box-shadow 0.3s ease;
+}
+
+.navbar-item a {
+  color: rgba(18, 18, 18, 0.715);
+  text-decoration: none;
+}
+
+.navbar-list {
+  display: flex;
+  padding: 0;
+}
+
+
+/* Form styles */
 body {
   display: flex;
   justify-content: center;
@@ -9,6 +38,7 @@ body {
 }
 
 .form-container {
+  display: flex;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
@@ -37,7 +67,7 @@ input[type="email"] {
 button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #1c1f23;
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -45,5 +75,82 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #3d4045;
+  /* Adjusted hover color for better consistency */
+}
+
+
+.welcome {
+  display: flex;
+}
+
+.text {
+  flex: 1;
+  padding: 20px;
+  font-family: 'Alegreya,sans-serif';
+  font-size: 1.2em;
+  line-height: 1.5em;
+  text-align: justify;
+  text-justify: inter-word;
+  color: #1c1f23;
+}
+
+.image {
+  flex: 2;
+  padding: 20px;
+  max-width: 120%;
+}
+
+.image img {
+  max-width: 100%;
+}
+
+
+/* Header */
+h3 {
+  font-family: 'Gotham, sans-serif';
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  border-left: 2px solid black;
+  padding-left: 10px;
+}
+
+.header {
+  text-align: center;
+}
+
+.header-title {
+  text-transform: uppercase;
+  font-family: 'Gotham, sans-serif';
+  font-size: 4rem;
+  line-height: 5rem;
+}
+
+
+/* Gallery Section */
+.gallery-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.gallery-section button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #1c1f23;
+  color: #fff;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+}
+
+.welcome{
+  display: flex;  
+  flex-wrap: wrap;
 }
