@@ -9,8 +9,11 @@ function Room() {
   return (
     <>
       {/* Thick Walls */}
-      <Box args={[0.8, 12, 6]} position={[-10, 1, -7]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
+      {/* SMALL WALL 1*/}
+      <Box args={[0.8, 12, 6]} position={[-10, 1, -7]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} /> 
+      {/* SMALL WALL 1*/}
       <Box args={[0.8, 12, 6]} position={[-10, 1, 7]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
+      {/* PERIMETER WALLS */}
       <Box args={[0.8, 12, 20]} position={[10, 1, 0]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
       <Box args={[20, 12, 0.8]} position={[0, 1, 10]} material={lightGreyMaterial} />
       <Box args={[20, 12, 0.8]} position={[-20, 1, 10]} material={lightGreyMaterial} />
