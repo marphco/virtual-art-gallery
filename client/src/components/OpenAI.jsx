@@ -1,15 +1,21 @@
 import { useState, useEffect, useRef } from "react";
-
+import OpenAI from "../OpenAI.css";
 const apiKey = import.meta.env.VITE_APP_OpenAI_API_KEY;
 const urlLink = import.meta.env.VITE_APP_OpenAI_API_URL;
+import askAI from "../assets/askAI.jpg";
 
 function App() {
+  const [showOpenAIContainer, setShowOpenAIContainer] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [dialog, setDialog] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [CoolDown, setCoolDown] = useState(false);
   const textareaRef = useRef(null);
+
+  const handleImageClick = () => {
+    setShowOpenAIContainer(prevState => !prevState);
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -93,33 +99,48 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>OpenAI GPT-3.5 Turbo</h1>
-      <textarea
-        ref={textareaRef}
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Enter your prompt here..."
-        style={{ width: "100%", height: "200px" }}
-      />
-      <button onClick={handleSubmit} disabled={loading || CoolDown}>
-        {loading ? "Loading..." : "Submit"}
-      </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <>
       <div>
-        {dialog.map((entry, index) => (
-          <div key={index}>
-            <p style={{ fontWeight: "bold", color: "blue" }}>
-              <strong>You:</strong> {entry.question}
-            </p>
-            <p style={{ fontWeight: "bold", color: "green" }}>
-              <strong>AI:</strong> {entry.answer}
-            </p>
+        <img
+          src={askAI} // Ensure askAI is a valid image source
+          onClick={handleImageClick}
+          alt="Click to interact with OpenAI"
+          className="bottom-left-img"
+        />
+        {showOpenAIContainer && (
+          <div className="openai-container">
+            <h1>Ask OpenAI</h1>
+            <textarea
+              ref={textareaRef}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Enter your prompt here..."
+            />
+            <button
+              className="submitBtn"
+              onClick={handleSubmit}
+              disabled={loading || CoolDown}
+            >
+              {loading ? "Loading..." : "Submit"}
+            </button>
+            {error && <p className="error">{error}</p>}
+            <div>
+              {dialog.map((entry, index) => (
+                <div key={index} className="dialog-entry">
+                  <p className="question">
+                    <strong>You:</strong> {entry.question}
+                  </p>
+                  <p className="answer">
+                    <strong>AI:</strong> {entry.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+        )}
       </div>
-    </div>
+    </>
   );
-}
+};
 
 export default App;
