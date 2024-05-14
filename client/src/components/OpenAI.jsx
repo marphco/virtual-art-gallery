@@ -14,7 +14,7 @@ function App() {
   const textareaRef = useRef(null);
 
   const handleImageClick = () => {
-    setShowOpenAIContainer(prevState => !prevState);
+    setShowOpenAIContainer((prevState) => !prevState);
   };
 
   useEffect(() => {
@@ -109,8 +109,8 @@ function App() {
         />
         {showOpenAIContainer && (
           <div className="openai-container">
-            <h1>Ask OpenAI</h1>
-            <textarea
+            <h1>Ask a Question</h1>
+            <input
               ref={textareaRef}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
@@ -141,6 +141,6 @@ function App() {
       </div>
     </>
   );
-};
+}
 
 export default App;
