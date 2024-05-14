@@ -7,6 +7,7 @@ import Error from "./pages/Error.jsx";
 import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
 import SignupForm from "./components/SignupForm.jsx";
+import OpenAI from "./components/OpenAI.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,12 +24,16 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/Signup",
+        path: "/signup", 
         element: <SignupForm />,
       },
       {
-        path: "gallery",
+        path: "/gallery",
         element: <Gallery />,
+      },
+      {
+        path: "/openai",
+        element: <OpenAI />,
       },
     ],
   },
