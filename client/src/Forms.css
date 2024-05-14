@@ -7,7 +7,7 @@
   display: flex;
   justify-content: flex-end;
   border-bottom: 0.5px darkslategray solid;
-
+  z-index: 1;
 }
 
 .navbar-item {
