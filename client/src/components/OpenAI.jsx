@@ -102,7 +102,7 @@ function App() {
     <>
       <div>
         <img
-          src={askAI} // Ensure askAI is a valid image source
+          src={askAI}
           onClick={handleImageClick}
           alt="Click to interact with OpenAI"
           className="bottom-left-img"
@@ -124,7 +124,7 @@ function App() {
               {loading ? "Loading..." : "Submit"}
             </button>
             {error && <p className="error">{error}</p>}
-            <div>
+            <div className="dialog-container">
               {dialog.map((entry, index) => (
                 <div key={index} className="dialog-entry">
                   <p className="question">
@@ -142,5 +142,4 @@ function App() {
     </>
   );
 }
-
 export default App;
