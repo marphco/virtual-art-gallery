@@ -1,30 +1,34 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
-import "../Forms.css"
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "../utils/mutations";
+import Auth from "../utils/auth";
+import "../Forms.css";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you can add your logic for handling the form submission, like sending a request to a server for authentication
-    console.log("Username:", username);
-    console.log("Password:", password);
-    // Reset the form fields
-    setUsername("");
-    setPassword("");
+
+    try {
+      const { data } = await loginUser({
+        variables: { email, password },
+      });
+
+      Auth.login(data.login.token);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -32,13 +36,13 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={handleUsernameChange}
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={handleEmailChange}
             required
           />
         </div>
@@ -54,6 +58,7 @@ const LoginForm = () => {
           />
         </div>
         <button type="submit">Login</button>
+        {error && <p>{error.message}</p>}
       </form>
     </div>
   );
