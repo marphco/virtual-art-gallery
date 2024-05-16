@@ -15,8 +15,8 @@ const server = new ApolloServer({
     resolvers,
 });
 
-// Enable CORS
-app.use(cors()); // Use cors middleware
+
+app.use(cors()); 
 
 const startApolloServer = async () => {
     await server.start();
