@@ -14,7 +14,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px;
   padding: 10px;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto; 
   border-radius: 10px;
 }
 
@@ -50,8 +50,8 @@ button {
 
 /* Styling for dialog container */
 .dialog-container {
-  height: 200px; /* Set height to ensure scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
+  height: 200px;
+  overflow-y: auto; 
 }
 
 /* Styling for dialog entries */
