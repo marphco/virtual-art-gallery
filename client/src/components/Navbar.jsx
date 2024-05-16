@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Auth from "../utils/auth"; // Import your AuthService
+import Auth from "../utils/auth";
 
 const Navbar = () => {
-  const isLoggedIn = Auth.loggedIn(); // Check if user is logged in using AuthService
+  const isLoggedIn = Auth.loggedIn(); 
 
   const handleLogout = () => {
-    Auth.logout(); // Call logout method from AuthService
+    Auth.logout(); 
   };
 
   return (
