@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FavoritesCard from '../components/FavoritesCard';
 
-
 const Profile = () => {
-    
   const [favoriteArt, setFavoriteArt] = useState([]);
 
   useEffect(() => {
@@ -14,6 +12,7 @@ const Profile = () => {
         const data = await response.json();
 
         const formattedArt = data.data.map(art => ({
+          id: art.id,
           title: art.title,
           imageUrl: art.image_url,
           description: art.thumbnail ? art.thumbnail.alt_text : 'No description available',
@@ -28,14 +27,18 @@ const Profile = () => {
     fetchFavoriteArt();
   }, []);
 
+  const handleDelete = (id) => {
+    setFavoriteArt(favoriteArt.filter(art => art.id !== id));
+  };
+
   return (
-    <div className="profile-container">
-      <h1 className="profile-username">Welcome!</h1>
-      <div className="favorite-art-container">
-        <h2>Favorite Art</h2>
-        <div className="art-grid">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+      <h1 className="text-4xl font-bold mb-6">Welcome!</h1>
+      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-semibold mb-4">Favorite Art</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {favoriteArt.map((art, index) => (
-            <FavoritesCard key={index} art={art} />
+            <FavoritesCard key={index} art={art} onDelete={handleDelete} />
           ))}
         </div>
       </div>
