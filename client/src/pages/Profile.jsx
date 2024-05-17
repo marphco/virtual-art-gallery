@@ -14,6 +14,7 @@ const Profile = () => {
         const data = await response.json();
 
         const formattedArt = data.data.map(art => ({
+          id: art.id,
           title: art.title,
           imageUrl: art.image_url,
           description: art.thumbnail ? art.thumbnail.alt_text : 'No description available',
@@ -28,14 +29,27 @@ const Profile = () => {
     fetchFavoriteArt();
   }, []);
 
+
+  const removeFavorite = async (id) => {
+    try {
+      await fetch(`/api/favorite-art/${id}`, {
+        method: 'DELETE',
+      });
+
+      setFavoriteArt(prevFavoriteArt => prevFavoriteArt.filter(art => art.id !== id));
+    } catch (error) {
+      console.error('Error removing favorite art:', error);
+    }
+  };
+
   return (
     <div className="profile-container">
       <h1 className="profile-username">Welcome!</h1>
       <div className="favorite-art-container">
         <h2>Favorite Art</h2>
         <div className="art-grid">
-          {favoriteArt.map((art, index) => (
-            <FavoritesCard key={index} art={art} />
+          {favoriteArt.map(art => (
+            <FavoritesCard key={art.id} art={art} onRemoveFavorite={removeFavorite}/>
           ))}
         </div>
       </div>

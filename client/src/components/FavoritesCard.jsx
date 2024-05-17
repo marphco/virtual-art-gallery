@@ -7,6 +7,9 @@ const FavoritesCard = ({ art }) => {
             <div className="fav-card-content">
                 <h3 className="fav-art-title">{art.title}</h3>
                 <p className="fav-art-description">{art.description}</p>
+                <button onClick={() => onRemoveFavorite(art.id)} className="remove-favorite-button">
+                    Remove Favorite
+                </button>
             </div>
         </div>
     );
