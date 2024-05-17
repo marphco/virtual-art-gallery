@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
-import "../Forms.css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -32,11 +31,11 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-semibold mb-4">Login</h2>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 mb-2">Email</label>
           <input
             type="email"
             id="email"
@@ -44,10 +43,11 @@ const LoginForm = () => {
             value={email}
             onChange={handleEmailChange}
             required
+            className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-gray-700 mb-2">Password</label>
           <input
             type="password"
             id="password"
@@ -55,10 +55,13 @@ const LoginForm = () => {
             value={password}
             onChange={handlePasswordChange}
             required
+            className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
-        <button type="submit">Login</button>
-        {error && <p>{error.message}</p>}
+        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          Login
+        </button>
+        {error && <p className="mt-4 text-red-500">{error.message}</p>}
       </form>
     </div>
   );
