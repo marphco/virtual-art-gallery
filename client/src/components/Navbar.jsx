@@ -16,9 +16,14 @@ const Navbar = () => {
           <Link to="/">Home</Link>
         </li>
         {isLoggedIn ? (
+          <>
+          <li className="navbar-item">
+            <Link to="/profile">Profile</Link>
+          </li>
           <li className="navbar-item">
             <Link to="/" onClick={handleLogout}>Logout</Link>
           </li>
+          </>
         ) : (
           <>
             <li className="navbar-item">

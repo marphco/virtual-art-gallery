@@ -8,7 +8,9 @@ import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
 import SignupForm from "./components/SignupForm.jsx";
 import OpenAI from "./components/OpenAI.jsx";
+import Profile from "./pages/Profile.jsx";
 import './index.css'
+
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
         path: "/openai",
         element: <OpenAI />,
       },
+      {
+        path: "/profile",
+        element: <Profile />
+      }
     ],
   },
 ]);
