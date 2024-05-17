@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import Homepage from "../src/components/Homepage.jsx";
 import Gallery from "./components/Gallery.jsx";
 import Error from "./pages/Error.jsx";
@@ -8,6 +8,9 @@ import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
 import SignupForm from "./components/SignupForm.jsx";
 import OpenAI from "./components/OpenAI.jsx";
+import Profile from "./pages/Profile.jsx";
+import './index.css'
+
 
 const router = createBrowserRouter([
   {
@@ -35,6 +38,10 @@ const router = createBrowserRouter([
         path: "/openai",
         element: <OpenAI />,
       },
+      {
+        path: "/profile",
+        element: <Profile />
+      }
     ],
   },
 ]);

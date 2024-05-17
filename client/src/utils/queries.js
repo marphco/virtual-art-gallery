@@ -10,7 +10,20 @@ export const QUERY_USER = gql`
     }
   }
 `;
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+
+
+export const GET_ARTWORK = gql`
+  query GetArtwork($id: ID!) {
+    artwork(id: $id) {
+      id
+      title
+      imageUrl
+      description
+    }
+  }
+`;
+
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 // Create a new ApolloClient instance
 const client = new ApolloClient({

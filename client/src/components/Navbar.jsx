@@ -4,6 +4,8 @@ import Auth from "../utils/auth";
 
 const Navbar = () => {
   const isLoggedIn = Auth.loggedIn(); 
+  const username = isLoggedIn ? Auth.getProfile().username : null;
+  console.log(username)
 
   const handleLogout = () => {
     Auth.logout(); 
@@ -16,9 +18,17 @@ const Navbar = () => {
           <Link to="/">Home</Link>
         </li>
         {isLoggedIn ? (
+          <>
+          <li className="navbar-item">
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li className="navbar-item">
+            <span>{username}</span>
+          </li>
           <li className="navbar-item">
             <Link to="/" onClick={handleLogout}>Logout</Link>
           </li>
+          </>
         ) : (
           <>
             <li className="navbar-item">
