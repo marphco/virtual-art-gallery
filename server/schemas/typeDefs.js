@@ -7,13 +7,6 @@ const typeDefs = `#graphql
     
   }
 
-  type Art {
-    _id: ID
-    title: String 
-    description: String
-    image: String
-  }
-
   type Auth {
     token: ID!
     user: User
