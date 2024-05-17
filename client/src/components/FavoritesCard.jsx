@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const FavoritesCard = ({ art, onDelete }) => {
   return (
@@ -13,7 +13,7 @@ const FavoritesCard = ({ art, onDelete }) => {
           <div className="text-xl font-semibold mb-2 font-serif h-14 overflow-y-auto">
             {art.title}
           </div>
-          <div className="text-gray-700 mb-4 h-22 overflow-hidden">
+          <div className="text-gray-700 mb-4 h-115 overflow-hidden">
             <p>{art.description}</p>
           </div>
         </div>
