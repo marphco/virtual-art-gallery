@@ -19,7 +19,6 @@ function CameraControls() {
   const speed = 0.1;
   const movementSpeed = 0.2;
 
-  // Encapsulate movement logic into functions
   const handleMovement = (movement) => {
     const direction = new THREE.Vector3();
     camera.getWorldDirection(direction);
@@ -68,10 +67,10 @@ function CameraControls() {
   useFrame(() => {
     const movement = new THREE.Vector3();
 
-    if (!isMoving) {
-      handleMovement(movement);
-    } else {
+    if (isMoving) {
       handleTapNavigation(movement);
+    } else {
+      handleMovement(movement);
     }
 
     movement.multiplyScalar(0.9);
@@ -94,36 +93,30 @@ function CameraControls() {
         case 'ArrowUp':
         case 'w':
         case 'W':
-          console.log('Key down: moveForward');
           moveForward.current = true;
           break;
         case 'ArrowDown':
         case 's':
         case 'S':
-          console.log('Key down: moveBackward');
           moveBackward.current = true;
           break;
         case 'ArrowLeft':
-        case 'a':
-        case 'A':
-          console.log('Key down: moveLeft');
-          moveLeft.current = true;
-          break;
-        case 'ArrowRight':
-        case 'd':
-        case 'D':
-          console.log('Key down: moveRight');
-          moveRight.current = true;
-          break;
         case 'q':
         case 'Q':
-          console.log('Key down: rotateLeft');
           rotateLeft.current = true;
           break;
+        case 'ArrowRight':
         case 'e':
         case 'E':
-          console.log('Key down: rotateRight');
           rotateRight.current = true;
+          break;
+        case 'a':
+        case 'A':
+          moveLeft.current = true;
+          break;
+        case 'd':
+        case 'D':
+          moveRight.current = true;
           break;
       }
     };
@@ -133,36 +126,30 @@ function CameraControls() {
         case 'ArrowUp':
         case 'w':
         case 'W':
-          console.log('Key up: moveForward');
           moveForward.current = false;
           break;
         case 'ArrowDown':
         case 's':
         case 'S':
-          console.log('Key up: moveBackward');
           moveBackward.current = false;
           break;
         case 'ArrowLeft':
-        case 'a':
-        case 'A':
-          console.log('Key up: moveLeft');
-          moveLeft.current = false;
-          break;
-        case 'ArrowRight':
-        case 'd':
-        case 'D':
-          console.log('Key up: moveRight');
-          moveRight.current = false;
-          break;
         case 'q':
         case 'Q':
-          console.log('Key up: rotateLeft');
           rotateLeft.current = false;
           break;
+        case 'ArrowRight':
         case 'e':
         case 'E':
-          console.log('Key up: rotateRight');
           rotateRight.current = false;
+          break;
+        case 'a':
+        case 'A':
+          moveLeft.current = false;
+          break;
+        case 'd':
+        case 'D':
+          moveRight.current = false;
           break;
       }
     };
@@ -201,14 +188,48 @@ function CameraControls() {
       isDragging.current = false;
     };
 
+    const handleTouchMove = (event) => {
+      if (isDragging.current && event.touches.length === 1) {
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - prevMousePos.current.x;
+        const deltaY = touch.clientY - prevMousePos.current.y;
+
+        yaw.current -= deltaX * 0.002;
+        pitch.current -= deltaY * 0.002;
+        pitch.current = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch.current));
+
+        prevMousePos.current.x = touch.clientX;
+        prevMousePos.current.y = touch.clientY;
+      }
+    };
+
+    const handleTouchStart = (event) => {
+      if (event.touches.length === 1) {
+        const touch = event.touches[0];
+        isDragging.current = true;
+        prevMousePos.current.x = touch.clientX;
+        prevMousePos.current.y = touch.clientY;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isDragging.current = false;
+    };
+
     domElement.addEventListener('mousemove', handleMouseMove);
     domElement.addEventListener('mousedown', handleMouseDown);
     domElement.addEventListener('mouseup', handleMouseUp);
+    domElement.addEventListener('touchmove', handleTouchMove);
+    domElement.addEventListener('touchstart', handleTouchStart);
+    domElement.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       domElement.removeEventListener('mousemove', handleMouseMove);
       domElement.removeEventListener('mousedown', handleMouseDown);
       domElement.removeEventListener('mouseup', handleMouseUp);
+      domElement.removeEventListener('touchmove', handleTouchMove);
+      domElement.removeEventListener('touchstart', handleTouchStart);
+      domElement.removeEventListener('touchend', handleTouchEnd);
     };
   }, [domElement]);
 
@@ -235,9 +256,11 @@ function CameraControls() {
     };
 
     domElement.addEventListener('click', handleTapNavigation);
+    domElement.addEventListener('touchstart', handleTapNavigation);
 
     return () => {
       domElement.removeEventListener('click', handleTapNavigation);
+      domElement.removeEventListener('touchstart', handleTapNavigation);
     };
   }, [domElement, scene, camera]);
 
@@ -257,15 +280,6 @@ function CameraControls() {
       rotateRight.current = false;
     }
   }, [isMoving]);
-
-  // Add logging
-  useEffect(() => {
-    console.log('isMoving state changed:', isMoving);
-  }, [isMoving]);
-
-  useEffect(() => {
-    console.log('Target position set to:', targetPosition);
-  }, [targetPosition]);
 
   return null;
 }
