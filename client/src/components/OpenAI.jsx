@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import OpenAI from "../OpenAI.css";
 const apiKey = import.meta.env.VITE_APP_OpenAI_API_KEY;
 const urlLink = import.meta.env.VITE_APP_OpenAI_API_URL;
 import askAI from "../assets/askAI.jpg";
@@ -105,41 +104,43 @@ function App() {
           src={askAI}
           onClick={handleImageClick}
           alt="Click to interact with OpenAI"
-          className="bottom-left-img"
+          className="fixed bottom-10 right-10 w-8 h-8 z-20 rounded-lg cursor-pointer"
         />
         {showOpenAIContainer && (
-          <div className="openai-container">
-            <h1>Ask a Question</h1>
-            <input
-              ref={textareaRef}
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Enter your prompt here..."
-            />
-            <button
-              className="submitBtn"
-              onClick={handleSubmit}
-              disabled={loading || CoolDown}
-            >
-              {loading ? "Loading..." : "Submit"}
-            </button>
-            {error && <p className="error">{error}</p>}
-            <div className="dialog-container">
+          <div className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col">
+            <h1 className="text-xl font-semibold mb-4">Ask a Question</h1>
+            <div className="flex-1 overflow-y-auto mb-4">
               {dialog.map((entry, index) => (
-                <div key={index} className="dialog-entry">
-                  <p className="question">
+                <div key={index} className="mb-4">
+                  <p className="font-bold text-blue-700">
                     <strong>You:</strong> {entry.question}
                   </p>
-                  <p className="answer">
+                  <p className="font-bold text-green-700">
                     <strong>AI:</strong> {entry.answer}
                   </p>
                 </div>
               ))}
             </div>
+            <input
+              ref={textareaRef}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Enter your prompt here..."
+              className="w-full p-2 mb-2 border border-gray-300 rounded-lg"
+            />
+            <button
+              className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+              onClick={handleSubmit}
+              disabled={loading || CoolDown}
+            >
+              {loading ? "Loading..." : "Submit"}
+            </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
           </div>
         )}
       </div>
     </>
   );
 }
+
 export default App;
