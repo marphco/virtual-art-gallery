@@ -12,14 +12,16 @@ export const QUERY_USER = gql`
 `;
 
 
+
+
 export const GET_ARTWORK = gql`
-  query GetArtwork($id: ID!) {
-    artwork(id: $id) {
+  query {
+    artwork {
       id
       title
-      image_id
-      description
       artist_titles
+      description
+      image_id
     }
   }
 `;
