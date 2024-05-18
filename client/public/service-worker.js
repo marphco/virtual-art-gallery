@@ -1,11 +1,21 @@
-// service-worker.js
+const CACHE_NAME = 'panorama-cache-v1'; 
 
-const CACHE_NAME = 'my-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/favicon.ico',
-  // Add other URLs you want to cache
+  '/main.jsx',
+  '/index.css',
+  '/app.jsx',
+  '/app.css',
+  '/components/Room.jsx',
+  '/components/Navbar.jsx',
+  '/components/Homepage.jsx',
+  '/components/Gallery.jsx',
+  '/components/FavoritesCard.jsx',
+  '/components/CameraControls.jsx',
+  '/pages/Profile.jsx',
+  '/pages/Error.jsx'
 ];
 
 self.addEventListener('install', (event) => {
@@ -13,13 +23,12 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache.map(url => new Request(url, { cache: 'reload' })));
+        return cache.addAll(urlsToCache);
       })
       .catch((error) => {
         console.error('Failed to cache resources during install:', error);
       })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -36,19 +45,30 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
+    caches.match(event.request).then(response => {
+      if (response) {
+        return response; 
+      }
+
+      return fetch(event.request)
+        .then(response => {
+          
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          let responseToCache = response.clone();
+
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache); 
+          });
+
           return response;
-        }
-        return fetch(event.request).catch(() => {
-          // Handle fetch failure, maybe return a fallback response
         });
-      })
+    })
   );
 });
