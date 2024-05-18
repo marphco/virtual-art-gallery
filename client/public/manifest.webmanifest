@@ -1,7 +1,7 @@
 {
-    "name": "Vite PWA Project",
-    "short_name": "Vite PWA Project",
-    "description": "A simple Vite PWA project",
+    "name": "Panorama",
+    "short_name": "Panorama",
+    "description": "Virtual Art Gallery",
     "icons": [
       {
         "src": "pwa-64x64.png",
