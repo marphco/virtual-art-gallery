@@ -1,59 +1,58 @@
-import { useState, useEffect } from 'react'
-import "./App.css";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import { Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import OpenAI from "./components/OpenAI";
+import React, { useEffect, useRef } from 'react';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import OpenAI from './components/OpenAI';
+import './App.css';
 
-// Create an ApolloClient instance
 const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql", // Replace with your GraphQL server URI
+  uri: 'http://localhost:3001/graphql',
   cache: new InMemoryCache(),
 });
 
 function App() {
-  const [promptInstall, setPromptInstall] = useState(null)
+  const installButtonRef = useRef(null);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault()
-      setPromptInstall(event)
-    }
+    const installButton = installButtonRef.current;
+    let deferredPrompt;
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    if (installButton) {
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredPrompt = event;
+        installButton.classList.toggle('hidden', false);
+      });
 
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-    }
-  }, [])
-
-  const handleInstallClick = () => {
-    if (promptInstall) {
-      promptInstall.prompt()
-      promptInstall.userChoice.then((choice) => {
-        if (choice.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt')
-        } else {
-          console.log('User dismissed the A2HS prompt')
+      installButton.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          console.log('User choice:', choiceResult);
+          deferredPrompt = null;
+          installButton.classList.toggle('hidden', true);
         }
-      })
+      });
+
+      window.addEventListener('appinstalled', () => {
+        console.log('👍', 'appinstalled');
+        deferredPrompt = null;
+      });
     }
-  }
+  }, []);
 
   return (
     <ApolloProvider client={client}>
-      <>
-        <div>
-          <Navbar />
-        </div>
-        <div>
-          <Outlet />
-        </div>
-        <div>
-          <OpenAI />
-          <button onClick={handleInstallClick}>Install PWA</button>
-        </div>
-      </>
+      <div>
+        <Navbar />
+      </div>
+      <div>
+        <Outlet />
+      </div>
+      <div>
+        <OpenAI />
+      </div>
+      <button ref={installButtonRef} id="installButton" className="hidden">Install App</button>
     </ApolloProvider>
   );
 }

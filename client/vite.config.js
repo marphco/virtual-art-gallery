@@ -41,11 +41,11 @@
          theme_color: '#171717',
         background_color: '#f0e7db',
          display: "standalone",
+         prefer_related_applications: true,
          scope: '/',
          start_url: "/",
          orientation: 'portrait'
        },
-       registerType: 'prompt'
      })
    ],
    server: {
