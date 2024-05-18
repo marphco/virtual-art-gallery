@@ -9,14 +9,14 @@ const artworkSchema = new Schema({
         type: String,
         required: true
     },
-    // artist_titles: {
-    //     type: String,
-    //     required: true
-    // },
+    artist_titles: {
+        type: String,
+        required: true
+    },
     description: {
-      type: String,
-      required: true
-  },
+        type: String,
+        required: true
+    },
     imageUrl: {
         type: String,
         required: true

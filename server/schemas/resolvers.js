@@ -1,7 +1,6 @@
 const { User } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
-
 const resolvers = {
     Query: {
         artwork: async () => {
@@ -10,28 +9,26 @@ const resolvers = {
                     "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_titles,image_id,thumbnail&limit=6"
                 );
                 const data = await response.json();
-                console.log(data)
 
-                // Filter out artworks without images and format the data
+                // Filter and format artwork data
                 const formattedArt = data.data
                     .filter((art) => art.image_id) // Only include artworks with an image_id
                     .map((art) => ({
                         id: art.id,
                         title: art.title,
-                        // artist_titles:  art.artist_titles,
                         image_id: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
-                        description: art.thumbnail
-                            ? art.thumbnail.alt_text
-                            : "No description available",
+                        description: art.thumbnail ? art.thumbnail.alt_text : "No description available",
                     }));
 
                 return formattedArt;
             } catch (error) {
-                console.error("Error fetching favorite art:", error);
-                throw new Error("Failed to fetch favorite art");
+                console.error("Error fetching artwork:", error);
+                throw new Error("Failed to fetch artwork");
             }
-        }
+        },
     },
+
+
     Mutation: {
         addUser: async (parent, { username, email, password }) => {
             const user = await User.create({ username, email, password });
