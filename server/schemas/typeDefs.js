@@ -8,12 +8,13 @@ const typeDefs = `#graphql
   }
 
   type Artwork {
-  id: ID!
-  title: String!
-  description: String!
-  imageUrl: String!
-
+    id: Int!
+    title: String!
+    # artist_titles: String!
+    description: String!
+    image_id: String!
 }
+
   type Auth {
     token: ID!
     user: User
@@ -22,7 +23,7 @@ const typeDefs = `#graphql
   type Query {
     
     user(username: String!): User
-    artwork(id: ID!): Artwork
+    artwork: [Artwork]!
     
     
     

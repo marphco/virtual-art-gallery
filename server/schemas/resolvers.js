@@ -1,32 +1,37 @@
 const { User } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
-const axios = require('axios')
+
 
 const resolvers = {
     Query: {
-        artwork: async (_, { id }) => {
+        artwork: async () => {
             try {
-                const response = await axios.get(`https://api.artic.edu/api/v1/artworks?ids=${id}`);
-                const artworks = response.data.data;
-                const artwork = artworks.find(artwork => artwork.id === parseInt(id));
+                const response = await fetch(
+                    "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_titles,image_id,thumbnail&limit=6"
+                );
+                const data = await response.json();
+                console.log(data)
 
-                if (!artwork) {
-                    throw new Error(`Artwork not found`);
-                }
+                // Filter out artworks without images and format the data
+                const formattedArt = data.data
+                    .filter((art) => art.image_id) // Only include artworks with an image_id
+                    .map((art) => ({
+                        id: art.id,
+                        title: art.title,
+                        // artist_titles:  art.artist_titles,
+                        image_id: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
+                        description: art.thumbnail
+                            ? art.thumbnail.alt_text
+                            : "No description available",
+                    }));
 
-                return {
-                    id: artwork.id.toString(),
-                    title: artwork.title,
-                    imageUrl: artwork.image.url,
-                    description: artwork.thumbnail,
-                };
+                return formattedArt;
             } catch (error) {
-                console.error('Error fetching artwork:', error);
-                throw new Error('Failed to fetch artwork');
+                console.error("Error fetching favorite art:", error);
+                throw new Error("Failed to fetch favorite art");
             }
-        },
+        }
     },
-
     Mutation: {
         addUser: async (parent, { username, email, password }) => {
             const user = await User.create({ username, email, password });

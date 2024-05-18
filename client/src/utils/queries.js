@@ -17,8 +17,9 @@ export const GET_ARTWORK = gql`
     artwork(id: $id) {
       id
       title
-      imageUrl
+      image_id
       description
+      artist_titles
     }
   }
 `;
