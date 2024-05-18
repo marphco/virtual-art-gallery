@@ -11,6 +11,8 @@ import OpenAI from "./components/OpenAI.jsx";
 import Profile from "./pages/Profile.jsx";
 import "./index.css";
 
+
+
 const router = createBrowserRouter([
   {
     path: "/",
