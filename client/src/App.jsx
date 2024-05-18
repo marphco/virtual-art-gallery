@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import "./App.css";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { Outlet } from "react-router-dom";
@@ -11,6 +12,34 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [promptInstall, setPromptInstall] = useState(null)
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault()
+      setPromptInstall(event)
+    }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    }
+  }, [])
+
+  const handleInstallClick = () => {
+    if (promptInstall) {
+      promptInstall.prompt()
+      promptInstall.userChoice.then((choice) => {
+        if (choice.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt')
+        } else {
+          console.log('User dismissed the A2HS prompt')
+        }
+      })
+    }
+  }
+
   return (
     <ApolloProvider client={client}>
       <>
@@ -22,6 +51,7 @@ function App() {
         </div>
         <div>
           <OpenAI />
+          <button onClick={handleInstallClick}>Install PWA</button>
         </div>
       </>
     </ApolloProvider>
