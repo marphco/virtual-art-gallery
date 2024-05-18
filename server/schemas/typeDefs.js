@@ -7,14 +7,25 @@ const typeDefs = `#graphql
     
   }
 
+  type Artwork {
+    id: Int!
+    title: String!
+    # artist_titles: String!
+    description: String!
+    image_id: String!
+}
+
   type Auth {
     token: ID!
     user: User
   }
 
   type Query {
-    users: [User]
+    
     user(username: String!): User
+    artwork: [Artwork]!
+    
+    
     
   }
 

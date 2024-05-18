@@ -9,7 +9,7 @@ const Profile = () => {
     const fetchFavoriteArt = async () => {
       try {
         const response = await fetch(
-          "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_display,image_id,thumbnail&limit=100"
+          "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_titles,image_id,thumbnail&limit=6"
         );
         const data = await response.json();
 
@@ -19,7 +19,7 @@ const Profile = () => {
           .map((art) => ({
             id: art.id,
             title: art.title,
-            artist: art.artist_display,
+            artist: `artist_name ${art.artist_titles}`,
             imageUrl: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
             description: art.thumbnail
               ? art.thumbnail.alt_text
@@ -70,3 +70,46 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+
+// import React from 'react';
+// import { useQuery } from '@apollo/client';
+// import { GET_ARTWORK } from '../utils/queries'; 
+// Define your GraphQL query
+// const GET_FAVORITE_ART = gql`
+//   query GetFavoriteArt {
+//     favoriteArt {
+//       id
+//       title
+//       artist
+//       imageUrl
+//       description
+//     }
+//   }
+// `;
+
+
+// const Profile = () => {
+//   const { loading, error, data } = useQuery(GET_ARTWORK);
+
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p>Error: {error.message}</p>;
+
+//   return (
+//     <div>
+//       <h1>Artwork Gallery</h1>
+//       <div className="artwork-container">
+//         {data.artwork.map(artwork => (
+//           <div key={artwork.id} className="artwork-item">
+//             <img src={artwork.image_id} alt={artwork.title} />
+//             <h2>{artwork.title}</h2>
+//             <p>{artwork.description}</p>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Profile;

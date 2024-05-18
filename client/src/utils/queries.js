@@ -1,12 +1,34 @@
-// import { gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 
-// export const QUERY_USER = gql`
-//   query user($username: String!) {
-//     user(username: $username) {
-//       _id
-//       username
-//       email
+export const QUERY_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      _id
+      username
+      email
       
-//     }
-//   }
-// `;
+    }
+  }
+`;
+
+
+export const GET_ARTWORK = gql`
+  query GetArtwork($id: ID!) {
+    artwork(id: $id) {
+      id
+      title
+      image_id
+      description
+      artist_titles
+    }
+  }
+`;
+
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+// Create a new ApolloClient instance
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/graphql', 
+  cache: new InMemoryCache()
+});
+
