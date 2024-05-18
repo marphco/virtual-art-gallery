@@ -10,7 +10,7 @@ import SignupForm from "./components/SignupForm.jsx";
 import OpenAI from "./components/OpenAI.jsx";
 import Profile from "./pages/Profile.jsx";
 import "./index.css";
-
+// import {registerServiceWorker} from './serviceWorkerRegistration.js';
 
 
 const router = createBrowserRouter([
@@ -48,5 +48,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  // <React.StrictMode>
   <RouterProvider router={router} />
+ 
 );
+
+{/* registerServiceWorker(); */}
