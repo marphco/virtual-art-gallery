@@ -3,7 +3,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 function CameraControls() {
-  const { camera, gl: { domElement }, scene } = useThree();
+  const { camera, gl: { domElement } } = useThree();
   const moveForward = useRef(false);
   const moveBackward = useRef(false);
   const moveLeft = useRef(false);
@@ -16,8 +16,15 @@ function CameraControls() {
   const pitch = useRef(0);
   const [targetPosition, setTargetPosition] = useState(null);
   const [isMoving, setIsMoving] = useState(false);
-  const speed = 0.1;
+  const [lastTap, setLastTap] = useState(0);
+  const speed = 0.2;
   const movementSpeed = 0.2;
+
+  // Define the even more exaggerated bounding boxes for the small walls
+  const smallWalls = [
+    new THREE.Box3(new THREE.Vector3(-15, -10, -10), new THREE.Vector3(-5, 10, -4)), // Further exaggerated bounds for small wall 1
+    new THREE.Box3(new THREE.Vector3(-15, -10, 4), new THREE.Vector3(-5, 10, 10))   // Further exaggerated bounds for small wall 2
+  ];
 
   const handleMovement = (movement) => {
     const direction = new THREE.Vector3();
@@ -64,6 +71,43 @@ function CameraControls() {
     }
   };
 
+  const handleDoubleTap = (event) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+
+    if (tapLength < 300 && tapLength > 0) { // Double tap detected
+      const touch = event.changedTouches[0];
+      const rect = domElement.getBoundingClientRect();
+      const x = (touch.clientX - rect.left) / rect.width * 2 - 1;
+      const y = -(touch.clientY - rect.top) / rect.height * 2 + 1;
+
+      const vector = new THREE.Vector3(x, y, 0.5);
+      vector.unproject(camera);
+      const dir = vector.sub(camera.position).normalize();
+      const distance = -camera.position.y / dir.y;
+      const target = camera.position.clone().add(dir.multiplyScalar(distance));
+
+      const boundaryBuffer = 2;
+      const clampedX = Math.max(-30 + boundaryBuffer, Math.min(10 - boundaryBuffer, target.x));
+      const clampedZ = Math.max(-10 + boundaryBuffer, Math.min(10 - boundaryBuffer, target.z));
+      setTargetPosition(new THREE.Vector3(clampedX, 1, clampedZ));
+
+      setIsMoving(true);
+    }
+
+    setLastTap(currentTime);
+  };
+
+  const handleCollision = (newPosition) => {
+    const cameraBox = new THREE.Box3().setFromCenterAndSize(newPosition, new THREE.Vector3(1, 1, 1)); // Adjusted camera size for collision
+    for (const wall of smallWalls) {
+      if (cameraBox.intersectsBox(wall)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   useFrame(() => {
     const movement = new THREE.Vector3();
 
@@ -82,7 +126,9 @@ function CameraControls() {
     newPosition.z = Math.max(-10 + boundaryBuffer, Math.min(10 - boundaryBuffer, newPosition.z));
     newPosition.y = 1; // Maintain a constant height
 
-    camera.position.copy(newPosition);
+    if (!handleCollision(newPosition)) {
+      camera.position.copy(newPosition);
+    }
   });
 
   useEffect(() => {
@@ -234,35 +280,12 @@ function CameraControls() {
   }, [domElement]);
 
   useEffect(() => {
-    const handleTapNavigation = (event) => {
-      if (isMoving) return;
-
-      const mouse = new THREE.Vector2(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -(event.clientY / window.innerHeight) * 2 + 1
-      );
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, camera);
-
-      const intersects = raycaster.intersectObjects(scene.children, true);
-      if (intersects.length > 0) {
-        const intersect = intersects.find(i => i.object.userData.name === 'floor');
-        if (intersect) {
-          console.log('Tap navigation: Moving to', intersect.point);
-          setTargetPosition(intersect.point);
-          setIsMoving(true);
-        }
-      }
-    };
-
-    domElement.addEventListener('click', handleTapNavigation);
-    domElement.addEventListener('touchstart', handleTapNavigation);
+    domElement.addEventListener('touchend', handleDoubleTap);
 
     return () => {
-      domElement.removeEventListener('click', handleTapNavigation);
-      domElement.removeEventListener('touchstart', handleTapNavigation);
+      domElement.removeEventListener('touchend', handleDoubleTap);
     };
-  }, [domElement, scene, camera]);
+  }, [domElement, camera, lastTap]);
 
   useEffect(() => {
     if (!targetPosition && isMoving) {

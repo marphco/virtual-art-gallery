@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import Room from "../components/Room";
-import CameraControls from "../components/CameraControls";
+import Room from "./Room";
+import CameraControls from "./CameraControls";
+import Modal from "./Modal"; // Import your modal component
 import "../App.css";
 
 function App() {
+  const [selectedArt, setSelectedArt] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handlePaintingClick = (artDetails) => {
+    setSelectedArt(artDetails);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedArt(null);
+  };
+
   return (
     <div className="App" style={{ height: "100vh", width: "100vw" }}>
       <Canvas camera={{ position: [0, 1, 2], fov: 75 }}>
@@ -22,9 +36,13 @@ function App() {
         <pointLight position={[-20, 8, 0]} intensity={100} color="#ffffff" />
         <pointLight position={[0, 8, 0]} intensity={100} color="#ffffff" />
 
-        <Room />
+        <Room onPaintingClick={handlePaintingClick} />
         <CameraControls />
       </Canvas>
+
+      {isModalOpen && selectedArt && (
+        <Modal art={selectedArt} onClose={closeModal} />
+      )}
     </div>
   );
 }
