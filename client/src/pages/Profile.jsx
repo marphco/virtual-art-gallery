@@ -68,6 +68,11 @@ const Profile = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
+  const addToFavorites = (artworkId) => {
+    
+    console.log(`Added artwork with ID ${artworkId} to favorites.`);
+  };
+
   return (
     <div>
       <h1>Artwork</h1>
@@ -78,6 +83,7 @@ const Profile = () => {
             <p>Description: {artwork.description}</p>
             <p>Artist Titles: {artwork.artist_titles}</p>
             <img src={artwork.image_id} alt={artwork.title} />
+            <button onClick={() => addToFavorites(artwork.id)}>Add to Favorites</button>
           </div>
         ))}
       </div>
