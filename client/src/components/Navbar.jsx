@@ -41,6 +41,11 @@ const Navbar = () => {
                 Signup
               </Link>
             </li>
+            {/* <li className="mr-10 font-roboto">
+              <Link to="/shop" className="text-gray-700 hover:text-black transition-shadow">
+                Shop
+              </Link>
+            </li> */}
           </>
         )}
       </ul>
