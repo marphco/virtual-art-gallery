@@ -29,7 +29,8 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "three-stdlib": "^2.30.0"
   },
   "devDependencies": {
     "@vite-pwa/assets-generator": "^0.2.4",
