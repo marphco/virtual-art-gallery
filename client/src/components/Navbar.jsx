@@ -28,6 +28,11 @@ const Navbar = () => {
                 Logout
               </Link>
             </li>
+            <li className="mr-10 font-roboto">
+              <Link to="/shop" className="text-gray-700 hover:text-black transition-shadow">
+                Shop
+              </Link>
+            </li>
           </>
         ) : (
           <>
@@ -41,15 +46,14 @@ const Navbar = () => {
                 Signup
               </Link>
             </li>
-            {/* <li className="mr-10 font-roboto">
+            <li className="mr-10 font-roboto">
               <Link to="/shop" className="text-gray-700 hover:text-black transition-shadow">
                 Shop
               </Link>
-            </li> */}
+            </li>
           </>
         )}
       </ul>
-      <button id="installButton" className="hidden">Install App</button>
     </nav>
   );
 };

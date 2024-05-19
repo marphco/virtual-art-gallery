@@ -9,10 +9,9 @@ import Login from './components/LoginForm.jsx';
 import SignupForm from './components/SignupForm.jsx';
 import OpenAI from './components/OpenAI.jsx';
 import Profile from './pages/Profile.jsx';
-// import Shop from './pages/Shop.jsx';
+import Shop from './pages/Shop.jsx';
 import './index.css';
 
-// Service worker registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
@@ -56,10 +55,10 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile />,
       },
-      // {
-      //   path: '/shop',
-      //   element: <Shop />
-      // }
+      {
+        path: '/shop',
+        element: <Shop />,
+      }, 
     ],
   },
 ]);
