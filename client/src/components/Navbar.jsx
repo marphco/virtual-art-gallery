@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+import { FaShoppingCart } from 'react-icons/fa';
+
 
 const Navbar = () => {
   const isLoggedIn = Auth.loggedIn();
@@ -51,9 +53,17 @@ const Navbar = () => {
                 Shop
               </Link>
             </li>
+            <li>
+            <Link to="/checkout">
+          <button className="checkout-btn">
+            <FaShoppingCart /> Checkout
+          </button>
+        </Link>
+            </li>
           </>
         )}
       </ul>
+      <button id="installButton" className="hidden">Install App</button>
     </nav>
   );
 };

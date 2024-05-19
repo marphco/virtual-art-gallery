@@ -19,13 +19,13 @@ const urlsToCache = [
 ];
 
 self.addEventListener("install", (event) => {
-  self.skipWaiting(); // Force the waiting service worker to become the active service worker
+  self.skipWaiting(); 
   event.waitUntil(
     caches
       .open(CACHE_NAME)
       .then((cache) => {
         console.log("Opened cache");
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache.map(url => new Request(url, { cache: "reload" })));
       })
       .catch((error) => {
         console.error("Failed to cache resources during install:", error);
@@ -45,7 +45,7 @@ self.addEventListener("activate", (event) => {
         })
       );
     }).then(() => {
-      self.clients.claim(); // Claim clients immediately
+      self.clients.claim(); 
     })
   );
 });
@@ -67,14 +67,19 @@ self.addEventListener("fetch", (event) => {
         if (event.request.url.startsWith("http")) {
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache).then(() => {
-              // Send the cached data to the server
               sendCacheDataToServer(event.request.url, responseToCache.clone());
+            }).catch(error => {
+              console.error("Failed to put response in cache:", error);
             });
           });
         }
 
         return response;
+      }).catch(error => {
+        console.error("Fetch failed:", error);
       });
+    }).catch(error => {
+      console.error("Cache match failed:", error);
     })
   );
 });

@@ -16,6 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.10.0",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.4.0",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
     "body-parse": "^0.1.0",
@@ -29,10 +31,9 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.2.1",
     "react-router-dom": "^6.11.1",
     "three-stdlib": "^2.30.0"
-    "react-icons": "^5.2.1",
-    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
     "@vite-pwa/assets-generator": "^0.2.4",

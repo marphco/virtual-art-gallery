@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaShoppingCart } from 'react-icons/fa';
+// import { FaShoppingCart } from 'react-icons/fa';
+import './Shop.css'; 
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -44,7 +44,7 @@ const Shop = () => {
   };
 
   return (
-    <div>
+    <div className="pt-16">
       <h1>Shop</h1>
       <div className="view-toggle">
         <button onClick={() => handleViewChange('prints')}>Shop Prints</button>
@@ -52,7 +52,7 @@ const Shop = () => {
       </div>
       {view === 'prints' && (
         <>
-          <form onSubmit={handleSearch}>
+          <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
               value={searchTerm}
@@ -63,7 +63,7 @@ const Shop = () => {
           </form>
           <div className="products">
             {products.map((product) => (
-              <div key={product.id} className="product">
+              <div key={product.id} className="product-card">
                 <h2>{product.title}</h2>
                 <img src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`} alt={product.title} />
                 <p>{product.artist_title}</p>
@@ -105,7 +105,7 @@ const Shop = () => {
         </div>
       )}
       <div className="cart">
-        <h2>Shopping Cart</h2>
+        {/* <h2>Shopping Cart</h2> */}
         <ul>
           {cart.map((item, index) => (
             <li key={index}>
@@ -113,11 +113,11 @@ const Shop = () => {
             </li>
           ))}
         </ul>
-        <Link to="/checkout">
+        {/* <Link to="/checkout">
           <button>
             <FaShoppingCart /> Go to Checkout
           </button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
