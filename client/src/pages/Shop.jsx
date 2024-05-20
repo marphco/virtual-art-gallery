@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-// import { FaShoppingCart } from 'react-icons/fa';
+import { useCart } from '../context/CartContext.jsx';
 import './Shop.css'; 
 
 const Shop = () => {
@@ -10,9 +9,10 @@ const Shop = () => {
   const [view, setView] = useState('prints');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch('https://api.artic.edu/api/v1/artworks')
+    fetch('https://api.artic.edu/api/v1/artworks?limit=5')
       .then(res => res.json())
       .then(data => setProducts(data.data))
       .catch(error => console.error('Error fetching products:', error));
@@ -21,7 +21,7 @@ const Shop = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}`);
+      const response = await fetch(`https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}&limit=5`);
       const data = await response.json();
       setProducts(data.data);
     } catch (error) {
@@ -68,7 +68,7 @@ const Shop = () => {
                 <img src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`} alt={product.title} />
                 <p>{product.artist_title}</p>
                 <p>${15}</p>
-                <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+                <button onClick={() => addToCart({ ...product, price: 15 })}>Add to Cart</button>
               </div>
             ))}
           </div>
@@ -89,15 +89,15 @@ const Shop = () => {
           </form>
           {message && <p>{message}</p>}
           <div className="subscription-options">
-            <div className="subscription-option" onClick={() => handleAddToCart({ title: '1 Month Subscription', price: 10 })}>
+            <div className="subscription-option" onClick={() => addToCart({ title: '1 Month Subscription', price: 10 })}>
               <h3>1 Month</h3>
               <p>$10</p>
             </div>
-            <div className="subscription-option" onClick={() => handleAddToCart({ title: '6 Months Subscription', price: 50 })}>
+            <div className="subscription-option" onClick={() => addToCart({ title: '6 Months Subscription', price: 50 })}>
               <h3>6 Months</h3>
               <p>$50</p>
             </div>
-            <div className="subscription-option" onClick={() => handleAddToCart({ title: '1 Year Subscription', price: 90 })}>
+            <div className="subscription-option" onClick={() => addToCart({ title: '1 Year Subscription', price: 90 })}>
               <h3>1 Year</h3>
               <p>$90</p>
             </div>

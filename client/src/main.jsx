@@ -1,3 +1,4 @@
+// src/main.jsx
 import ReactDOM from "react-dom/client";
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -11,12 +12,10 @@ import OpenAI from "./components/OpenAI.jsx";
 import Profile from "./pages/Profile.jsx";
 import Shop from './pages/Shop.jsx';
 import Checkout from './pages/Checkout.jsx';
+import { CartProvider } from './context/CartContext.jsx'; 
 import "./index.css";
 
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 
-// Service worker registration
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -63,7 +62,7 @@ const router = createBrowserRouter([
       {
         path: '/shop',
         element: <Shop />,
-      }, 
+      },
       {
         path: '/checkout',
         element: <Checkout />
@@ -73,5 +72,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <CartProvider>
+    <RouterProvider router={router} />
+  </CartProvider>
 );
