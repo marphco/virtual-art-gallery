@@ -58,31 +58,31 @@
 
 // export default Profile;
 
-import React from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_ARTWORK } from '../utils/queries';
+// import React from 'react';
+// import { useQuery } from '@apollo/client';
+// import { GET_ARTWORK } from '../utils/queries';
 
-const Profile = () => {
-  const { loading, error, data } = useQuery(GET_ARTWORK);
+// const Profile = () => {
+//   const { loading, error, data } = useQuery(GET_ARTWORK);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p>Error: {error.message}</p>;
 
-  return (
-    <div>
-      <h1>Artwork</h1>
-      <div>
-        {data.artwork.map(artwork => (
-          <div key={artwork.id}>
-            <h2>{artwork.title}</h2>
-            <p>Description: {artwork.description}</p>
-            <p>Artist Titles: {artwork.artist_titles}</p>
-            <img src={artwork.image_id} alt={artwork.title} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <h1>Artwork</h1>
+//       <div>
+//         {data.artwork.map(artwork => (
+//           <div key={artwork.id}>
+//             <h2>{artwork.title}</h2>
+//             <p>Description: {artwork.description}</p>
+//             <p>Artist Titles: {artwork.artist_titles}</p>
+//             <img src={artwork.image_id} alt={artwork.title} />
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
-export default Profile;
+// export default Profile;

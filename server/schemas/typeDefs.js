@@ -4,7 +4,6 @@ const typeDefs = `#graphql
     username: String
     email: String
     password: String
-    
   }
 
   type Artwork {
@@ -13,7 +12,7 @@ const typeDefs = `#graphql
     artist_titles: String
     description: String!
     image_id: String!
-}
+  }
 
   type Auth {
     token: ID!
@@ -21,18 +20,15 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    
     user(username: String!): User
     artwork: [Artwork]!
-    
-    
-    
+    artworkById(id: ID!): Artwork
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-  
+    deleteArtwork(id: ID!): Artwork
   }
 `;
 
