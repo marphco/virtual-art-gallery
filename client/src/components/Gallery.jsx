@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Room from "./Room";
 import CameraControls from "./CameraControls";
-import Modal from "./Modal"; // Import your modal component
+import Modal from "../pages/Modal"; 
 import "../App.css";
 
 function App() {

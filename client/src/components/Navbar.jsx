@@ -21,8 +21,8 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <li className="mr-10 font-roboto">
-              <Link to="/profile" className="text-gray-700 hover:text-black transition-shadow">
-                Profile
+              <Link to="/favorite" className="text-gray-700 hover:text-black transition-shadow">
+                Favorite
               </Link>
             </li>
             <li className="font-roboto">
@@ -63,7 +63,7 @@ const Navbar = () => {
           </>
         )}
       </ul>
-      <button id="installButton" className="hidden">Install App</button>
+      {/* <button id="installButton" className="hidden">Install App</button> */}
     </nav>
   );
 };

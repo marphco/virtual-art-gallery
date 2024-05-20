@@ -29,3 +29,4 @@ const FavoritesCard = ({ art, onDelete }) => {
 };
 
 export default FavoritesCard;
+

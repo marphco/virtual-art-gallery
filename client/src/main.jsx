@@ -9,11 +9,14 @@ import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
 import SignupForm from "./components/SignupForm.jsx";
 import OpenAI from "./components/OpenAI.jsx";
-import Profile from "./pages/Profile.jsx";
+import Favorite from "./components/Favorite.jsx";
 import Shop from './pages/Shop.jsx';
 import Checkout from './pages/Checkout.jsx';
 import { CartProvider } from './context/CartContext.jsx'; 
 import "./index.css";
+
+
+
 
 
 if ("serviceWorker" in navigator) {
@@ -56,8 +59,8 @@ const router = createBrowserRouter([
         element: <OpenAI />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "/favorite",
+        element: <Favorite />,
       },
       {
         path: '/shop',
