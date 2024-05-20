@@ -12,7 +12,6 @@ import Favorite from "./components/Favorite.jsx";
 // import Shop from './pages/Shop.jsx';
 import "./index.css";
 
-// Service worker registration
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
