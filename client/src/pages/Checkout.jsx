@@ -1,38 +1,35 @@
 import React from 'react';
+// require('dotenv').config();
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-// import { loadStripe } from '@stripe/stripe-js';
-
-// const stripePromise = loadStripe('pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt');
+import { useCart } from '../context/CartContext.jsx'
+import { useMutation } from '@apollo/client';
+import { CHECKOUT_MUTATION } from '../../src/utils/mutations';
+import { loadStripe } from '@stripe/stripe-js';
 
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
+  const stripePromise = loadStripe('pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt'); 
+  const [checkout] = useMutation(CHECKOUT_MUTATION);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  // const handlePlaceOrder = async () => {
-  //   const stripe = await stripePromise;
+  const handlePlaceOrder = async () => {
+    try {
+      const { data } = await checkout({ variables: { products: cart } });
+      const { session } = data.checkout;
 
-  //   const response = await fetch('/create-checkout-session', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ cartItems: cart })
-  //   });
+      const stripe = await stripePromise;
+      const result = await stripe.redirectToCheckout({ sessionId: session });
 
-  //   const session = await response.json();
-
-  //   const result = await stripe.redirectToCheckout({
-  //     sessionId: session.id,
-  //   });
-
-  //   if (result.error) {
-  //     console.error(result.error.message);
-  //   }
-  // };
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+    }
+  };
 
   return (
     <div className="container mx-auto py-8">

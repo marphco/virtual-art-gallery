@@ -62,6 +62,14 @@ export const GET_ARTWORK_BY_ID = gql`
   }
 `;
 
+export const CHECKOUT_MUTATION = gql`
+  mutation checkout($products: [ID]!) {
+    checkout(products: $products) {
+      session
+    }
+  }
+`;
+
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 // Create a new ApolloClient instance
