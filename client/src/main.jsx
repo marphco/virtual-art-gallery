@@ -71,7 +71,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
   <CartProvider>
     <RouterProvider router={router} />
   </CartProvider>
+  </React.StrictMode>,
 );
