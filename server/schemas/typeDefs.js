@@ -14,6 +14,13 @@ const typeDefs = `#graphql
     image_id: String!
   }
 
+  type Product {
+    _id: ID!
+    artwork: Artwork!
+    price: Float!
+    quantityAvailable: Int!
+  }
+
   type Order {
   _id: ID!
   purchaseDate: String
@@ -23,6 +30,11 @@ const typeDefs = `#graphql
   type Auth {
     token: ID!
     user: User
+  }
+
+  type CheckoutResponse {
+    session: String!
+    order: Order!
   }
 
   type Query {

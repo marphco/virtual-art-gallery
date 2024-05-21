@@ -1,7 +1,10 @@
-const { User, Order } = require("../models");
+const { User } = require("../models");
+const Order  = require('../models/Order.js');
+const Product  = require('../models/Product.js');
+const Artwork  = require('../models/Artwork')
 require('dotenv').config();
 const { signToken, AuthenticationError } = require("../utils/auth");
-const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET)
+const stripe = require('stripe')('sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3hMwtrMEpuz5W1V2kqsj4MTsj4oj1Tmcq2wp3tmWQ8GUGo1q6Dbr007CcK1wQH')
 
 const resolvers = {
   Query: {
@@ -99,52 +102,70 @@ const resolvers = {
         throw new Error("Failed to delete artwork");
       }
     },
-    checkout: async (_, { products }, { headers }) => {
-      const url = new URL(headers.referer).origin; 
-    
-      
-      const newOrder = await Order.create({ products });
-    
-      
-      const productDetails = await Promise.all(products.map(async (productId) => {
-        
-        const product = await fetchProductById(productId); 
-        return {
-          name: product.name,
-          description: product.description,
-          image: product.image, 
-          price: product.price, 
-          quantity: 1, 
-        };
-      }));
-    
-     t
-      const lineItems = productDetails.map(product => ({
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: product.name,
-            description: product.description,
-            images: [`${url}/images/${product.image}`],
-          },
-          unit_amount: product.price * 100, 
-        },
-        quantity: product.quantity,
-      }));
-      
-      
+    checkout: async (_, { products }) => {
+      const lineItems = [];
+  
+      for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+  
+        if (product.type === 'artwork') {
+  
+          const response = await fetch(`https://api.artic.edu/api/v1/artworks/${product.id}?fields=id,title,artist_titles,image_id,thumbnail`);
+          const art = await response.json();
+
+          if (art && art.data && art.data.image_id) {
+            lineItems.push({
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: art.data.title,
+                  images: [`https://www.artic.edu/iiif/2/${art.data.image_id}/full/843,/0/default.jpg`],
+                  description: art.data.thumbnail ? art.data.thumbnail.alt_text : "No description available",
+                },
+                unit_amount: product.price * 100, 
+              },
+              quantity: product.quantity,
+            });
+          } else {
+            console.log('Artwork not found for ID:', product.id);
+          }
+        } else if (product.type === 'subscription') {
+          
+          lineItems.push({
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: 'Subscription',
+                description: 'Unlimited access to the application',
+              },
+              unit_amount: product.price * 100, 
+              recurring: {
+                interval: 'month', 
+              },
+            },
+            quantity: 1,
+          });
+        }
+      }
+
+      if (lineItems.length === 0) {
+        throw new Error('No valid line items found');
+      }
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items,
+        line_items: lineItems,
         mode: 'payment',
-        success_url: `${url}/success`,
-        cancel_url: `${url}/cancel`, 
+        success_url: `http://localhost:3000/success`,
+        cancel_url: `htpp://localhost:3000/cancel`,
       });
+
       
-      return session.id;
+      const newOrder = await Order.create({ products });
+
+      return { session: session.id, order: newOrder };
     },
-    
   },
-};
+  };
 
 module.exports = resolvers;

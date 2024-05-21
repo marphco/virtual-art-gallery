@@ -1,9 +1,8 @@
 import React from 'react';
-// require('dotenv').config();
 import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext.jsx'
+import { useCart } from '../context/CartContext.jsx';
 import { useMutation } from '@apollo/client';
-import { CHECKOUT_MUTATION } from '../../src/utils/mutations';
+import { CHECKOUT_MUTATION } from '../utils/mutations';
 import { loadStripe } from '@stripe/stripe-js';
 
 const Checkout = () => {
@@ -17,12 +16,21 @@ const Checkout = () => {
 
   const handlePlaceOrder = async () => {
     try {
-      const { data } = await checkout({ variables: { products: cart } });
+      const { data } = await checkout({
+        variables: {
+          products: cart.map(item => ({
+            id: item._id, 
+            type: item.type,
+            price: item.price,
+            quantity: item.quantity
+          }))
+        }
+      });
       const { session } = data.checkout;
-
+  
       const stripe = await stripePromise;
       const result = await stripe.redirectToCheckout({ sessionId: session });
-
+  
       if (result.error) {
         console.error(result.error.message);
       }
