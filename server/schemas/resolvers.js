@@ -1,37 +1,25 @@
+
 const { User } = require("../models");
 const { Artwork } = require("../models")
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    artwork: async () => {
-      try {
-        const response = await fetch(
-          "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_titles,image_id,thumbnail&limit=6"
-        );
-        const data = await response.json();
-
-        const formattedArt = data.data
-          .filter((art) => art.image_id)
-          .map((art) => ({
-            id: art.id,
-            title: art.title,
-            image_id: `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`,
-            description: art.thumbnail
-              ? art.thumbnail.alt_text
-              : "No description available",
-          }));
-
-        return formattedArt;
-      } catch (error) {
-        console.error("Error fetching artwork:", error);
-        throw new Error("Failed to fetch artwork");
-      }
+    // Added 'users' and 'user' queries to match schema
+    users: async () => {
+      return User.find().populate("savedArt");
     },
-
+    user: async (parent, { username }) => {
+      return User.findOne({ username }).populate("savedArt");
+    },
+    me: async (parent, args, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id }).populate("savedArt");
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
   },
-
-  Mutation: {
+  Mutation: { // Moved Mutation object inside the resolvers object
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
@@ -54,23 +42,28 @@ const resolvers = {
 
       return { token, user };
     },
-    deleteArtwork: async (parent, { id }) => {
-      try {
-      
-        const artworkId = Types.ObjectId(id);
-        const deletedArtwork = await Artwork.findByIdAndDelete(artworkId);
-  
-        if (!deletedArtwork) {
-          throw new Error("Artwork not found");
-        }
-  
-        return { id: deletedArtwork.id };
-      } catch (error) {
-        console.error("Error deleting artwork:", error);
-        throw new Error("Failed to delete artwork");
+    saveArt: async (parent, { artData }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedArt: artData } }, // Make sure the savedArt field is updated correctly
+          { new: true, runValidators: true }
+        );
       }
+      throw new AuthenticationError("You need to be logged in!");
     },
-  }}
-  
+    removeArt: async (parent, { artId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedArt: { artId } } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+  },
+
+}
 
 module.exports = resolvers;

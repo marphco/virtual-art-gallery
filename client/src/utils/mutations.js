@@ -24,44 +24,36 @@ export const ADD_USER = gql`
   }
 `;
 
-export const DELETE_ARTWORK = gql`
-  mutation deleteArtwork($id: ID!) {
-    deleteArtwork(id: $id) {
-      id
-    }
-  }
-`;
-
-export const QUERY_USER = gql`
-  query user($username: String!) {
-    user(username: $username) {
+export const SAVE_ART = gql`
+  mutation SaveArtwork($artData: ArtInput!) {
+    saveArt(artData: $artData) {
       _id
       username
       email
+      savedArt {
+        id
+        title
+        artist_titles
+        description
+        imageUrl
+      }
     }
   }
 `;
 
-export const GET_ARTWORK = gql`
-  query {
-    artwork {
+export const REMOVE_ART = gql`
+mutation RemoveArtwork($artId: ID!) {
+  removeArt(artId: $artId) {
+    _id
+    username
+    email
+    savedArt {
       id
       title
       artist_titles
       description
-      image_id
+      imageUrl
     }
   }
+}
 `;
-
-
-
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-
-// Create a new ApolloClient instance
-const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
-  cache: new InMemoryCache(),
-});
-
-export default client;
