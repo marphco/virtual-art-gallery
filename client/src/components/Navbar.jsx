@@ -1,71 +1,67 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
-import { FaShoppingCart } from 'react-icons/fa';
-
-
+import { Nav } from "react-bootstrap"
+import icon from "../assets/icon.svg"
 const Navbar = () => {
   const isLoggedIn = Auth.loggedIn();
   const handleLogout = () => {
     Auth.logout();
   };
-
   return (
-    <nav className="fixed top-0 left-0 w-full flex justify-between border-b border-gray-600 bg-white z-10">
-      <ul className="flex p-4">
-        <li className="mr-10 font-roboto">
-          <Link to="/" className="text-gray-700 hover:text-black transition-shadow">
-            Home
-          </Link>
-        </li>
+    <Nav id="supernav">
+        <ul className="flex">
+        <div id="navbar-logo">
+          <Link to="/" ><img src={icon} alt="Panorama" /></Link>
+          </div>
         {isLoggedIn ? (
           <>
-            <li className="mr-10 font-roboto">
+          <div className="menu">
+            <li className="font-roboto">
               <Link to="/favorite" className="text-gray-700 hover:text-black transition-shadow">
                 Favorite
               </Link>
             </li>
-            <li className="font-roboto">
-              <Link to="/" onClick={handleLogout} className="text-gray-700 hover:text-black transition-shadow">
+            <li className="font-roboto log-out">
+              <Link to="/" onClick={handleLogout} className="text-white-700 hover:text-black transition-shadow">
                 Logout
               </Link>
             </li>
-            <li className="mr-10 font-roboto">
-              <Link to="/shop" className="text-gray-700 hover:text-black transition-shadow">
-                Shop
-              </Link>
-            </li>
+            </div>
           </>
         ) : (
           <>
-            <li className="mr-10 font-roboto">
+          <div className="menu">
+            <li className="font-roboto">
               <Link to="/login" className="text-gray-700 hover:text-black transition-shadow">
                 Login
               </Link>
             </li>
-            <li className="font-roboto">
-              <Link to="/signup" className="text-gray-700 hover:text-black transition-shadow">
-                Signup
+            <li className="font-roboto sign-up">
+              <Link to="/signup" className="transition-shadow">
+                Sign up
               </Link>
             </li>
-            <li className="mr-10 font-roboto">
+            {/* <li className="mr-10 font-roboto">
               <Link to="/shop" className="text-gray-700 hover:text-black transition-shadow">
                 Shop
               </Link>
-            </li>
-            <li>
-            <Link to="/checkout">
-          <button className="checkout-btn">
-            <FaShoppingCart /> Checkout
-          </button>
-        </Link>
-            </li>
+            </li> */}
+            </div>
           </>
         )}
       </ul>
-      {/* <button id="installButton" className="hidden">Install App</button> */}
-    </nav>
+      <button id="installButton" className="hidden">Install App</button>
+    </Nav>
   );
 };
-
 export default Navbar;
+
+
+
+
+
+
+
+
+

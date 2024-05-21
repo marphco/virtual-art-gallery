@@ -1,17 +1,147 @@
-.App {
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+@import "swiper/css/scrollbar";
+
+:root {
+  --primary: #5B5A5A;
+  --secondary: #789BC4;
+  --light-grey: #E2E2E2;
+  --white: #FDFFFF;
+  --playfair: "Playfair Display", serif;
+  --lato: "Lato", sans-serif;
+}
+
+/* .App {
   text-align: center;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
+} */
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+} */
+
+* {
+  margin: 0 auto;
+  padding: 0;
 }
+
+body {
+  font-family: var(--lato);
+}
+
+#supernav {
+background-color: var(--light-grey);
+border-bottom: none;
+position: fixed;
+left: 5%;
+right: 5%;
+margin: 5% auto 0 auto;
+flex-direction: row;
+justify-content: space-between;
+width: 90%;
+border-radius: 50px;
+box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4);
+}
+
+#supernav ul {
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.sign-up, .log-out {
+  background-color: var(--secondary);
+    padding: 1rem 1.8rem;
+    border-radius: 30px 30px 30px 30px;
+    margin-right: 0;
+    color: var(--white) !important;
+    border: solid 2px var(--secondary);
+}
+
+.sign-up:hover, .log-out:hover {
+  border: solid 2px var(--secondary);
+  color: black !important;
+  background-color: var(--light-grey);
+}
+
+#navbar-logo {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 16px;
+  align-items: center;
+}
+
+#navbar-logo img {
+  width: 55px;
+  padding: 10%;
+}
+
+.menu {
+  display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-right: 0px;
+    align-items: center;
+}
+
+/* HOMEPAGE */
+#hero {
+  margin: 0 auto;
+}
+
+#logo {
+  padding-top: 45%;
+  width: 90%;
+  padding-bottom: 30%;
+}
+
+/* INTRO */
+
+h1 {
+  font-size: 10rem;
+}
+
+
+
+/* SLIDER */
+
+
+
+.swiper-container {
+  width: 100%;
+  height: 400px;
+  margin: auto;
+}
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.gallery-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+
+/* END SLIDER */
+
+
+
+
 
 .App-header {
   background-color: #282c34;
@@ -69,4 +199,15 @@ button {
   margin-top: 20px;
 }
 
+/* TABLET AND DESKTOP */
+@media only screen and (min-width: 600px) {
+  #supernav {
+    margin: 1% auto 0 auto;
+    width: 50%;
+  }
 
+  #logo {
+    padding-top: 15%;
+    width: 30%;
+  }
+}

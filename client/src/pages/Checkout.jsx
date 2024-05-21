@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { loadStripe } from '@stripe/stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt');
+// const stripePromise = loadStripe('pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt');
 
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -12,7 +12,7 @@ const Checkout = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const handlePlaceOrder = async () => {
+  // const handlePlaceOrder = async () => {
   //   const stripe = await stripePromise;
 
   //   const response = await fetch('/create-checkout-session', {
