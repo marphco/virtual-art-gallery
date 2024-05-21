@@ -58,13 +58,7 @@ export const REMOVE_ART = gql`
   }
 `;
 
-export const GET_ARTWORK_BY_ID = gql`
-  query getArtworkById($id: ID!) {
-    artworkById(id: $id) {
-      id
-    }
-  }
-`;
+
 
 export const CHECKOUT_MUTATION = gql`
   mutation checkout($products: [ID]!) {
