@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import { Nav } from "react-bootstrap"
 import icon from "../assets/icon.svg"
-
 const Navbar = () => {
   const isLoggedIn = Auth.loggedIn();
   const handleLogout = () => {
     Auth.logout();
   };
-
   return (
     <Nav id="supernav">
         <ul className="flex">
@@ -57,5 +55,13 @@ const Navbar = () => {
     </Nav>
   );
 };
-
 export default Navbar;
+
+
+
+
+
+
+
+
+

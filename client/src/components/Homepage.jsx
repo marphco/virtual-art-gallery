@@ -19,8 +19,8 @@ const Homepage = () => {
     { id: 2, src: artic, title: "Art Institute of Chicago" },
     { id: 3, src: uffizi, title: "Gallerie degli Uffizi" },
     { id: 4, src: met, title: "Metropolitan Museum of New York" },
-    { id: 2, src: artic, title: "Art Institute of Chicago" },
-    { id: 3, src: uffizi, title: "Gallerie degli Uffizi" },
+    // { id: 2, src: artic, title: "Art Institute of Chicago" },
+    // { id: 3, src: uffizi, title: "Gallerie degli Uffizi" },
   ];
 
   return (

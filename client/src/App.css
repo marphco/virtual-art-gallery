@@ -167,9 +167,6 @@ h1 {
   }
 }
 
-.hidden {
-  display: none;
-}
 
 .modal-overlay {
   position: fixed;
