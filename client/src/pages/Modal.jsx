@@ -11,8 +11,7 @@ import "../App.css";
 function Modal({ art, onClose, onSave }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  useEffect(() => {
-  }, [art, onClose, onSave]);
+  useEffect(() => {}, [art, onClose, onSave]);
 
   const handleSaveClick = () => {
     setIsFavorite(true);
@@ -23,6 +22,10 @@ function Modal({ art, onClose, onSave }) {
       console.error("onSave is not a function", onSave);
     }
   };
+
+  if (!art) {
+    return null; 
+  }
 
   return (
     <div
@@ -35,7 +38,7 @@ function Modal({ art, onClose, onSave }) {
       >
         <div className="w-[40rem] h-[40rem] mx-auto mb-4">
           <img
-            src={art.texture.image.src}
+            src={art.image}
             alt={art.title}
             className="w-full h-full object-cover rounded-lg"
           />
@@ -68,7 +71,7 @@ function Modal({ art, onClose, onSave }) {
 }
 
 Modal.propTypes = {
-  art: PropTypes.object.isRequired,
+  art: PropTypes.object,
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };

@@ -37,17 +37,17 @@ body {
 }
 
 #supernav {
-background-color: var(--light-grey);
-border-bottom: none;
-position: fixed;
-left: 5%;
-right: 5%;
-margin: 5% auto 0 auto;
-flex-direction: row;
-justify-content: space-between;
-width: 90%;
-border-radius: 50px;
-box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4);
+  background-color: var(--light-grey);
+  border-bottom: none;
+  position: fixed;
+  left: 5%;
+  right: 5%;
+  margin: 5% auto 0 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  border-radius: 50px;
+  box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4);
 }
 
 #supernav ul {
@@ -56,16 +56,17 @@ box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4
   align-items: center;
 }
 
-.sign-up, .log-out {
+.sign-up,
+.log-out {
   background-color: var(--secondary);
-    padding: 1rem 1.8rem;
-    border-radius: 30px 30px 30px 30px;
-    margin-right: 0;
-    color: var(--white) !important;
-    border: solid 2px var(--secondary);
+  padding: 1rem 1.8rem;
+  border-radius: 30px 30px 30px 30px;
+  color: var(--white) !important;
+  border: solid 2px var(--secondary);
 }
 
-.sign-up:hover, .log-out:hover {
+.sign-up:hover,
+.log-out:hover {
   border: solid 2px var(--secondary);
   color: black !important;
   background-color: var(--light-grey);
@@ -85,10 +86,10 @@ box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4
 
 .menu {
   display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-    margin-right: 0px;
-    align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-right: 0px;
+  align-items: center;
 }
 
 /* HOMEPAGE */
@@ -162,6 +163,7 @@ h1 {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

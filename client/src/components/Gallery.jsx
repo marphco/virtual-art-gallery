@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import Room from "./Room";
-import CameraControls from "./CameraControls";
+import CustomOrbitControls from "./CameraControls";
 import Modal from "../pages/Modal"; 
 import "../App.css";
 
@@ -37,7 +37,7 @@ function App() {
         <pointLight position={[0, 8, 0]} intensity={100} color="#ffffff" />
 
         <Room onPaintingClick={handlePaintingClick} />
-        <CameraControls />
+        <CustomOrbitControls />
       </Canvas>
 
       {isModalOpen && selectedArt && (

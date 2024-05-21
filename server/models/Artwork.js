@@ -1,29 +1,19 @@
 const { Schema, model } = require('mongoose');
 
 const artworkSchema = new Schema({
-    id: {
-        type: String,
-        required: true
-    },
+    _id: String,
     title: {
         type: String,
         required: true
     },
-    artist_titles: {
-        type: String,
-        required: true
-    },
+    artist_titles: String,
     description: {
         type: String,
         required: true
     },
-    imageUrl: {
-        type: String,
-        required: true
-    },
-    description: String
+    imageUrl: String,
 });
 
 const Artwork = model('Artwork', artworkSchema);
 
-module.exports = Artwork;
+module.exports = Artwork

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function CameraControls() {
+function CustomOrbitControls() {
   const { camera, gl: { domElement } } = useThree();
   const moveForward = useRef(false);
   const moveBackward = useRef(false);
@@ -307,4 +307,4 @@ function CameraControls() {
   return null;
 }
 
-export default CameraControls;
+export default CustomOrbitControls;
