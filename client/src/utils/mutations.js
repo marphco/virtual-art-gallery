@@ -42,17 +42,18 @@ export const SAVE_ART = gql`
 `;
 
 export const REMOVE_ART = gql`
-mutation RemoveArtwork($artId: ID!) {
-  removeArt(artId: $artId) {
-    _id
-    username
-    email
-    savedArt {
-      id
-      title
-      artist_titles
-      description
-      imageUrl
+  mutation RemoveArtwork($artId: ID!) {
+    removeArt(artId: $artId) {
+      _id
+      username
+      email
+      savedArt {
+        id
+        title
+        artist_titles
+        description
+        imageUrl
+      }
     }
   }
 `;
