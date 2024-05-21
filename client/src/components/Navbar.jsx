@@ -47,18 +47,16 @@ const Navbar = () => {
         <button onClick={toggleMenu} className="text-gray-700 pr-6 lg:hidden">
           {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
         </button>
-        <ul
-          className={`flex-col lg:flex-row lg:flex items-center lg:space-x-8 ${
-            isOpen ? "flex" : "hidden"
-          } lg:flex`}
-        >
+      </div>
+      <div className={`lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
+        <ul className="flex flex-col lg:flex-row lg:space-x-8">
           {isLoggedIn ? (
             <>
               <li className="font-roboto log-out">
                 <Link
                   to="/"
                   onClick={handleLogout}
-                  className="text-gray-700 hover:text-black transition-shadow"
+                  className="text-gray-700 lg:bg-white hover:text-black transition-shadow"
                 >
                   Logout
                 </Link>
@@ -72,20 +70,19 @@ const Navbar = () => {
                   Favorite
                 </Link>
               </li>
-
               <li className="font-roboto">
                 <Link
                   to="/shop"
                   className="text-gray-700 hover:text-black transition-shadow"
                   onClick={() => setIsOpen(false)}
                 >
-                  Shop
+                  Shop-Art
                 </Link>
               </li>
               <li className="font-roboto">
                 <Link
                   to="/checkout"
-                  className="text-gray-700 hover:text-black transition-shadow flex items-center"
+                  className="text-gray-700 lg:fixed lg:top-10 lg:right-9 hover:text-black transition-shadow flex items-center"
                   onClick={() => setIsOpen(false)}
                 >
                   <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
