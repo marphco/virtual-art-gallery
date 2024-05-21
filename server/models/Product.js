@@ -1,21 +1,9 @@
 const { Schema, model } = require('mongoose');
 
 const productSchema = new Schema({
-  productId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String, // URL to the image
+  artwork: {
+    type: Schema.Types.ObjectId,
+    ref: 'Artwork',
     required: true,
   },
   price: {

@@ -16,11 +16,18 @@ const typeDefs = `#graphql
     image_id: String!
   }
 
-#   type Order {
-#   _id: ID!
-#   purchaseDate: String
-#   products: [Artwork]!
-# }
+  type Product {
+    _id: ID!
+    artwork: Artwork!
+    price: Float!
+    quantityAvailable: Int!
+  }
+
+  type Order {
+  _id: ID!
+  purchaseDate: String
+  products: [Artwork]!
+}
 
   type Auth {
     token: ID!
@@ -35,11 +42,17 @@ const typeDefs = `#graphql
     imageUrl: String!
   }
 
+  type CheckoutResponse {
+    session: String!
+    order: Order!
+  }
+
   type Query {
     users: [User]    # Define the 'users' field to query users
     user(username: String!): User
     saveArt(artData: [ArtInput]!): User
     me: User
+    getOrderById(id: ID!): Order
   }
 
   type Mutation {
@@ -47,6 +60,7 @@ const typeDefs = `#graphql
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User # This is the saveArt mutation definition
+  checkout(products: [ID]!): CheckoutResponse
 }
 
 `;
