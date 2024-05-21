@@ -25,6 +25,10 @@ const typeDefs = `#graphql
     user: User
   }
 
+  type CheckoutResponse {
+    sessionId: String!
+  }
+
   type Query {
     user(username: String!): User
     artwork: [Artwork]!

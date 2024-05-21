@@ -1,7 +1,7 @@
 const { User, Order } = require("../models");
 require('dotenv').config();
 const { signToken, AuthenticationError } = require("../utils/auth");
-const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET)
+const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET);
 
 const resolvers = {
   Query: {
@@ -54,7 +54,7 @@ const resolvers = {
         console.error("Error fetching artwork by ID:", error);
         throw new Error("Failed to fetch artwork by ID");
       }
-    }, 
+    },
   },
 
   Mutation: {
@@ -100,25 +100,21 @@ const resolvers = {
       }
     },
     checkout: async (_, { products }, { headers }) => {
-      const url = new URL(headers.referer).origin; 
+      const url = new URL(headers.referer).origin;
     
-      
       const newOrder = await Order.create({ products });
     
-      
       const productDetails = await Promise.all(products.map(async (productId) => {
-        
-        const product = await fetchProductById(productId); 
+        const product = await fetchProductById(productId);
         return {
           name: product.name,
           description: product.description,
-          image: product.image, 
-          price: product.price, 
-          quantity: 1, 
+          image: product.image,
+          price: product.price,
+          quantity: 1,
         };
       }));
     
-     t
       const lineItems = productDetails.map(product => ({
         price_data: {
           currency: 'usd',
@@ -127,23 +123,21 @@ const resolvers = {
             description: product.description,
             images: [`${url}/images/${product.image}`],
           },
-          unit_amount: product.price * 100, 
+          unit_amount: product.price * 100,
         },
         quantity: product.quantity,
       }));
-      
-      
+    
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,
         mode: 'payment',
         success_url: `${url}/success`,
-        cancel_url: `${url}/cancel`, 
+        cancel_url: `${url}/cancel`,
       });
-      
-      return session.id;
-    },
     
+      return { sessionId: session.id };
+    },
   },
 };
 
