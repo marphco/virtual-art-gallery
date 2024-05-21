@@ -55,5 +55,30 @@ mutation RemoveArtwork($artId: ID!) {
       imageUrl
     }
   }
-}
 `;
+
+export const GET_ARTWORK_BY_ID = gql`
+  query getArtworkById($id: ID!) {
+    artworkById(id: $id) {
+      id
+    }
+  }
+`;
+
+export const CHECKOUT_MUTATION = gql`
+  mutation checkout($products: [ID]!) {
+    checkout(products: $products) {
+      session
+    }
+  }
+`;
+
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+// Create a new ApolloClient instance
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/graphql',
+  cache: new InMemoryCache(),
+});
+
+export default client;
