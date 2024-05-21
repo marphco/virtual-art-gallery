@@ -51,17 +51,20 @@ const resolvers = {
           { $addToSet: { savedArt: artData } },
           { new: true, runValidators: true }
         );
-
-        if (!response.ok) {
-          throw new Error("Failed to delete artwork");
-        }
-
-        return { id };
-      } catch (error) {
-        console.error("Error deleting artwork:", error);
-        throw new Error("Failed to delete artwork");
       }
+      throw new AuthenticationError("You need to be logged in!");
     },
+    removeArt: async (parent, { artId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedArt: { artId } } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+  
     checkout: async (_, { products }) => {
       const lineItems = [];
 
