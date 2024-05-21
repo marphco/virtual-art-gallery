@@ -7,12 +7,13 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cart, setCart] = useState([]);
   const [view, setView] = useState('prints');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [notification, setNotification] = useState({visible: false, message: ''});
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch('https://api.artic.edu/api/v1/artworks?limit=5')
+    fetch('https://api.artic.edu/api/v1/artworks?limit=6')
       .then(res => res.json())
       .then(data => setProducts(data.data))
       .catch(error => console.error('Error fetching products:', error));
@@ -21,7 +22,7 @@ const Shop = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}&limit=5`);
+      const response = await fetch(`https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}&limit=6`);
       const data = await response.json();
       setProducts(data.data);
     } catch (error) {
@@ -30,14 +31,16 @@ const Shop = () => {
   };
 
   const handleAddToCart = (product) => {
-    setCart([...cart, { ...product, price: 15 }]);
+    addToCart(product);
+    setNotification({ visible: true, message: `${product.title} have been added to cart!` });
+    setTimeout(() => setNotification({ visibeel:false, message: '' }), 3000);
   };
 
-  const handleSubscription = (e) => {
-    e.preventDefault();
-    setMessage('Thank you for subscribing!');
-    setEmail('');
-  };
+  // const handleSubscription = (e) => {
+  //   e.preventDefault();
+  //   setMessage('Thank you for subscribing!');
+  //   setEmail('');
+  // };
 
   const handleViewChange = (newView) => {
     setView(newView);
@@ -50,6 +53,11 @@ const Shop = () => {
         <button onClick={() => handleViewChange('prints')}>Shop Prints</button>
         <button onClick={() => handleViewChange('subscriptions')}>Shop Subscriptions</button>
       </div>
+      {notification.visible && (
+        <div className="notification">
+          {notification.message}
+        </div>
+      )}
       {view === 'prints' && (
         <>
           <form onSubmit={handleSearch} className="search-form">
@@ -68,7 +76,7 @@ const Shop = () => {
                 <img src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`} alt={product.title} />
                 <p>{product.artist_title}</p>
                 <p>${15}</p>
-                <button onClick={() => addToCart({ ...product, price: 15 })}>Add to Cart</button>
+                <button onClick={() => handleAddToCart({ ...product, price: 15 })}>Add to Cart</button>
               </div>
             ))}
           </div>
@@ -76,28 +84,17 @@ const Shop = () => {
       )}
       {view === 'subscriptions' && (
         <div className="subscriptions">
-          <h2>Subscribe to our newsletter</h2>
-          <form onSubmit={handleSubscription}>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-            />
-            <button type="submit">Subscribe</button>
-          </form>
-          {message && <p>{message}</p>}
-          <div className="subscription-options">
-            <div className="subscription-option" onClick={() => addToCart({ title: '1 Month Subscription', price: 10 })}>
+          <h2>Become a member to get unlimited access</h2>
+          <div className="products">
+            <div className="product-card" onClick={() => handleAddToCart({ title: '1 Month Subscription', price: 10 })}>
               <h3>1 Month</h3>
               <p>$10</p>
             </div>
-            <div className="subscription-option" onClick={() => addToCart({ title: '6 Months Subscription', price: 50 })}>
+            <div className="product-card" onClick={() => handleAddToCart({ title: '6 Months Subscription', price: 50 })}>
               <h3>6 Months</h3>
               <p>$50</p>
             </div>
-            <div className="subscription-option" onClick={() => addToCart({ title: '1 Year Subscription', price: 90 })}>
+            <div className="product-card" onClick={() => handleAddToCart({ title: '1 Year Subscription', price: 90 })}>
               <h3>1 Year</h3>
               <p>$90</p>
             </div>
@@ -105,7 +102,6 @@ const Shop = () => {
         </div>
       )}
       <div className="cart">
-        {/* <h2>Shopping Cart</h2> */}
         <ul>
           {cart.map((item, index) => (
             <li key={index}>
@@ -113,11 +109,6 @@ const Shop = () => {
             </li>
           ))}
         </ul>
-        {/* <Link to="/checkout">
-          <button>
-            <FaShoppingCart /> Go to Checkout
-          </button>
-        </Link> */}
       </div>
     </div>
   );

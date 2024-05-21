@@ -21,11 +21,10 @@ const urlsToCache = [
 self.addEventListener("install", (event) => {
   self.skipWaiting(); 
   event.waitUntil(
-    caches
-      .open(CACHE_NAME)
+    caches.open(CACHE_NAME)
       .then((cache) => {
         console.log("Opened cache");
-        return cache.addAll(urlsToCache.map(url => new Request(url, { cache: "reload" })));
+        return cache.addAll(urlsToCache);
       })
       .catch((error) => {
         console.error("Failed to cache resources during install:", error);
@@ -57,24 +56,20 @@ self.addEventListener("fetch", (event) => {
         return response;
       }
 
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type !== "basic") {
-          return response;
+      return fetch(event.request).then((fetchResponse) => {
+        if (!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== "basic") {
+          return fetchResponse;
         }
 
-        let responseToCache = response.clone();
+        const responseToCache = fetchResponse.clone();
 
-        if (event.request.url.startsWith("http")) {
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache).then(() => {
-              sendCacheDataToServer(event.request.url, responseToCache.clone());
-            }).catch(error => {
-              console.error("Failed to put response in cache:", error);
-            });
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache).catch(error => {
+            console.error("Failed to put response in cache:", error);
           });
-        }
+        });
 
-        return response;
+        return fetchResponse;
       }).catch(error => {
         console.error("Fetch failed:", error);
       });
@@ -83,31 +78,3 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
-
-function sendCacheDataToServer(url, response) {
-  response.blob().then((blob) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      fetch("/save-cache", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          url: url,
-          content: reader.result,
-        }),
-      })
-        .then((response) => response.text())
-        .then((data) => {
-          console.log("Server response:", data);
-        })
-        .catch((error) => {
-          console.error("Error sending cache data to server:", error);
-        });
-    };
-    reader.readAsDataURL(blob);
-  }).catch(error => {
-    console.error("Error reading response body:", error);
-  });
-}
