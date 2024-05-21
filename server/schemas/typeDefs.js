@@ -14,6 +14,12 @@ const typeDefs = `#graphql
     image_id: String!
   }
 
+  type Order {
+  _id: ID!
+  purchaseDate: String
+  products: [Artwork]!
+}
+
   type Auth {
     token: ID!
     user: User
@@ -23,12 +29,14 @@ const typeDefs = `#graphql
     user(username: String!): User
     artwork: [Artwork]!
     artworkById(id: ID!): Artwork
+    getOrderById(id: ID!): Order
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     deleteArtwork(id: ID!): Artwork
+    checkout(products: [ID]!): CheckoutResponse
   }
 `;
 

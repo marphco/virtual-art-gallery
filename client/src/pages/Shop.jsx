@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext.jsx';
-import './Shop.css'; 
+import './Shop.css';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [cart, setCart] = useState([]);
   const [view, setView] = useState('prints');
-  // const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [notification, setNotification] = useState({visible: false, message: ''});
-  const { addToCart } = useCart();
+  const [notification, setNotification] = useState({ visible: false, message: '' });
+  const { addToCart, cart } = useCart();
 
   useEffect(() => {
     fetch('https://api.artic.edu/api/v1/artworks?limit=6')
@@ -32,15 +29,9 @@ const Shop = () => {
 
   const handleAddToCart = (product) => {
     addToCart(product);
-    setNotification({ visible: true, message: `${product.title} have been added to cart!` });
-    setTimeout(() => setNotification({ visibeel:false, message: '' }), 3000);
+    setNotification({ visible: true, message: `${product.title} has been added to cart!` });
+    setTimeout(() => setNotification({ visible: false, message: '' }), 3000);
   };
-
-  // const handleSubscription = (e) => {
-  //   e.preventDefault();
-  //   setMessage('Thank you for subscribing!');
-  //   setEmail('');
-  // };
 
   const handleViewChange = (newView) => {
     setView(newView);
