@@ -7,7 +7,7 @@ const typeDefs = `#graphql
   }
 
   type Artwork {
-    id: Int!
+    id: ID!
     title: String!
     artist_titles: String
     description: String!

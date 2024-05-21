@@ -52,12 +52,15 @@ import { GET_ARTWORK, DELETE_ARTWORK } from '../utils/queries';
 
 const Favorites = () => {
   const { loading, error, data } = useQuery(GET_ARTWORK);
-  const [deleteArtwork] = useMutation(DELETE_ARTWORK, {
-    refetchQueries: [{ query: GET_ARTWORK }]
-  });
+  const [deleteArtwork] = useMutation(DELETE_ARTWORK);
 
-  const handleDelete = (id) => {
-    deleteArtwork({ variables: { id } });
+  const handleDelete = async (id) => {
+    try {
+      await deleteArtwork({ variables: { id } });
+
+    } catch (error) {
+      console.error('Error deleting artwork:', error);
+    }
   };
 
   if (loading) return <p className="text-center text-gray-600">Loading...</p>;

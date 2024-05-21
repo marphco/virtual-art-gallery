@@ -54,13 +54,7 @@ export const GET_ARTWORK = gql`
   }
 `;
 
-export const GET_ARTWORK_BY_ID = gql`
-  query getArtworkById($id: ID!) {
-    artworkById(id: $id) {
-      id
-    }
-  }
-`;
+
 
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 

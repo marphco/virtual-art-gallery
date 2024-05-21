@@ -1,10 +1,8 @@
+const { ObjectId } = require('mongodb');
 const { Schema, model } = require('mongoose');
 
 const artworkSchema = new Schema({
-    id: {
-        type: String,
-        required: true
-    },
+    // No need to explicitly define _id, Mongoose will do it automatically
     title: {
         type: String,
         required: true
@@ -21,7 +19,6 @@ const artworkSchema = new Schema({
         type: String,
         required: true
     },
-    description: String
 });
 
 const Artwork = model('Artwork', artworkSchema);
