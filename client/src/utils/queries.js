@@ -9,38 +9,22 @@ export const QUERY_USER = gql`
     }
   }
 `;
-
-export const GET_ARTWORK = gql`
-  query {
-    artwork {
+export const GET_FAVORITES =gql `
+query GetUserFavorites($username: String!) {
+  user(username: $username) {
+    savedArt {
       id
       title
       artist_titles
       description
-      image_id
+      imageUrl
     }
   }
-`;
+}`
 
-export const GET_ARTWORK_BY_ID = gql`
-  query getArtworkById($id: ID!) {
-    artworkById(id: $id) {
-      id
-      title
-      artist_titles
-      description
-      image_id
-    }
-  }
-`;
 
-export const DELETE_ARTWORK = gql`
-  mutation deleteArtwork($id: ID!) {
-    deleteArtwork(id: $id) {
-      id
-    }
-  }
-`;
+
+
 
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
