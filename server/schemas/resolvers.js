@@ -45,23 +45,41 @@ const resolvers = {
       return { token, user };
     },
     saveArt: async (parent, { artData }, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { savedArt: artData } },
-          { new: true, runValidators: true }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to delete artwork");
+      try {
+        if (context.user) {
+          return await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { savedArt: artData } },
+            { new: true, runValidators: true }
+          );
+        } else {
+          throw new Error("You need to be logged in!");
         }
-
-        return { id };
       } catch (error) {
-        console.error("Error deleting artwork:", error);
-        throw new Error("Failed to delete artwork");
+        // Handle the error here
+        console.error("Error in saveArt resolver:", error);
+        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
       }
     },
+    removeArt: async (parent, { artId }, context) => {
+      try {
+        if (context.user) {
+          return await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $pull: { savedArt: { artId } } },
+            { new: true }
+          );
+        } else {
+          throw new Error("You need to be logged in!");
+        }
+      } catch (error) {
+        // Handle the error here
+        console.error("Error in removeArt resolver:", error);
+        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
+      }
+    
+    },
+    
     checkout: async (_, { products }) => {
       const lineItems = [];
 

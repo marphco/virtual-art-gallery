@@ -18,7 +18,7 @@ const typeDefs = `#graphql
 
   type Product {
     _id: ID!
-    artwork: Artwork!
+    artwork: Art!
     price: Float!
     quantityAvailable: Int!
   }
@@ -26,7 +26,7 @@ const typeDefs = `#graphql
   type Order {
   _id: ID!
   purchaseDate: String
-  products: [Artwork]!
+  products: [Art]!
 }
 
   type Auth {
