@@ -9,7 +9,7 @@ import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
 import SignupForm from "./components/SignupForm.jsx";
 import OpenAI from "./components/OpenAI.jsx";
-import Favorite from "./components/Favorite.jsx";
+import SavedArtworks from "./components/SavedArtworks.jsx"
 import Shop from "./pages/Shop.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
@@ -55,8 +55,8 @@ const router = createBrowserRouter([
         element: <OpenAI />,
       },
       {
-        path: "/favorite",
-        element: <Favorite />,
+        path: "/SavedArtworks",
+        element: <SavedArtworks />,
       },
       {
         path: "/shop",
