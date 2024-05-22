@@ -67,7 +67,6 @@ const Room = ({ onPaintingClick }) => {
   const handlePaintingClick = (art) => {
     onPaintingClick(art);
   };
-
   const positions = [
     { x: 0, y: 2, z: 9 },
     { x: 0, y: 2, z: -9 },
@@ -166,5 +165,4 @@ const Room = ({ onPaintingClick }) => {
 };
 
 export default Room;
-
 
