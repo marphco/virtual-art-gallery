@@ -5,14 +5,17 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Row, Container } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
-import AuthService from "../utils/auth"; // Import AuthService
+import Auth from "../utils/auth"; // Import AuthService
 
 const Homepage = () => {
   const [clickedIndex, setClickedIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const galleries = [
     { id: 1, src: met, title: "Metropolitan Museum of New York" },
@@ -24,6 +27,8 @@ const Homepage = () => {
   ];
 
   useEffect(() => {
+    setIsLoggedIn(Auth.loggedIn());
+
     const swiper = new Swiper(".tranding-slider", {
       effect: "coverflow",
       grabCursor: true,
@@ -58,6 +63,18 @@ const Homepage = () => {
     } else {
       setClickedIndex(null);
     }
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
+
+  const handleEnter = () => {
+    navigate("/gallery");
   };
 
   return (
@@ -104,14 +121,26 @@ const Homepage = () => {
                     <img src={gallery.src} alt={gallery.title} />
                     {index === clickedIndex && (
                       <div className="overlay">
-                        <button className="enter-button">Enter</button>
+                        {isLoggedIn ? (
+                          <button className="enter-button" onClick={handleEnter}>Enter</button>
+                        ) : (
+                          <>
+                            <button className="login-button" onClick={handleLogin}>
+                              Login
+                            </button>
+                            <button className="signup-button" onClick={handleSignUp}>
+                              Sign Up
+                            </button>
+                          </>
+                        )}
                       </div>
                     )}
                   </div>
-                  <div className="tranding-slide-content">
+                  {/* <div className="tranding-slide-content">
                     <div className="tranding-slide-content-bottom">
+                      <h2 className="gallery-name">{gallery.title}</h2>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>
