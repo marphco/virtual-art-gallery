@@ -20,6 +20,51 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    checkout: async (_, { products }) => {
+      const url = new URL(context.headers.referer).origin;
+      const lineItems = [];
+  
+      for (let i = 0; i < products.length; i++) {
+        
+        const response = await fetch(`https://api.artic.edu/api/v1/artworks/${products[i]}?fields=id,title,artist_titles,image_id,thumbnail`);
+        const art = await response.json();
+  
+        if (art && art.data && art.data.image_id) {
+          lineItems.push({
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: art.data.title,
+                images: [`https://www.artic.edu/iiif/2/${art.data.image_id}/full/843,/0/default.jpg`],
+                description: art.data.thumbnail ? art.data.thumbnail.alt_text : "No description available",
+              },
+              unit_amount: 1000, 
+            },
+            quantity: 1,
+          });
+        } else {
+          console.log('Artwork not found for ID:', products[i]); 
+          
+        }
+      }
+  
+      if (lineItems.length === 0) {
+        throw new Error('No valid line items found');
+      }
+  
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        lineItems,
+        mode: 'payment',
+        success_url: `${url}/success?session_id=${CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`,
+      });
+  
+      
+      const newOrder = await Order.create({ products });
+  
+      return { session: session.id, order: newOrder };
+    },
   },
   Mutation: { 
     addUser: async (parent, { username, email, password }) => {
@@ -80,50 +125,6 @@ const resolvers = {
     
     },
     
-    checkout: async (_, { products }) => {
-      const lineItems = [];
-
-      for (let i = 0; i < products.length; i++) {
-        
-        const response = await fetch(`https://api.artic.edu/api/v1/artworks/${products[i]}?fields=id,title,artist_titles,image_id,thumbnail`);
-        const art = await response.json();
-
-        if (art && art.data && art.data.image_id) {
-          lineItems.push({
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: art.data.title,
-                images: [`https://www.artic.edu/iiif/2/${art.data.image_id}/full/843,/0/default.jpg`],
-                description: art.data.thumbnail ? art.data.thumbnail.alt_text : "No description available",
-              },
-              unit_amount: 1000, 
-            },
-            quantity: 1,
-          });
-        } else {
-          console.log('Artwork not found for ID:', products[i]); 
-          
-        }
-      }
-
-      if (lineItems.length === 0) {
-        throw new Error('No valid line items found');
-      }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: lineItems,
-        mode: 'payment',
-        success_url: `${process.env.FRONTEND_URL}/success`,
-        cancel_url: `${process.env.FRONTEND_URL}/cancel`,
-      });
-
-      
-      const newOrder = await Order.create({ products });
-
-      return { session: session.id, order: newOrder };
-    },
   },
 };
 
