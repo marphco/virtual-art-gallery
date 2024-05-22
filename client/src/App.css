@@ -478,11 +478,12 @@ button {
   }
 
   #supernav ul {
-    flex-direction: row;
+    flex-direction: row-reverse;
+    gap: 12px;
   }
 
   .nav-desktop {
-    width: 70%;
+    width: 150%;
     justify-content: flex-end;
   }
 
