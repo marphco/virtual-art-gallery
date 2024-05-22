@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart as faHeartSolid,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartSolid, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import "../App.css";
@@ -27,6 +24,10 @@ function Modal({ art, onClose, onSave }) {
     return null; // or some loading indicator
   }
 
+  const imageUrl = 
+    `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
@@ -38,14 +39,14 @@ function Modal({ art, onClose, onSave }) {
       >
         <div className="w-[40rem] h-[40rem] mx-auto mb-4">
           <img
-            src={art.image}
+            src={imageUrl}
             alt={art.title}
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
         <h2 className="text-2xl font-bold mt-4">{art.title}</h2>
         <p className="text-lg">
-          <strong>Artist:</strong> {art.artist}
+          <strong>Artist:</strong> {art.artist_title}
         </p>
         <p className="mt-2">{art.description}</p>
         <button
