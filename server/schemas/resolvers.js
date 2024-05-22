@@ -7,7 +7,6 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET)
 
 const resolvers = {
   Query: {
-    // Added 'users' and 'user' queries to match schema
     users: async () => {
       return User.find().populate("savedArt");
     },
@@ -67,18 +66,16 @@ const resolvers = {
         if (context.user) {
           return await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $pull: { savedArt: { artId } } },
+            { $pull: { savedArt: { id: artId } } },
             { new: true }
-          );
+          ).populate("savedArt");
         } else {
           throw new Error("You need to be logged in!");
         }
       } catch (error) {
-        // Handle the error here
         console.error("Error in removeArt resolver:", error);
-        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
+        throw new Error(error.message);
       }
-    
     },
     
     checkout: async (_, { products }) => {

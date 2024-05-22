@@ -45,7 +45,7 @@ function Modal({ art, onClose, onSave }) {
         </div>
         <h2 className="text-2xl font-bold mt-4">{art.title}</h2>
         <p className="text-lg">
-          <strong>Artist:</strong> {art.artist}
+          <strong>Artist:</strong> {art.artist_titles}
         </p>
         <p className="mt-2">{art.description}</p>
         <button

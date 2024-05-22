@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { SAVE_ART , REMOVE_ART } from '../utils/mutations'
- 
-const Favorites = () => {
-  const [artworks, setArtworks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import { useMutation } from '@apollo/client';
+import { SAVE_ART } from '../utils/mutations';
 
-
+const Favorite = () => {
+  const [artwork, setArtwork] = useState([]);
+  const [saveArt] = useMutation(SAVE_ART);
 
   useEffect(() => {
-    const fetchArtworks = async () => {
+    const fetchData = async () => {
       try {
         const response = await fetch(
           "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_titles,image_id,thumbnail&limit=6"
@@ -21,78 +19,50 @@ const Favorites = () => {
           title: art.title,
           artist_titles: art.artist_titles,
           description: art.thumbnail ? art.thumbnail.alt_text : "No description available",
-          imageUrl: art.image_id ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg` : null 
+          imageUrl: art.image_id
+            ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+            : null,
         }));
-        setArtworks(formattedArt);
-        setLoading(false);
+
+        setArtwork(formattedArt);
       } catch (error) {
-        setError(error);
-        setLoading(false);
+        console.error("Error fetching artwork:", error);
       }
     };
 
-    fetchArtworks();
+    fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleAddToFavorites = async (art) => {
     try {
-      await REMOVE_ART({ variables: { artId: id } });
-      // Update state or refetch data as needed
+      await saveArt({ variables: { artData: art } });
+      console.log("Artwork saved successfully!");
     } catch (error) {
-      console.error('Error removing artwork:', error);
+      console.error("Error saving artwork:", error);
     }
   };
 
-  const addToFavorites = async (artData) => {
-    try {
-      const artInput = {
-        id: artData.id,
-        title: artData.title,
-        artist_titles: artData.artist_titles,
-        description: artData.description,
-        imageUrl: artData.imageUrl
-      };
-      await SAVE_ART({ variables: { artData: artInput } });
-      // Update state or refetch data as needed
-    } catch (error) {
-      console.error('Error adding to favorites:', error);
-    }
-  };
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Artwork</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {artworks.map((artwork) => (
-          <div key={artwork.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{artwork.title}</h2>
-              <p className="text-gray-700 mb-2">Description: {artwork.description}</p>
-              <p className="text-gray-700 mb-2">Artist Titles: {artwork.artist_titles.join(", ")}</p>
-              <button
-                onClick={() => handleDelete(artwork.id)}
-                className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                Delete
-              </button>
-
-
-              <button
-                onClick={() => addToFavorites(artwork.id)}
-                className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                add to favorites
-              </button>
+    <div>
+      <ul>
+        {artwork.map((art) => (
+          <li key={art.id} className="p-2 border border-gray-300 rounded-md shadow-sm m-2">
+            <div className="mb-2">
+              {art.artist_titles.map((artist, index) => (
+                <span key={index} className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-md mr-2 mb-1">{artist}</span>
+              ))}
             </div>
-          </div>
+            <img src={art.imageUrl} alt={art.title} className="w-52 h-auto rounded-lg mb-4" />
+            <h3 className="text-lg font-semibold mb-2">{art.title}</h3>
+            <p className="text-sm text-gray-600 mb-4">{art.description}</p>
+            <button onClick={() => handleAddToFavorites(art)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+              Add to Favorites
+            </button>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
 
-export default Favorites;
+export default Favorite;

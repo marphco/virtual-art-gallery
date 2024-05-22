@@ -81,6 +81,15 @@ const Navbar = () => {
               </li>
               <li className="font-roboto">
                 <Link
+                  to="/favorites"
+                  className="text-gray-700 hover:text-black transition-shadow"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Favorites
+                </Link>
+              </li>
+              <li className="font-roboto">
+                <Link
                   to="/checkout"
                   className="text-gray-700 lg:fixed lg:top-10 lg:right-9 hover:text-black transition-shadow flex items-center"
                   onClick={() => setIsOpen(false)}

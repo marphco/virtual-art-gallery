@@ -11,19 +11,30 @@ const Room = ({ onPaintingClick }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://api.artic.edu/api/v1/artworks");
+        const response = await fetch(
+          "https://api.artic.edu/api/v1/artworks?fields=id,title,artist_titles,image_id,thumbnail&limit=6"
+        );
         const data = await response.json();
-        const filteredArtworks = data.data
-          .slice(0, 6)
-          .filter((art) => art.image_id);
-        setArtworks(filteredArtworks);
+
+        const formattedArt = data.data.map((art) => ({
+          id: art.id,
+          title: art.title,
+          artist_titles: art.artist_titles,
+          description: art.thumbnail ? art.thumbnail.alt_text : "No description available",
+          imageUrl: art.image_id
+            ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+            : null,
+        }));
+
+        setArtworks(formattedArt);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching artwork:", error);
       }
     };
 
     fetchData();
   }, []);
+
 
   useEffect(() => {
     if (artworks.length > 0) {
