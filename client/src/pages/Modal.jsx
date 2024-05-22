@@ -21,7 +21,7 @@ function Modal({ art, onClose, onSave }) {
   };
 
   if (!art) {
-    return null; // or some loading indicator
+    return null; 
   }
 
   const imageUrl = 
