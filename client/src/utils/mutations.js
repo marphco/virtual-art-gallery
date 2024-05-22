@@ -67,13 +67,3 @@ export const CHECKOUT_MUTATION = gql`
     }
   }
 `;
-
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-
-// Create a new ApolloClient instance
-const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
-  cache: new InMemoryCache(),
-});
-
-export default client;

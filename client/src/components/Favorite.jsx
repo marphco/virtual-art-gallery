@@ -6,8 +6,7 @@ const Favorites = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { saveArt } = SAVE_ART;
-  const { removeArt } = REMOVE_ART;
+
 
   useEffect(() => {
     const fetchArtworks = async () => {
@@ -37,7 +36,7 @@ const Favorites = () => {
 
   const handleDelete = async (id) => {
     try {
-      await removeArt({ variables: { artId: id } });
+      await REMOVE_ART({ variables: { artId: id } });
       // Update state or refetch data as needed
     } catch (error) {
       console.error('Error removing artwork:', error);
@@ -46,16 +45,19 @@ const Favorites = () => {
 
   const addToFavorites = async (artData) => {
     try {
-      await saveArt({ variables: { artData } });
+      const artInput = {
+        id: artData.id,
+        title: artData.title,
+        artist_titles: artData.artist_titles,
+        description: artData.description,
+        imageUrl: artData.imageUrl
+      };
+      await SAVE_ART({ variables: { artData: artInput } });
       // Update state or refetch data as needed
     } catch (error) {
       console.error('Error adding to favorites:', error);
     }
   };
-
-  if (loading) return <p className="text-center text-gray-600">Loading...</p>;
-  if (error) return <p className="text-center text-red-600">Error: {error.message}</p>;
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-6">Artwork</h1>

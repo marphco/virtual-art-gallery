@@ -1,6 +1,7 @@
 
 const { User, Artwork } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+
 const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET);
 
 const resolvers = {
@@ -19,7 +20,7 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
   },
-  Mutation: { 
+  Mutation: { // Moved Mutation object inside the resolvers object
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
@@ -43,25 +44,41 @@ const resolvers = {
       return { token, user };
     },
     saveArt: async (parent, { artData }, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { savedArt: artData } },
-          { new: true, runValidators: true }
-        );
+      try {
+        if (context.user) {
+          return await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { savedArt: artData } },
+            { new: true, runValidators: true }
+          );
+        } else {
+          throw new Error("You need to be logged in!");
+        }
+      } catch (error) {
+        // Handle the error here
+        console.error("Error in saveArt resolver:", error);
+        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
       }
-      throw new AuthenticationError("You need to be logged in!");
     },
+    
     removeArt: async (parent, { artId }, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { savedArt: { artId } } },
-          { new: true }
-        );
+      try {
+        if (context.user) {
+          return await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $pull: { savedArt: { artId } } },
+            { new: true }
+          );
+        } else {
+          throw new Error("You need to be logged in!");
+        }
+      } catch (error) {
+        // Handle the error here
+        console.error("Error in removeArt resolver:", error);
+        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
       }
-      throw new AuthenticationError("You need to be logged in!");
-    },
+    }
+    
   //   checkout: async (_, { products }, { headers }) => {
   //     const url = new URL(headers.referer).origin;
     
