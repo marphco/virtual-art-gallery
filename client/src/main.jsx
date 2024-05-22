@@ -56,13 +56,17 @@ const router = createBrowserRouter([
         element: <Favorites />,
       },
       {
-        path: "/openai",
-        element: <OpenAI />,
-      },
-      {
         path: "/favorite",
         element: <Favorite />,
       },
+      {
+        path: "/openai",
+        element: <OpenAI />,
+      },
+      // {
+      //   path: "/SavedArtworks",
+      //   element: <SavedArtworks />,
+      // },
       {
         path: "/shop",
         element: <Shop />,
