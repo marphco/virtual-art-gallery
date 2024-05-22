@@ -23,6 +23,14 @@ query GetUserFavorites($username: String!) {
 }`
 
 
+export const QUERY_CHECKOUT= gql`
+  query getCheckout($products: [ArtInput]) {
+    checkout(products: $products) {
+      session
+    }
+  }
+`;
+
 
 
 

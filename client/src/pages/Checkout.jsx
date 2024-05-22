@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
-import { useMutation } from '@apollo/client';
-import { CHECKOUT_MUTATION } from '../utils/mutations';
+import { useLazyQuery } from '@apollo/client';
+import { QUERY_CHECKOUT } from '../utils/queries.js';
 import { loadStripe } from '@stripe/stripe-js';
 
 const Checkout = () => {
@@ -10,35 +10,44 @@ const Checkout = () => {
   const stripePromise = loadStripe(
     "pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt"
   );
-  const [checkout] = useMutation(CHECKOUT_MUTATION);
+  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
+
+  useEffect(() => {
+    if (data) {
+      stripePromise.then((res) => {
+        res.redirectToCheckout({ sessionId: data.checkout.session });
+      });
+    }
+  }, [data]);
+  
+
   const handlePlaceOrder = async () => {
-    try {
-      const { data } = await checkout({
+    getCheckout({
         variables: {
-          products: cart.map(item => ({
-            id: item._id, 
-            type: item.type,
-            price: item.price,
-            quantity: item.quantity
-          }))
+           products:[...cart] //cart.map(item => ({
+          //   id: item.id, 
+          //   type: item.type,
+          //   price: item.price,
+          //   quantity: item.quantity
+          // }))
         }
       });
-      const { session } = data.checkout;
+      // const { session } = data.checkout;
   
-      const stripe = await stripePromise;
-      const result = await stripe.redirectToCheckout({ sessionId: session });
+      // const stripe = await stripePromise;
+      // const result = await stripe.redirectToCheckout({ sessionId: session });
   
-      if (result.error) {
-        console.error(result.error.message);
-      }
-    } catch (error) {
-      console.error("Error placing order:", error);
-    }
+      // if (result.error) {
+      //   console.error(result.error.message);
+      // }
+    // } catch (error) {
+    //   console.error("Error placing order:", error);
+    // }
   };
 
   return (

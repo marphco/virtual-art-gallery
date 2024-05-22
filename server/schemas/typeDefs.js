@@ -43,8 +43,8 @@ const typeDefs = `#graphql
   }
 
   type CheckoutResponse {
-    session: String!
-    order: Order!
+    session: ID!
+    # order: Order!
   }
 
   type Query {
@@ -53,6 +53,8 @@ const typeDefs = `#graphql
     saveArt(artData: [ArtInput]!): User
     me: User
     getOrderById(id: ID!): Order
+    # product(id: ID!): Product
+  checkout(products: [ArtInput]): CheckoutResponse
   }
 
   type Mutation {
@@ -60,7 +62,6 @@ const typeDefs = `#graphql
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User # This is the saveArt mutation definition
-  checkout(products: [ID]!): CheckoutResponse
 }
 
 `;
