@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <Nav id="supernav" className="bg-white shadow-md p-1 relative">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <div id="navbar-logo" className="mr-10">
           <Link to="/">
             <img src={icon} alt="Panorama" className="h-10" />
@@ -48,7 +48,7 @@ const Navbar = () => {
           {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
         </button>
       </div>
-      <div className={`lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
+      <div className={`nav-desktop lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
         <ul className="flex flex-col lg:flex-row lg:space-x-8">
           {isLoggedIn ? (
             <>
@@ -104,7 +104,7 @@ const Navbar = () => {
               <li className="font-roboto sign-up">
                 <Link
                   to="/signup"
-                  className="text-gray-700 hover:text-black transition-shadow"
+                  className="text-white-700 hover:text-black transition-shadow"
                   onClick={() => setIsOpen(false)}
                 >
                   Sign up
