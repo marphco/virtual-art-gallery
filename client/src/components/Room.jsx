@@ -12,16 +12,18 @@ const Room = ({ onPaintingClick }) => {
 
   const loadArtworks = useCallback(async () => {
     try {
-      const response = await fetch(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=6&fields=id,title,artist_title,image_id,thumbnail`);
+      const response = await fetch(
+        `https://api.artic.edu/api/v1/artworks?page=${page}&limit=6&fields=id,title,artist_title,image_id,thumbnail`
+      );
       const data = await response.json();
       const newArtworks = data.data
-        .filter((art) => art.image_id) // Ensure the artwork has an image_id
+        .filter((art) => art.image_id)
         .map((art) => ({
           id: art.id,
           title: art.title,
           artist_title: art.artist_title,
           description: art.thumbnail?.alt_text || "No description",
-          image_id: art.image_id, // Include image_id for constructing the URL
+          image_id: art.image_id, 
         }));
       setArtworks((prevArtworks) => [...prevArtworks, ...newArtworks]);
     } catch (error) {
@@ -55,7 +57,9 @@ const Room = ({ onPaintingClick }) => {
   }, [artworks]);
 
   const lastArtElementRef = useRef();
-  const lightGreyMaterial = new THREE.MeshStandardMaterial({ color: "#f0f0f0" });
+  const lightGreyMaterial = new THREE.MeshStandardMaterial({
+    color: "#f0f0f0",
+  });
   const darkGreyMaterial = new THREE.MeshStandardMaterial({ color: "#9f9f9f" });
   const blueMaterial = new THREE.MeshStandardMaterial({
     color: "#48BEFF",
@@ -67,6 +71,7 @@ const Room = ({ onPaintingClick }) => {
   const handlePaintingClick = (art) => {
     onPaintingClick(art);
   };
+
   const positions = [
     { x: 0, y: 2, z: 9 },
     { x: 0, y: 2, z: -9 },
@@ -88,8 +93,8 @@ const Room = ({ onPaintingClick }) => {
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '0px',
-      threshold: 1.0
+      rootMargin: "0px",
+      threshold: 1.0,
     };
 
     const callback = (entries) => {
@@ -114,24 +119,79 @@ const Room = ({ onPaintingClick }) => {
   return (
     <>
       {/* Perimeter Walls and Floor */}
-      <Box args={[0.8, 12, 6]} position={[-10, 1, -7]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
-      <Box args={[0.8, 12, 6]} position={[-10, 1, 7]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
-      <Box args={[0.8, 12, 20]} position={[10, 1, 0]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
-      <Box args={[20, 12, 0.8]} position={[0, 1, 10]} material={lightGreyMaterial} />
-      <Box args={[20, 12, 0.8]} position={[-20, 1, 10]} material={lightGreyMaterial} />
-      <Box args={[20, 12, 0.8]} position={[0, 1, -10]} material={lightGreyMaterial} />
-      <Box args={[20, 12, 0.8]} position={[-20, 1, -10]} material={lightGreyMaterial} />
-      <Box args={[0.8, 12, 20]} position={[-30, 1, 0]} rotation={[0, Math.PI / 1, 0]} material={lightGreyMaterial} />
-      <Box args={[40, 0.2, 20]} position={[-10, -3, 0]} material={darkGreyMaterial} userData={{ name: "floor" }} />
-      <Box args={[10, 0.2, 10]} position={[0, -2.9, 0]} material={lightGreyMaterial} userData={{ name: "floor" }} />
-      <Box args={[10, 0.2, 10]} position={[-20, -2.9, 0]} material={lightGreyMaterial} userData={{ name: "floor" }} />
+      <Box
+        args={[0.8, 12, 6]}
+        position={[-10, 1, -7]}
+        rotation={[0, Math.PI / 1, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[0.8, 12, 6]}
+        position={[-10, 1, 7]}
+        rotation={[0, Math.PI / 1, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[0.8, 12, 20]}
+        position={[10, 1, 0]}
+        rotation={[0, Math.PI / 1, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[20, 12, 0.8]}
+        position={[0, 1, 10]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[20, 12, 0.8]}
+        position={[-20, 1, 10]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[20, 12, 0.8]}
+        position={[0, 1, -10]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[20, 12, 0.8]}
+        position={[-20, 1, -10]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[0.8, 12, 20]}
+        position={[-30, 1, 0]}
+        rotation={[0, Math.PI / 1, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[40, 0.2, 20]}
+        position={[-10, -3, 0]}
+        material={darkGreyMaterial}
+        userData={{ name: "floor" }}
+      />
+      <Box
+        args={[10, 0.2, 10]}
+        position={[0, -2.9, 0]}
+        material={lightGreyMaterial}
+        userData={{ name: "floor" }}
+      />
+      <Box
+        args={[10, 0.2, 10]}
+        position={[-20, -2.9, 0]}
+        material={lightGreyMaterial}
+        userData={{ name: "floor" }}
+      />
 
       {/* Arts on the Walls */}
       {artworks.map((art, index) => (
         <React.Fragment key={art.id}>
           <Box
             args={[6.5, -0.000001, 5]}
-            position={[positions[index % positions.length].x, positions[index % positions.length].y, positions[index % positions.length].z + 0.1]}
+            position={[
+              positions[index % positions.length].x,
+              positions[index % positions.length].y,
+              positions[index % positions.length].z + 0.1,
+            ]}
             rotation={rotations[index % rotations.length]}
             material={frameMaterial}
             userData={{ name: "art", id: art.id }}
@@ -141,9 +201,15 @@ const Room = ({ onPaintingClick }) => {
           {textures[index] && (
             <Box
               args={[6, 0.35, 4.5]}
-              position={[positions[index % positions.length].x, positions[index % positions.length].y, positions[index % positions.length].z]}
+              position={[
+                positions[index % positions.length].x,
+                positions[index % positions.length].y,
+                positions[index % positions.length].z,
+              ]}
               rotation={rotations[index % rotations.length]}
-              material={new THREE.MeshStandardMaterial({ map: textures[index] })}
+              material={
+                new THREE.MeshStandardMaterial({ map: textures[index] })
+              }
               userData={{ name: "painting", id: art.id }}
             />
           )}
@@ -151,18 +217,53 @@ const Room = ({ onPaintingClick }) => {
       ))}
 
       {/* Ceiling */}
-      <Box args={[10, 0.2, 10]} position={[0, 6.9, 0]} material={blueMaterial} />
-      <Box args={[10, 0.2, 10]} position={[-20, 7, 0]} material={blueMaterial} />
-      <Box args={[5, 2, 20]} position={[7.5, 8, 0]} material={lightGreyMaterial} />
-      <Box args={[10, 2, 20]} position={[-10, 8, 0]} material={lightGreyMaterial} />
-      <Box args={[10, 2, 5]} position={[-20, 8, -7.5]} material={lightGreyMaterial} />
-      <Box args={[10, 2, 5]} position={[-20, 8, 7.5]} material={lightGreyMaterial} />
-      <Box args={[5, 2, 20]} position={[-27.5, 8, 0]} material={lightGreyMaterial} />
-      <Box args={[10, 2, 5]} position={[0, 8, -7.5]} material={lightGreyMaterial} />
-      <Box args={[10, 2, 5]} position={[0, 8, 7.5]} material={lightGreyMaterial} />
+      <Box
+        args={[10, 0.2, 10]}
+        position={[0, 6.9, 0]}
+        material={blueMaterial}
+      />
+      <Box
+        args={[10, 0.2, 10]}
+        position={[-20, 7, 0]}
+        material={blueMaterial}
+      />
+      <Box
+        args={[5, 2, 20]}
+        position={[7.5, 8, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[10, 2, 20]}
+        position={[-10, 8, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[10, 2, 5]}
+        position={[-20, 8, -7.5]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[10, 2, 5]}
+        position={[-20, 8, 7.5]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[5, 2, 20]}
+        position={[-27.5, 8, 0]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[10, 2, 5]}
+        position={[0, 8, -7.5]}
+        material={lightGreyMaterial}
+      />
+      <Box
+        args={[10, 2, 5]}
+        position={[0, 8, 7.5]}
+        material={lightGreyMaterial}
+      />
     </>
   );
 };
 
 export default Room;
-
