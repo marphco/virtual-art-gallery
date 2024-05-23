@@ -5,50 +5,51 @@ import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../utils/queries.js';
 import { loadStripe } from '@stripe/stripe-js';
 
+const stripePromise = loadStripe(
+  "pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt"
+);
+
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
-  const stripePromise = loadStripe(
-    "pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt"
-  );
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+
+  const [getCheckout, { data, loading, error }] = useLazyQuery(QUERY_CHECKOUT);
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
   };
 
 
   useEffect(() => {
     if (data) {
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
+      console.log("Checkout session data received:", data);
+      stripePromise.then((stripe) => {
+        stripe.redirectToCheckout({ sessionId: data.checkout.session }).then(result => {
+          if(result.error){
+            console.error('stripe redirecrerror:', result.error.message)
+          }
+        });
       });
     }
   }, [data]);
   
 
-  const handlePlaceOrder = async () => {
-    getCheckout({
-        variables: {
-           products:[...cart] //cart.map(item => ({
-          //   id: item.id, 
-          //   type: item.type,
-          //   price: item.price,
-          //   quantity: item.quantity
-          // }))
-        }
-      });
-      // const { session } = data.checkout;
-  
-      // const stripe = await stripePromise;
-      // const result = await stripe.redirectToCheckout({ sessionId: session });
-  
-      // if (result.error) {
-      //   console.error(result.error.message);
-      // }
-    // } catch (error) {
-    //   console.error("Error placing order:", error);
-    // }
+  const handlePlaceOrder = () => {
+    console.log('Placing order with products:', cart);
+    const products = cart.map(item => ({
+      id: item.id,
+      // title: title.products,
+      price: item.price,
+      quantity: item.quantity
+    }));
+    console.log("Placing order with products:", products);
+    getCheckout({ variables: { products } });
   };
+  
+  
+      
+      // if (loading) return <p>Loading...</p>;
+      // if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
