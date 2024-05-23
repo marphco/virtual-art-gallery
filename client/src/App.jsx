@@ -1,24 +1,26 @@
-import React, { useEffect, useRef } from "react";
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink} from "@apollo/client";
+// src/App.jsx
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import OpenAI from "./components/OpenAI";
 import "./App.css";
 
-
-
-
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: "/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem("id_token");
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
@@ -28,9 +30,11 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-function App() {
-  const installButtonRef = useRef(null);
+export const AppContext = React.createContext();
 
+function App() {
+  const [favoriteArts, setFavoriteArts] = useState([]);
+  const installButtonRef = useRef(null);
 
   useEffect(() => {
     const installButton = installButtonRef.current;
@@ -62,16 +66,15 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div>
-        <Navbar />
-      </div>
-      <div>
-        <Outlet />
-      </div>
-      <div>
-        <OpenAI />
-      </div>
-      {/* <button ref={installButtonRef} id="installButton" className="hidden">Install App</button> */}
+      <AppContext.Provider value={{ favoriteArts, setFavoriteArts }}>
+        <div>
+          <Navbar />
+        </div>
+        <div>
+          <Outlet />
+        </div>
+        {/* <button ref={installButtonRef} id="installButton" className="hidden">Install App</button> */}
+      </AppContext.Provider>
     </ApolloProvider>
   );
 }
