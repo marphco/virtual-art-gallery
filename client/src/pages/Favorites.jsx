@@ -14,6 +14,7 @@ const Favorites = () => {
   if (error) return <p className="text-center py-8">Error: {error.message}</p>;
 
   const favorites = data.me.savedArt;
+  const username = data.me.username;
 
   const handleRemoveArt = async (artId) => {
     try {
@@ -29,6 +30,7 @@ const Favorites = () => {
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
       <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
+      <p>Hello, {username }!</p>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {favorites.map((art) => (
           <li
