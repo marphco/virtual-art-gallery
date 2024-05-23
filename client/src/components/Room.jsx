@@ -35,6 +35,7 @@ const Room = ({ onPaintingClick }) => {
     loadArtworks();
   }, [loadArtworks]);
 
+
   useEffect(() => {
     if (artworks.length > 0) {
       const loadTextures = async () => {
