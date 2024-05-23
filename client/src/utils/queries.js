@@ -24,7 +24,7 @@ query GetUserFavorites($username: String!) {
 
 
 export const QUERY_CHECKOUT= gql`
-  query getCheckout($products: [ArtInput]) {
+  query getCheckout($products: [CartItemInput]!) {
     checkout(products: $products) {
       session
     }

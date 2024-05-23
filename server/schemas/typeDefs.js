@@ -16,17 +16,10 @@ const typeDefs = `#graphql
     image_id: String!
   }
 
-  type Product {
-    _id: ID!
-    artwork: Art!
-    price: Float!
-    quantityAvailable: Int!
-  }
-
   type Order {
   _id: ID!
   purchaseDate: String
-  products: [Art]!
+  products: [CartItem]!
 }
 
   type Auth {
@@ -42,6 +35,18 @@ const typeDefs = `#graphql
     imageUrl: String!
   }
 
+  type CartItem {
+    id: ID!
+    price: Float!
+    quantity: Int!
+  }
+
+  input CartItemInput {
+    id: ID!
+    price: Float!
+    quantity: Int!
+  }
+
   type CheckoutResponse {
     session: ID!
     # order: Order!
@@ -54,7 +59,7 @@ const typeDefs = `#graphql
     me: User
     getOrderById(id: ID!): Order
     # product(id: ID!): Product
-  checkout(products: [ArtInput]): CheckoutResponse
+  checkout(products: [CartItemInput]!): CheckoutResponse
   }
 
   type Mutation {
