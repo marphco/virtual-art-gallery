@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as faHeartSolid, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart as faHeartSolid,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import "../App.css";
@@ -8,12 +11,12 @@ import "../App.css";
 function Modal({ art, onClose, onSave }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  useEffect(() => {}, [art, onClose, onSave]);
+  useEffect(() => {
+  }, [art]);
 
   const handleSaveClick = () => {
     setIsFavorite(true);
     if (typeof onSave === "function") {
-      console.log("onSave called with art:", art);
       onSave(art);
     } else {
       console.error("onSave is not a function", onSave);
@@ -21,12 +24,10 @@ function Modal({ art, onClose, onSave }) {
   };
 
   if (!art) {
-    return null; 
+    return null;
   }
 
-  const imageUrl = 
-    `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
-
+  const imageUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
 
   return (
     <div
@@ -39,7 +40,7 @@ function Modal({ art, onClose, onSave }) {
       >
         <div className="w-[40rem] h-[40rem] mx-auto mb-4">
           <img
-            src={imageUrl}
+            src={art.imageUrl}
             alt={art.title}
             className="w-full h-full object-cover rounded-lg"
           />

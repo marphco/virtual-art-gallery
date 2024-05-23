@@ -1,5 +1,7 @@
+// src/components/Room.jsx
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useLoader } from "@react-three/fiber";
+import { useMutation } from "@apollo/client";
+import { SAVE_ART } from "../utils/mutations";
 import { TextureLoader } from "three";
 import { Box } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,6 +11,8 @@ const Room = ({ onPaintingClick }) => {
   const [textures, setTextures] = useState([]);
   const [page, setPage] = useState(1);
   const observer = useRef();
+
+  const [saveArt] = useMutation(SAVE_ART);
 
   const loadArtworks = useCallback(async () => {
     try {
@@ -21,9 +25,11 @@ const Room = ({ onPaintingClick }) => {
         .map((art) => ({
           id: art.id,
           title: art.title,
-          artist_title: art.artist_title,
+          artist_titles: art.artist_title,
           description: art.thumbnail?.alt_text || "No description",
-          image_id: art.image_id, 
+          imageUrl: art.image_id
+            ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+            : null,
         }));
       setArtworks((prevArtworks) => [...prevArtworks, ...newArtworks]);
     } catch (error) {
@@ -35,15 +41,12 @@ const Room = ({ onPaintingClick }) => {
     loadArtworks();
   }, [loadArtworks]);
 
-
   useEffect(() => {
     if (artworks.length > 0) {
       const loadTextures = async () => {
         const textureLoader = new TextureLoader();
         const texturePromises = artworks.map((art) =>
-          textureLoader.loadAsync(
-            `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
-          )
+          textureLoader.loadAsync(art.imageUrl)
         );
         try {
           const loadedTextures = await Promise.all(texturePromises);
@@ -71,6 +74,23 @@ const Room = ({ onPaintingClick }) => {
 
   const handlePaintingClick = (art) => {
     onPaintingClick(art);
+  };
+
+  const handleSaveClick = async (art) => {
+    const artData = {
+      id: art.id,
+      title: art.title,
+      artist_titles: art.artist_titles,
+      description: art.description,
+      imageUrl: art.imageUrl,
+    };
+
+    try {
+      const { data } = await saveArt({ variables: { artData } });
+      console.log("Artwork saved:", data.saveArt);
+    } catch (error) {
+      console.error("Error saving artwork:", error);
+    }
   };
 
   const positions = [
@@ -187,7 +207,7 @@ const Room = ({ onPaintingClick }) => {
       {artworks.map((art, index) => (
         <React.Fragment key={art.id}>
           <Box
-            args={[6.5, -0.000001, 5]}
+            args={[6.5, 0.1, 5]}
             position={[
               positions[index % positions.length].x,
               positions[index % positions.length].y,
@@ -196,7 +216,11 @@ const Room = ({ onPaintingClick }) => {
             rotation={rotations[index % rotations.length]}
             material={frameMaterial}
             userData={{ name: "art", id: art.id }}
-            onClick={() => handlePaintingClick(art)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePaintingClick(art);
+              handleSaveClick(art);
+            }}
             ref={index === artworks.length - 1 ? lastArtElementRef : null}
           />
           {textures[index] && (

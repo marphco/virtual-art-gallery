@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
-import Auth from "../utils/auth"; // Import AuthService
+import Auth from "../utils/auth";
 
 const Homepage = () => {
   const [clickedIndex, setClickedIndex] = useState(null);
@@ -86,7 +86,10 @@ const Homepage = () => {
       </Row>
 
       <Row id="intro" className="flex justify-center">
-        <Container id="text-intro" className="d-flex justify-center text-center">
+        <Container
+          id="text-intro"
+          className="d-flex justify-center text-center"
+        >
           <h1 className="text-4xl p-5 font-extrabold">
             An Immersive
             <br />
@@ -114,7 +117,9 @@ const Homepage = () => {
               {galleries.map((gallery, index) => (
                 <div
                   key={gallery.id}
-                  className={`swiper-slide tranding-slide ${index === clickedIndex ? "clicked" : ""}`}
+                  className={`swiper-slide tranding-slide ${
+                    index === clickedIndex ? "clicked" : ""
+                  }`}
                   onClick={() => handleImageClick(index)}
                 >
                   <div className="tranding-slide-img">
@@ -122,13 +127,24 @@ const Homepage = () => {
                     {index === clickedIndex && (
                       <div className="overlay">
                         {isLoggedIn ? (
-                          <button className="enter-button" onClick={handleEnter}>Enter</button>
+                          <button
+                            className="enter-button"
+                            onClick={handleEnter}
+                          >
+                            Enter
+                          </button>
                         ) : (
                           <>
-                            <button className="login-button" onClick={handleLogin}>
+                            <button
+                              className="login-button"
+                              onClick={handleLogin}
+                            >
                               Login
                             </button>
-                            <button className="signup-button" onClick={handleSignUp}>
+                            <button
+                              className="signup-button"
+                              onClick={handleSignUp}
+                            >
                               Sign Up
                             </button>
                           </>
