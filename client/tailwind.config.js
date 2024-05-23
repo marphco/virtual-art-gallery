@@ -10,7 +10,11 @@ module.exports = {
       xl: "1024px",
       xxl: "1440px",
     },
-    extend: {},
+    extend: {
+      height: {
+        '400': '400px',
+      },
+    },
   },
   plugins: [],
 };

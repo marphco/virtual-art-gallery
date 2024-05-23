@@ -9,9 +9,13 @@ export const QUERY_USER = gql`
     }
   }
 `;
-export const GET_FAVORITES =gql `
-query GetUserFavorites($username: String!) {
-  user(username: $username) {
+
+export const GET_USER_FAVORITES = gql`
+query UserFavorites {
+  me {
+    _id
+    username
+    email
     savedArt {
       id
       title
@@ -20,11 +24,11 @@ query GetUserFavorites($username: String!) {
       imageUrl
     }
   }
-}`
-
+}
+`;
 
 export const QUERY_CHECKOUT= gql`
-  query getCheckout($products: [ArtInput]) {
+  query getCheckout($products: [CartItemInput]!) {
     checkout(products: $products) {
       session
     }

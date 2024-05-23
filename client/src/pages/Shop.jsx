@@ -10,6 +10,23 @@ const Shop = () => {
     message: "",
   });
   const { addToCart, cart } = useCart();
+  const subscriptionItems = [
+    {
+      id: '1',
+      title: '1 Month Subscription',
+      price: 10,
+    },
+    {
+      id: '2',
+      title: '6 Month Subscription',
+      price: 50,
+    },
+    {
+      id: '3',
+      title: '1 Year Subscription',
+      price: 90,
+    }
+  ];
 
   useEffect(() => {
     fetch("https://api.artic.edu/api/v1/artworks?limit=6")
@@ -31,11 +48,11 @@ const Shop = () => {
     }
   };
 
-  const handleAddToCart = (product) => {
-    addToCart(product);
+  const handleAddToCart = (item) => {
+    addToCart(item);
     setNotification({
       visible: true,
-      message: `${product.title} has been added to cart!`,
+      message: `${item.title} has been added to cart!`,
     });
     setTimeout(() => setNotification({ visible: false, message: "" }), 3000);
   };
@@ -129,55 +146,24 @@ const Shop = () => {
             Become a member to get unlimited access
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div
-              className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
-              onClick={() =>
-                handleAddToCart({ title: "1 Month Subscription", price: 10 })
-              }
-            >
-              <h3 className="text-2xl font-semibold mb-4 text-gray-900">
-                1 Month
-              </h3>
-              <p className="text-lg font-semibold text-indigo-600">$10</p>
-            </div>
-            <div
-              className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
-              onClick={() =>
-                handleAddToCart({ title: "6 Months Subscription", price: 50 })
-              }
-            >
-              <h3 className="text-2xl font-semibold mb-4 text-gray-900">
-                6 Months
-              </h3>
-              <p className="text-lg font-semibold text-indigo-600">$50</p>
-            </div>
-            <div
-              className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
-              onClick={() =>
-                handleAddToCart({ title: "1 Year Subscription", price: 90 })
-              }
-            >
-              <h3 className="text-2xl font-semibold mb-4 text-gray-900">
-                1 Year
-              </h3>
-              <p className="text-lg font-semibold text-indigo-600">$90</p>
-            </div>
+            {subscriptionItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
+                onClick={() => handleAddToCart(item)}
+              >
+                <h3 className="text-2xl font-semibold mb-4 text-gray-900">
+                  {item.title}
+                </h3>
+                <p className="text-lg font-semibold text-indigo-600">
+                  ${item.price}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       )}
-      <div className="mt-12 bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold mb-6 text-gray-900">Cart</h2>
-        <ul>
-          {cart.map((item, index) => (
-            <li
-              key={index}
-              className="flex justify-between mb-4 text-lg text-gray-700"
-            >
-              {item.title} - ${item.price}
-            </li>
-          ))}
-        </ul>
-      </div>
+      
     </div>
   );
 };
