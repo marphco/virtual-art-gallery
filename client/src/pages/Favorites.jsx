@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_USER_FAVORITES } from '../utils/queries'; 
+import { GET_USER_DATA } from '../utils/queries'; 
 import { REMOVE_ART } from "../utils/mutations";
 
 const Favorites = () => {
-    const { loading, error, data, refetch } = useQuery(GET_USER_FAVORITES); 
+    const { loading, error, data, refetch } = useQuery(GET_USER_DATA); 
 
     const [removeArt] = useMutation(REMOVE_ART, {
-        refetchQueries: [{ query: GET_USER_FAVORITES }] 
+        refetchQueries: [{ query: GET_USER_DATA }] 
     });
 
     useEffect(() => {
