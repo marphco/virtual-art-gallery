@@ -48,26 +48,21 @@ const Navbar = () => {
           {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
         </button>
       </div>
-      <div className={`nav-desktop lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
-        <ul className="flex flex-col lg:flex-row lg:space-x-8">
+      <div
+        className={`nav-desktop lg:flex ${
+          isOpen ? "flex" : "hidden"
+        } flex-col lg:flex-row lg:items-center lg:space-x-8`}
+      >
+        <ul className="flex flex-col lg:flex-row">
           {isLoggedIn ? (
             <>
               <li className="font-roboto log-out">
                 <Link
                   to="/"
                   onClick={handleLogout}
-                  className="text-gray-700 lg:bg-white hover:text-black transition-shadow"
+                  className="text-gray-700 hover:text-black transition-shadow"
                 >
                   Logout
-                </Link>
-              </li>
-              <li className="font-roboto">
-                <Link
-                  to="/SavedArtworks"
-                  className="text-gray-700 hover:text-black transition-shadow"
-                  onClick={() => setIsOpen(false)}
-                >
-                  SavedArtworks
                 </Link>
               </li>
               <li className="font-roboto">
@@ -77,6 +72,15 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   Shop-Art
+                </Link>
+              </li>
+              <li className="font-roboto">
+                <Link
+                  to="/favorites"
+                  className="text-gray-700 hover:text-black transition-shadow"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Favorite
                 </Link>
               </li>
               <li className="font-roboto">

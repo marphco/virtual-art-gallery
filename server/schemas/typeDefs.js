@@ -11,9 +11,9 @@ const typeDefs = `#graphql
   type Art {
     id: ID!
     title: String!
-    artist_titles: String
+    artist_titles: [String]
     description: String!
-    image_id: String!
+    imageUrl: String!
   }
 
   type Order {
@@ -30,10 +30,10 @@ const typeDefs = `#graphql
   input ArtInput {
     id: ID!
     title: String!
-    artist_titles: String
+    artist_titles: [String] 
     description: String!
     imageUrl: String!
-  }
+}
 
   type CartItem {
     id: ID!
@@ -53,7 +53,7 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    users: [User]    # Define the 'users' field to query users
+    users: [User]    
     user(username: String!): User
     saveArt(artData: [ArtInput]!): User
     me: User

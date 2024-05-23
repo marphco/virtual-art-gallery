@@ -7,10 +7,7 @@ const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3
 
 const resolvers = {
   Query: {
-    // Added 'users' and 'user' queries to match schema
-    users: async () => {
-      return User.find().populate("savedArt");
-    },
+    
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("savedArt");
     },
@@ -61,7 +58,7 @@ const resolvers = {
     },
     
   },
-  Mutation: { 
+  Mutation: { // Moved Mutation object inside the resolvers object
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
@@ -101,23 +98,22 @@ const resolvers = {
         throw new Error(error.message); // Rethrow the error for Apollo Server to handle
       }
     },
+    
     removeArt: async (parent, { artId }, context) => {
       try {
         if (context.user) {
           return await User.findOneAndUpdate(
             { _id: context.user._id },
-            { $pull: { savedArt: { artId } } },
+            { $pull: { savedArt: { id: artId } } },
             { new: true }
-          );
+          ).populate("savedArt");
         } else {
           throw new Error("You need to be logged in!");
         }
       } catch (error) {
-        // Handle the error here
         console.error("Error in removeArt resolver:", error);
-        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
+        throw new Error(error.message);
       }
-    
     },
     
   },

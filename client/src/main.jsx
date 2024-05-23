@@ -9,7 +9,7 @@ import App from "./App.jsx";
 import Login from "./components/LoginForm.jsx";
 import SignupForm from "./components/SignupForm.jsx";
 import OpenAI from "./components/OpenAI.jsx";
-import SavedArtworks from "./components/SavedArtworks.jsx"
+import Favorites from "./pages/Favorites.jsx";
 import Shop from "./pages/Shop.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
@@ -19,8 +19,8 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/service-worker.js")
-      .then((registration) => {
-        console.log("Service worker registered:", registration);
+      .then(() => {
+        // Service worker registered successfully
       })
       .catch((error) => {
         console.error("Service worker registration failed:", error);
@@ -51,12 +51,12 @@ const router = createBrowserRouter([
         element: <Gallery />,
       },
       {
-        path: "/openai",
-        element: <OpenAI />,
+        path: "/favorites",
+        element: <Favorites />,
       },
       {
-        path: "/SavedArtworks",
-        element: <SavedArtworks />,
+        path: "/openai",
+        element: <OpenAI />,
       },
       {
         path: "/shop",
@@ -72,8 +72,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-  <CartProvider>
-    <RouterProvider router={router} />
-  </CartProvider>
-  </React.StrictMode>,
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
+  </React.StrictMode>
 );
