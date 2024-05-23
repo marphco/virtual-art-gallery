@@ -10,49 +10,62 @@ const Favorites = () => {
         refetchQueries: [{ query: GET_USER_DATA }] 
     });
 
-    useEffect(() => {
-        refetch();
-    }, [refetch]);
+  if (loading) return <p className="text-center py-8">Loading...</p>;
+  if (error) return <p className="text-center py-8">Error: {error.message}</p>;
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-    
-    const favorites = data.me.savedArt;
+  const favorites = data.me.savedArt;
 
-    const handleRemoveArt = async (artId) => {
-        try {
-            await removeArt({
-                variables: { artId }
-            });
-            console.log("Artwork removed successfully!");
-            refetch();
-        } catch (error) {
-            console.error("Error removing artwork:", error);
-        }
-    };
+  const handleRemoveArt = async (artId) => {
+    try {
+      await removeArt({
+        variables: { artId },
+      });
+      refetch();
+    } catch (error) {
+      console.error("Error removing artwork:", error);
+    }
+  };
 
-    return (
-        <div>
-            <h2>Your Favorites</h2>
-            <ul>
-                {favorites.map((art) => (
-                    <li key={art.id} className="p-2 border border-gray-300 rounded-md shadow-sm m-2">
-                        <div className="mb-2">
-                            {art.artist_titles.map((artist, index) => (
-                                <span key={index} className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-md mr-2 mb-1">{artist}</span>
-                            ))}
-                        </div>
-                        <img src={art.imageUrl} alt={art.title} className="w-52 h-auto rounded-lg mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">{art.title}</h3>
-                        <p className="text-sm text-gray-600 mb-4">{art.description}</p>
-                        <button onClick={() => handleRemoveArt(art.id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                            Remove
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
+  return (
+    <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
+      <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        {favorites.map((art) => (
+          <li
+            key={art.id}
+            className="flex flex-col justify-between p-4 border border-gray-300 rounded-lg shadow-lg bg-white h-full"
+          >
+            <div>
+              <div className="mb-2">
+                {art.artist_titles && (
+                  <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-md mr-2 mb-1">
+                    {art.artist_titles}
+                  </span>
+                )}
+              </div>
+              <img
+                src={art.imageUrl}
+                alt={art.title}
+                className="w-full h-96 object-cover rounded-lg mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2 text-center">
+                {art.title}
+              </h3>
+              <p className="text-gray-600 mb-4 text-center">
+                {art.description}
+              </p>
+            </div>
+            <button
+              onClick={() => handleRemoveArt(art.id)}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600 self-center"
+            >
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default Favorites;
