@@ -7,9 +7,7 @@ const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET)
 
 const resolvers = {
   Query: {
-    users: async () => {
-      return User.find().populate("savedArt");
-    },
+    
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("savedArt");
     },

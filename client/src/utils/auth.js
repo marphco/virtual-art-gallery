@@ -6,7 +6,6 @@ class AuthService {
         console.log("Decoded token:", decode(token)); // Log the decoded token
         return decode(token);
     }
-
     loggedIn() {
         const token = this.getToken();
     
