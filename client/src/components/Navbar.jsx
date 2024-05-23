@@ -92,15 +92,6 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li className="font-roboto">
-                <Link
-                  to="/login"
-                  className="text-gray-700 hover:text-black transition-shadow"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
-              </li>
               <li className="font-roboto sign-up">
                 <Link
                   to="/signup"
@@ -108,6 +99,15 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   Sign up
+                </Link>
+              </li>
+              <li className="font-roboto">
+                <Link
+                  to="/login"
+                  className="text-gray-700 hover:text-black transition-shadow"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
                 </Link>
               </li>
             </>

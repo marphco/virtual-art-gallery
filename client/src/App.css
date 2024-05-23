@@ -13,18 +13,18 @@
   text-decoration: none;
 }
 
-html {
+/* /* html {
   font-size: 62.5%;
   scroll-behavior: smooth;
-}
+} */
 
 @media (min-width: 1440px) {
-  html {
-    zoom: 1.5;
+  .container {
+    max-width: 100% !important;
   }
 }
 
-@media (min-width: 2560px) {
+/* @media (min-width: 2560px) {
   html {
     zoom: 1.7;
   }
@@ -34,7 +34,7 @@ html {
   html {
     zoom: 2.5;
   }
-}
+} */
 
 :root {
   --primary: #5B5A5A;
@@ -185,6 +185,7 @@ h1 {
 @media (max-width:500px) {
   #tranding .tranding-slider {
     height: 45rem;
+    transform: scale(0.5);
   }
 }
 
