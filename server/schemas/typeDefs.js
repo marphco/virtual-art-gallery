@@ -14,7 +14,18 @@ const typeDefs = `#graphql
     artist_titles: [String]
     description: String!
     imageUrl: String!
+    comments: [Comment]
   }
+  type Comment {
+  _id: ID!
+  text: String!
+  user: User!
+  
+}
+input CommentInput {
+  text: String!
+  artId: ID!
+}
 
   type Order {
   _id: ID!
@@ -68,7 +79,8 @@ const typeDefs = `#graphql
   addUser(username: String!, email: String!, password: String!): Auth
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
-  saveArt(artData: ArtInput!): User # This is the saveArt mutation definition
+  saveArt(artData: ArtInput!): User 
+  addComment(commentInput: CommentInput!): Comment 
 }
 
 `;
