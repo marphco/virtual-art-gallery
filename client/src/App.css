@@ -13,28 +13,11 @@
   text-decoration: none;
 }
 
-/* /* html {
-  font-size: 62.5%;
-  scroll-behavior: smooth;
-} */
-
 @media (min-width: 1440px) {
   .container {
     max-width: 100% !important;
   }
 }
-
-/* @media (min-width: 2560px) {
-  html {
-    zoom: 1.7;
-  }
-}
-
-@media (min-width: 3860px) {
-  html {
-    zoom: 2.5;
-  }
-} */
 
 :root {
   --primary: #5B5A5A;
@@ -44,26 +27,6 @@
   --playfair: "Playfair Display", serif;
   --lato: "Lato", sans-serif;
 }
-
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-} */
-
-/* @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-} */
-
-/* * {
-  margin: 0 auto;
-  padding: 0;
-} */
 
 body {
   font-family: var(--lato);
@@ -82,7 +45,7 @@ body {
   z-index: 2;
   font-size: 100% !important;
   min-height: 50px;
-  display:flex;
+  display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
@@ -93,13 +56,14 @@ body {
   padding: 0.5rem;
   align-items: center;
   font-size: small;
+  gap:16px;
 }
 
 .sign-up,
 .log-out {
   background-color: var(--secondary);
   padding: 1rem 1.8rem;
-  border-radius: 30px 30px 30px 30px;
+  border-radius: 30px;
   color: var(--white) !important;
   border: solid 2px var(--secondary);
 }
@@ -142,12 +106,11 @@ body {
 }
 
 /* INTRO */
-
 h1 {
   font-size: 4rem !important;
-    color: var(--secondary);
-    font-family: var(--playfair);
-    line-height: 4rem !important;
+  color: var(--secondary);
+  font-family: var(--playfair);
+  line-height: 4rem !important;
 }
 
 #text-intro p {
@@ -156,8 +119,8 @@ h1 {
 }
 
 /* SLIDER */
-
 .container {
+  width: 100%;
   max-width: 124rem;
   margin: 0 auto;
 }
@@ -170,45 +133,44 @@ h1 {
   padding: 4rem 0;
 }
 
-@media (max-width:1440px) {
+@media (max-width: 1440px) {
   #tranding {
     padding: 7rem 0;
   }
 }
 
 #tranding .tranding-slider {
-  height: 52rem;
-  padding: 2rem 0;
+  width: 100%;
+  height: auto;
+  padding: 4% 10%; /* Add padding to show part of the adjacent slides */
   position: relative;
-}
-
-@media (max-width:500px) {
-  #tranding .tranding-slider {
-    height: 45rem;
-    transform: scale(0.5);
-  }
 }
 
 .tranding-slide {
-  width: 37rem;
-  height: 42rem;
-  position: relative;
+  width: 80%; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 auto; /* Center the slide */
 }
 
-@media (max-width:500px) {
-  .tranding-slide {
-    width: 28rem !important;
-    height: 36rem !important;
+@media (max-width: 500px) {
+  .swiper {
+    padding: 0 5%; /* Adjust padding for mobile devices */
   }
+
+  .tranding-slide {
+    width: 90%; /* Adjust the width to show more of the adjacent slides */
+  }
+
   .tranding-slide .tranding-slide-img img {
-    width: 28rem !important;
-    height: 36rem !important;
+    width: 100%;
+    height: auto;
   }
 }
 
 .tranding-slide .tranding-slide-img img {
-  width: 37rem;
-  height: 42rem;
+  width: 100%;
+  max-width: 37rem;
+  height: auto;
   border-radius: 2rem;
   object-fit: cover;
 }
@@ -230,16 +192,6 @@ h1 {
   color: var(--white);
 }
 
-/* .food-rating {
-  padding-top: 1rem;
-  display: flex;
-  gap: 1rem;
-}
-
-.rating ion-icon {
-  color: var(--primary);
-} */
-
 .swiper-slide-shadow-left,
 .swiper-slide-shadow-right {
   display: none;
@@ -258,28 +210,28 @@ h1 {
   transform: translateX(-58%) !important;
 }
 
-@media (max-width:990px) {
+@media (max-width: 990px) {
   .tranding-slider-control .swiper-button-next {
     left: 70% !important;
     transform: translateX(-70%) !important;
   }
 }
 
-@media (max-width:450px) {
+@media (max-width: 450px) {
   .tranding-slider-control .swiper-button-next {
     left: 80% !important;
     transform: translateX(-80%) !important;
   }
 }
 
-@media (max-width:990px) {
+@media (max-width: 990px) {
   .tranding-slider-control .swiper-button-prev {
     left: 30% !important;
     transform: translateX(-30%) !important;
   }
 }
 
-@media (max-width:450px) {
+@media (max-width: 450px) {
   .tranding-slider-control .swiper-button-prev {
     left: 20% !important;
     transform: translateX(-20%) !important;
@@ -319,30 +271,6 @@ h1 {
   background: var(--primary);
 }
 
-
-/* .swiper-container {
-  width: 100%;
-  height: 400px;
-  margin: auto;
-}
-
-.gallery-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.gallery-image {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 10px;
-} */
-
-/* SLIDER HOVER */
-
 .tranding-slide-img {
   position: relative;
   cursor: pointer; /* Add cursor pointer for better UX */
@@ -364,11 +292,11 @@ h1 {
   opacity: 0;
   transition: opacity 0.3s;
   border-radius: 2rem;
-  z-index: 10; 
+  z-index: 10;
 }
 
 .clicked {
-  backdrop-filter: blur(10px) !important; 
+  backdrop-filter: blur(10px) !important;
 }
 
 .clicked .overlay {
@@ -404,72 +332,6 @@ h1 {
   z-index: 5; /* Ensure active slide is above other slides */
 }
 
-
-
-
-/* END SLIDER */
-
-
-
-
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 80%;
-  text-align: center;
-}
-
-.modal-image {
-  width: 100%;
-  height: auto;
-}
-
-button {
-  margin-top: 20px;
-}
-
 /* TABLET AND DESKTOP */
 @media only screen and (min-width: 600px) {
   #supernav {
@@ -498,5 +360,4 @@ button {
     width: 70%;
     margin: 0 auto;
   }
-
 }

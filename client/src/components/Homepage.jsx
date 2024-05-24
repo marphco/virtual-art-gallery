@@ -27,36 +27,49 @@ const Homepage = () => {
   ];
 
   useEffect(() => {
-    setIsLoggedIn(Auth.loggedIn());
+  setIsLoggedIn(Auth.loggedIn());
 
-    const swiper = new Swiper(".tranding-slider", {
-      effect: "coverflow",
-      grabCursor: true,
-      centeredSlides: true,
-      loop: true,
-      slidesPerView: "auto",
-      coverflowEffect: {
-        rotate: 0,
-        stretch: 0,
-        depth: 100,
-        modifier: 2.5,
+  const swiper = new Swiper(".tranding-slider", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    loop: true,
+    slidesPerView: "auto",
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
+      depth: 100,
+      modifier: 2.5,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      0: {
+        slidesPerView: 1.1, // Adjust this to show parts of the adjacent slides on mobile
       },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
+      600: {
+        slidesPerView: 1.5, // Adjust this as needed
       },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+      1024: {
+        slidesPerView: 2.5, // Adjust this as needed
       },
-      on: {
-        slideChange: function () {
-          setActiveIndex(this.realIndex);
-        },
+      1440: {
+        slidesPerView: 3.5, // Adjust this as needed
+      }
+    },
+    on: {
+      slideChange: function () {
+        setActiveIndex(this.realIndex);
       },
-    });
-  }, []);
-
+    },
+  });
+}, []);
   const handleImageClick = (index) => {
     if (index === activeIndex) {
       setClickedIndex(index);
