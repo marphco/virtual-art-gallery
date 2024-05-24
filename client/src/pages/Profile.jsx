@@ -3,7 +3,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_USER_DATA } from '../utils/queries'; 
 import { REMOVE_ART } from "../utils/mutations";
 
-const Favorites = () => {
+const Profile = () => {
     const { loading, error, data, refetch } = useQuery(GET_USER_DATA); 
 
     const [removeArt] = useMutation(REMOVE_ART, {
@@ -29,8 +29,8 @@ const Favorites = () => {
 
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
-      <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
       <p>Hello, {username }!</p>
+      <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {favorites.map((art) => (
           <li
@@ -70,4 +70,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default Profile;
