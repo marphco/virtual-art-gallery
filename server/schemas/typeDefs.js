@@ -6,6 +6,7 @@ const typeDefs = `#graphql
     password: String
     artCount: Int
     savedArt: [Art]
+    orders: [Order]
   }
 
   type Art {
@@ -20,6 +21,7 @@ const typeDefs = `#graphql
   _id: ID!
   purchaseDate: String
   products: [CartItem]!
+  
 }
 
   type Auth {
@@ -61,7 +63,8 @@ const typeDefs = `#graphql
     me: User
     getOrderById(id: ID!): Order
     # product(id: ID!): Product
-  checkout(products: [CartItemInput]!): CheckoutResponse
+   checkout(products: [CartItemInput]!): CheckoutResponse
+  
   }
 
   type Mutation {

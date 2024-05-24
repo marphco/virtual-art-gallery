@@ -38,6 +38,7 @@ export const QUERY_CHECKOUT= gql`
 
 
 
+
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 // Create a new ApolloClient instance

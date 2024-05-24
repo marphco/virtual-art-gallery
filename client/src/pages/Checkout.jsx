@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../utils/queries.js';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(
-  "pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt"
-);
+const stripePromise = loadStripe("pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt");
 
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -16,40 +14,35 @@ const Checkout = () => {
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-
   };
-
 
   useEffect(() => {
     if (data) {
       console.log("Checkout session data received:", data);
       stripePromise.then((stripe) => {
         stripe.redirectToCheckout({ sessionId: data.checkout.session }).then(result => {
-          if(result.error){
-            console.error('stripe redirecrerror:', result.error.message)
+          if (result.error) {
+            console.error('Stripe redirect error:', result.error.message);
           }
         });
       });
     }
   }, [data]);
-  
 
   const handlePlaceOrder = () => {
     console.log('Placing order with products:', cart);
     const products = cart.map(item => ({
       id: item.id,
+      name: item.title,
       price: item.price,
-      quantity: item.quantity,
-      name: item.title
+      quantity: item.quantity, // Fix missing comma here
     }));
     console.log("Placing order with products:", products);
     getCheckout({ variables: { products } });
   };
-  
-  
-      
-      // if (loading) return <p>Loading...</p>;
-      // if (error) return <p>Error: {error.message}</p>;
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -63,10 +56,7 @@ const Checkout = () => {
           </h2>
           <ul className="divide-y divide-gray-200">
             {cart.map((item, index) => (
-              <li
-                key={index}
-                className="flex justify-between items-center py-4"
-              >
+              <li key={index} className="flex justify-between items-center py-4">
                 <div className="flex-1 flex items-center space-x-4">
                   <span className="text-m justify-start flex-1 text-gray-800">
                     {item.title}
@@ -75,9 +65,7 @@ const Checkout = () => {
                     type="number"
                     value={item.quantity}
                     min="1"
-                    onChange={(e) =>
-                      updateQuantity(item.id, parseInt(e.target.value))
-                    }
+                    onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                     className="w-20 text-center border rounded-lg py-1 px-2"
                   />
                 </div>
@@ -85,10 +73,7 @@ const Checkout = () => {
                   <span className="text-lg font-semibold text-gray-800">
                     ${item.price.toFixed(2)} x {item.quantity}
                   </span>
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg"
-                  >
+                  <button onClick={() => removeFromCart(item.id)} className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg">
                     Remove
                   </button>
                 </div>
@@ -103,16 +88,10 @@ const Checkout = () => {
           </p>
         </div>
         <div className="text-center">
-          <button
-            onClick={handlePlaceOrder}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mb-4 w-full"
-          >
+          <button onClick={handlePlaceOrder} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mb-4 w-full">
             Place Order
           </button>
-          <Link
-            to="/shop"
-            className="text-blue-600 hover:text-blue-700 underline block"
-          >
+          <Link to="/shop" className="text-blue-600 hover:text-blue-700 underline block">
             Continue Shopping
           </Link>
         </div>

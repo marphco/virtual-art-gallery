@@ -25,7 +25,7 @@ const userSchema = new Schema({
         type: [artworkSchema],
         default: [],
     },
-    orders: [Order.schema]
+    orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }]
 });
 
 userSchema.pre('save', async function (next) {
