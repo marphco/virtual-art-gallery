@@ -1,13 +1,13 @@
 
-const { User, Artwork } = require("../models");
+const { User, Artwork , Comment } = require("../models");
 const Order = require('../models/Order');
-// const Product = require('../models/Product');
 const { signToken, AuthenticationError } = require("../utils/auth");
 const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3hMwtrMEpuz5W1V2kqsj4MTsj4oj1Tmcq2wp3tmWQ8GUGo1q6Dbr007CcK1wQH")
 
+
 const resolvers = {
   Query: {
-    
+
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("savedArt");
     },
@@ -50,13 +50,20 @@ const resolvers = {
         // Create a new order
         const newOrder = await Order.create({ products });
 
+        // Associate the order with the user (assuming user is authenticated)
+        if (context.user) {
+          await User.findByIdAndUpdate(context.user._id, { $push: { orders: newOrder } });
+        } else {
+          throw new Error("You need to be logged in!");
+        }
+
         return { session: session.id, order: newOrder };
       } catch (error) {
         console.error('Error in checkout resolver:', error);
         throw new Error('Checkout process failed');
       }
     },
-    
+
   },
   Mutation: { // Moved Mutation object inside the resolvers object
     addUser: async (parent, { username, email, password }) => {
@@ -81,6 +88,41 @@ const resolvers = {
 
       return { token, user };
     },
+    addComment: async (parent, { commentInput }, context) => {
+      try {
+        if (context.user) {
+          // Check if the user exists and is authenticated
+          const user = await User.findById(context.user._id);
+          if (!user) {
+            throw new Error("User not found");
+          }
+    
+          // Check if the art exists
+          const art = await Artwork.findById(commentInput.artId);
+          if (!art) {
+            throw new Error("Artwork not found");
+          }
+    
+          // Create a new comment
+          const newComment = await Comment.create({
+            text: commentInput.text,
+            user: context.user._id // Save user reference in the comment
+          });
+    
+          // Add the new comment to the art
+          art.comments.push(newComment);
+          await art.save();
+    
+          return newComment;
+        } else {
+          throw new AuthenticationError("You need to be logged in!");
+        }
+      } catch (error) {
+        console.error("Error in addComment resolver:", error);
+        throw new Error(error.message);
+      }
+    },
+
     saveArt: async (parent, { artData }, context) => {
       try {
         if (context.user) {
@@ -97,8 +139,11 @@ const resolvers = {
         console.error("Error in saveArt resolver:", error);
         throw new Error(error.message); // Rethrow the error for Apollo Server to handle
       }
+
     },
-    
+
+
+
     removeArt: async (parent, { artId }, context) => {
       try {
         if (context.user) {
@@ -115,8 +160,9 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    
+
   },
+
 };
 
 module.exports = resolvers;

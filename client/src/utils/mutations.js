@@ -24,6 +24,21 @@ export const ADD_USER = gql`
   }
 `;
 
+
+export const ADD_COMMENT = gql`
+  mutation AddComment($commentInput: CommentInput!) {
+    addComment(commentInput: $commentInput) {
+      _id
+      text
+      user {
+        _id
+        username
+      }
+      createdAt
+    }
+  }
+`;
+
 export const SAVE_ART = gql`
   mutation SaveArtwork($artData: ArtInput!) {
     saveArt(artData: $artData) {
