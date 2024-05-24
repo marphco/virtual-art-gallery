@@ -1,20 +1,20 @@
-// src/pages/Favorites.jsx
-import React from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_USER_FAVORITES } from "../utils/queries";
+import React, { useEffect } from "react";
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_USER_DATA } from '../utils/queries'; 
 import { REMOVE_ART } from "../utils/mutations";
 
-const Favorites = () => {
-  const { loading, error, data, refetch } = useQuery(GET_USER_FAVORITES);
+const Profile = () => {
+    const { loading, error, data, refetch } = useQuery(GET_USER_DATA); 
 
-  const [removeArt] = useMutation(REMOVE_ART, {
-    refetchQueries: [{ query: GET_USER_FAVORITES }],
-  });
+    const [removeArt] = useMutation(REMOVE_ART, {
+        refetchQueries: [{ query: GET_USER_DATA }] 
+    });
 
   if (loading) return <p className="text-center py-8">Loading...</p>;
   if (error) return <p className="text-center py-8">Error: {error.message}</p>;
 
   const favorites = data.me.savedArt;
+  const username = data.me.username;
 
   const handleRemoveArt = async (artId) => {
     try {
@@ -29,6 +29,7 @@ const Favorites = () => {
 
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
+      <p>Hello, {username }!</p>
       <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {favorites.map((art) => (
@@ -69,4 +70,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default Profile;

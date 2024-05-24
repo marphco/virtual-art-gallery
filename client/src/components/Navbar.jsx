@@ -76,11 +76,11 @@ const Navbar = () => {
               </li>
               <li className="font-roboto">
                 <Link
-                  to="/favorites"
+                  to="/profile"
                   className="text-gray-700 hover:text-black transition-shadow"
                   onClick={() => setIsOpen(false)}
                 >
-                  Favorite
+                  Profile
                 </Link>
               </li>
               <li className="font-roboto">
