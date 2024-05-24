@@ -1,7 +1,6 @@
 
 const { User, Artwork , Comment } = require("../models");
 const Order = require('../models/Order');
-// const Product = require('../models/Product');
 const { signToken, AuthenticationError } = require("../utils/auth");
 const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3hMwtrMEpuz5W1V2kqsj4MTsj4oj1Tmcq2wp3tmWQ8GUGo1q6Dbr007CcK1wQH")
 

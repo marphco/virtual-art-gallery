@@ -19,7 +19,7 @@ const typeDefs = `#graphql
   type Comment {
   _id: ID!
   text: String!
-  user: User!
+  user: User
   
 }
 input CommentInput {
