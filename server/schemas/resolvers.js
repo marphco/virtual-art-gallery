@@ -56,6 +56,13 @@ const resolvers = {
         throw new Error('Checkout process failed');
       }
     },
+    orderHistory: async (_, args, context) => {
+      try {
+        const user = await User.findOne({ username: context.user.username });
+
+        const orderHistory = awaitOder.find({ userId: user._})
+      }
+    }
     
   },
   Mutation: { // Moved Mutation object inside the resolvers object
