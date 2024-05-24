@@ -13,6 +13,16 @@
   text-decoration: none;
 }
 
+
+/* /* html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+} */
+
+/* @media (min-width: 1440px) {
+  html {
+    zoom: 1.5;
+
 @media (min-width: 1440px) {
   .container {
     max-width: 100% !important;
