@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import openaiLogo from "../assets/openai.svg";
+import closeIcon from "../assets/close-icon.svg"; // Add the path to your close icon
+
 const apiKey = import.meta.env.VITE_APP_OpenAI_API_KEY;
 const urlLink = import.meta.env.VITE_APP_OpenAI_API_URL;
-import askAI from "../assets/openai.svg";
 
 function App() {
   const [showOpenAIContainer, setShowOpenAIContainer] = useState(false);
@@ -100,22 +102,39 @@ function App() {
   return (
     <>
       <div>
-        <img
-          src={askAI}
-          onClick={handleImageClick}
-          alt="Click to interact with OpenAI"
-          className="fixed bottom-10 right-10 w-8 h-8 z-20 rounded-lg cursor-pointer"
-        />
+        {!showOpenAIContainer && (
+          <div
+            id="openai-logo"
+            onClick={handleImageClick}
+            className="fixed bottom-8 right-8 z-20 rounded-lg cursor-pointer"
+            style={{
+              backgroundImage: `url(${openaiLogo})`,
+              width: '48px',
+              height: '48px',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              transition: 'background-image 0.3s ease',
+            }}
+          ></div>
+        )}
         {showOpenAIContainer && (
-          <div className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col">
-            <h1 className="text-xl font-semibold mb-4">Ask a Question</h1>
+          <div id="chat-gpt" className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col z-10">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Ask a Question</h2>
+              <img
+                src={closeIcon}
+                alt="Close chat"
+                className="w-6 h-6 cursor-pointer"
+                onClick={handleImageClick}
+              />
+            </div>
             <div className="flex-1 overflow-y-auto mb-4">
               {dialog.map((entry, index) => (
                 <div key={index} className="mb-4">
-                  <p className="font-bold text-blue-700">
+                  <p className="font-regular text-gray-700">
                     <strong>You:</strong> {entry.question}
                   </p>
-                  <p className="font-bold text-green-700">
+                  <p className="font-bold text-black">
                     <strong>AI:</strong> {entry.answer}
                   </p>
                 </div>

@@ -11,6 +11,26 @@ import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
 import Auth from "../utils/auth";
 
+import { useCart } from "../context/CartContext.jsx";
+
+const subscriptionItems = [
+    {
+      id: '1',
+      title: '1 Month Subscription',
+      price: 10,
+    },
+    {
+      id: '2',
+      title: '6 Month Subscription',
+      price: 50,
+    },
+    {
+      id: '3',
+      title: '1 Year Subscription',
+      price: 90,
+    }
+  ];
+
 const Homepage = () => {
   const [clickedIndex, setClickedIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
