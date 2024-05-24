@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 const apiKey = import.meta.env.VITE_APP_OpenAI_API_KEY;
 const urlLink = import.meta.env.VITE_APP_OpenAI_API_URL;
-import askAI from "../assets/askAI.jpg";
+import askAI from "../assets/openai.svg";
 
 function App() {
   const [showOpenAIContainer, setShowOpenAIContainer] = useState(false);

@@ -48,32 +48,31 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      }
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') {
+    // If it's not a GET request, do nothing
+    return;
+  }
 
-      return fetch(event.request).then((fetchResponse) => {
-        if (!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== "basic") {
-          return fetchResponse;
+  event.respondWith(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.match(event.request).then(cachedResponse => {
+        // If a cached response is found, return it
+        if (cachedResponse) {
+          return cachedResponse;
         }
 
-        const responseToCache = fetchResponse.clone();
+        // Otherwise, fetch the resource from the network
+        return fetch(event.request).then(networkResponse => {
+          // Check if the response is valid and cache it
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            cache.put(event.request, responseToCache);
+          }
 
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache).catch(error => {
-            console.error("Failed to put response in cache:", error);
-          });
+          return networkResponse;
         });
-
-        return fetchResponse;
-      }).catch(error => {
-        console.error("Fetch failed:", error);
       });
-    }).catch(error => {
-      console.error("Cache match failed:", error);
     })
   );
 });
