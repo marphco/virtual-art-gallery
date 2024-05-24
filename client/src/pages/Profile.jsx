@@ -29,7 +29,7 @@ const Profile = () => {
 
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
-      <p>Hello, {username }!</p>
+      <p className="text-center py-4 mb-4 text-xl">Hello, {username}!</p>
       <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {favorites.map((art) => (
