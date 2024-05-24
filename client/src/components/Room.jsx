@@ -28,7 +28,7 @@ const Room = ({ onPaintingClick }) => {
           artist_titles: art.artist_title,
           description: art.thumbnail?.alt_text || "No description",
           imageUrl: art.image_id
-            ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+            ? `https://www.artic.edu/iiif/2/${art.image_id}/full/full/0/default.jpg`
             : null,
         }));
       setArtworks((prevArtworks) => [...prevArtworks, ...newArtworks]);
