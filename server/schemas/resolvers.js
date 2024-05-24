@@ -26,7 +26,7 @@ const resolvers = {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: `Artwork ${product.id}`,
+              name: product.name,
             },
             unit_amount: product.price * 100,
           },

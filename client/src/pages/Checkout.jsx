@@ -38,9 +38,9 @@ const Checkout = () => {
     console.log('Placing order with products:', cart);
     const products = cart.map(item => ({
       id: item.id,
-      // title: title.products,
       price: item.price,
-      quantity: item.quantity
+      quantity: item.quantity,
+      name: item.title
     }));
     console.log("Placing order with products:", products);
     getCheckout({ variables: { products } });

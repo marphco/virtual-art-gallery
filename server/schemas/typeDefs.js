@@ -37,12 +37,14 @@ const typeDefs = `#graphql
 
   type CartItem {
     id: ID!
+    name: String!
     price: Float!
     quantity: Int!
   }
 
   input CartItemInput {
     id: ID!
+    name: String!
     price: Float!
     quantity: Int!
   }
