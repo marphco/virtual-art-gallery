@@ -36,9 +36,7 @@ const Shop = () => {
 
   const fetchArtworks = async () => {
     try {
-      const response = await fetch(
-        "https://api.artic.edu/api/v1/artworks?limit=6"
-      );
+      const response = await fetch("https://api.artic.edu/api/v1/artworks?limit=6");
       const data = await response.json();
       setProducts(data.data);
     } catch (error) {
@@ -51,12 +49,10 @@ const Shop = () => {
     if (view === "prints") {
       try {
         const response = await fetch(
-          `https://api.artic.edu/api/v1/artworks/search?q=${encodeURIComponent(
-            searchTerm
-          )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
+          `https://api.artic.edu/api/v1/artworks/search?q=${encodeURIComponent(searchTerm)}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
-        console.log("Search results:", data);
+        console.log("Search results:", data); // Debugging line
         setProducts(data.data);
       } catch (error) {
         console.error("Error fetching artworks:", error);
@@ -121,9 +117,7 @@ const Shop = () => {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder={`Search for ${
-            view === "prints" ? "art prints" : "subscriptions"
-          }`}
+          placeholder={`Search for ${view === 'prints' ? 'art prints' : 'subscriptions'}`}
           className="p-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
         />
         <button
