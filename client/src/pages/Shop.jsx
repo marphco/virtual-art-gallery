@@ -9,42 +9,54 @@ const Shop = () => {
     visible: false,
     message: "",
   });
-  const { addToCart, cart } = useCart();
+  const { addToCart } = useCart();
   const subscriptionItems = [
     {
-      id: '1',
-      title: '1 Month Subscription',
+      id: "1",
+      title: "1 Month Subscription",
       price: 10,
     },
     {
-      id: '2',
-      title: '6 Month Subscription',
+      id: "2",
+      title: "6 Month Subscription",
       price: 50,
     },
     {
-      id: '3',
-      title: '1 Year Subscription',
+      id: "3",
+      title: "1 Year Subscription",
       price: 90,
-    }
+    },
   ];
 
   useEffect(() => {
-    fetch("https://api.artic.edu/api/v1/artworks?limit=6")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data))
-      .catch((error) => console.error("Error fetching products:", error));
-  }, []);
+    if (view === "prints") {
+      fetchArtworks();
+    }
+  }, [view]);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  const fetchArtworks = async () => {
     try {
-      const response = await fetch(
-        `https://api.artic.edu/api/v1/artworks/search?q=${searchTerm}&limit=8`
-      );
+      const response = await fetch("https://api.artic.edu/api/v1/artworks?limit=6");
       const data = await response.json();
       setProducts(data.data);
     } catch (error) {
-      console.error("Error fetching artworks:", error);
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (view === "prints") {
+      try {
+        const response = await fetch(
+          `https://api.artic.edu/api/v1/artworks/search?q=${encodeURIComponent(searchTerm)}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
+        );
+        const data = await response.json();
+        console.log("Search results:", data); // Debugging line
+        setProducts(data.data);
+      } catch (error) {
+        console.error("Error fetching artworks:", error);
+      }
     }
   };
 
@@ -59,6 +71,13 @@ const Shop = () => {
 
   const handleViewChange = (newView) => {
     setView(newView);
+    if (newView === "prints") {
+      fetchArtworks();
+    }
+  };
+
+  const handleImageError = (event) => {
+    event.target.src = "https://via.placeholder.com/200";
   };
 
   return (
@@ -93,54 +112,52 @@ const Shop = () => {
           {notification.message}
         </div>
       )}
-      {view === "prints" && (
-        <>
-          <form onSubmit={handleSearch} className="mb-12 flex justify-center">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search for art prints"
-              className="p-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
-            />
-            <button
-              type="submit"
-              className="py-2 px-6 bg-indigo-600 text-white rounded-r-full hover:bg-indigo-700"
+      <form onSubmit={handleSearch} className="mb-12 flex justify-center">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder={`Search for ${view === 'prints' ? 'art prints' : 'subscriptions'}`}
+          className="p-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
+        />
+        <button
+          type="submit"
+          className="py-2 px-6 bg-indigo-600 text-white rounded-r-full hover:bg-indigo-700"
+        >
+          Search
+        </button>
+      </form>
+      {view === "prints" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center"
             >
-              Search
-            </button>
-          </form>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center"
+              <h2 className="text-1xl font-semibold mb-4 text-gray-900">
+                {product.title}
+              </h2>
+              <img
+                src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`}
+                alt={product.title}
+                className="w-48 h-48 object-cover mb-4 rounded-md"
+                style={{ width: "200px", height: "200px" }}
+                onError={handleImageError}
+              />
+              <p className="text-gray-700 mb-2">{product.artist_title}</p>
+              <p className="text-lg font-semibold mb-4 text-indigo-600">
+                ${15}
+              </p>
+              <button
+                onClick={() => handleAddToCart({ ...product, price: 15 })}
+                className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
               >
-                <h2 className="text-1xl font-semibold mb-4 text-gray-900">
-                  {product.title}
-                </h2>
-                <img
-                  src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`}
-                  alt={product.title}
-                  className="w-48 h-48 object-cover mb-4 rounded-md"
-                  style={{ width: "200px", height: "200px" }}
-                />
-                <p className="text-gray-700 mb-2">{product.artist_title}</p>
-                <p className="text-lg font-semibold mb-4 text-indigo-600">
-                  ${15}
-                </p>
-                <button
-                  onClick={() => handleAddToCart({ ...product, price: 15 })}
-                  className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-      {view === "subscriptions" && (
+                Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-8 text-gray-900">
             Become a member to get unlimited access
@@ -158,12 +175,17 @@ const Shop = () => {
                 <p className="text-lg font-semibold text-indigo-600">
                   ${item.price}
                 </p>
+                <button
+                  onClick={() => handleAddToCart(item)}
+                  className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+                >
+                  Add to Cart
+                </button>
               </div>
             ))}
           </div>
         </div>
       )}
-      
     </div>
   );
 };

@@ -94,6 +94,28 @@ body {
   align-items: center;
 }
 
+#chat-gpt button {
+  background-color: var(--secondary);
+}
+
+#openai-logo {
+  background-image: url('./assets/openai.svg');
+  width: 48px;
+  height: 48px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: background-image 0.3s ease;
+}
+
+#openai-logo:hover {
+  background-image: url('./assets/openai-hover.svg') !important;
+  box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4);
+}
+
+input:focus-visible {
+  outline: solid 1px var(--secondary) !important;
+}
+
 /* HOMEPAGE */
 #hero {
   margin: 0 auto;
@@ -107,14 +129,19 @@ body {
 
 /* INTRO */
 h1 {
-  font-size: 4rem !important;
+  font-size: 3rem !important;
   color: var(--secondary);
   font-family: var(--playfair);
-  line-height: 4rem !important;
+  line-height: 3rem !important;
+}
+
+h2 {
+  font-size: medium;
+  color: var(--secondary)
 }
 
 #text-intro p {
-  font-size: small !important;
+  font-size: 16px;
   color: var(--primary);
 }
 
@@ -320,7 +347,7 @@ h1 {
 .enter-button:hover,
 .login-button:hover,
 .signup-button:hover {
-  background-color: #000000;
+  background-color: var(--secondary);
   color: #ffffff;
 }
 
@@ -358,6 +385,12 @@ h1 {
 
   #intro p {
     width: 70%;
+    font-size: 20px;
     margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 4rem !important;
+    line-height: 4rem !important;
   }
 }
