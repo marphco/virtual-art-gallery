@@ -10,6 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import "./App.css";
+import OpenAI from "./components/OpenAI";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -72,6 +73,9 @@ function App() {
         </div>
         <div>
           <Outlet />
+        </div>
+        <div>
+          <OpenAI/>
         </div>
         {/* <button ref={installButtonRef} id="installButton" className="hidden">Install App</button> */}
       </AppContext.Provider>
