@@ -50,11 +50,18 @@ const resolvers = {
         // Create a new order
         const newOrder = await Order.create({ products });
 
+        // Associate the order with the user (assuming user is authenticated)
+        if (context.user) {
+            await User.findByIdAndUpdate(context.user._id, { $push: { orders: newOrder } });
+        } else {
+            throw new Error("You need to be logged in!");
+        }
+
         return { session: session.id, order: newOrder };
-      } catch (error) {
+    } catch (error) {
         console.error('Error in checkout resolver:', error);
         throw new Error('Checkout process failed');
-      }
+    }
     },
     
   },
