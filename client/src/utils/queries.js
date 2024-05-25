@@ -23,6 +23,7 @@ query UserFavorites {
       description
       imageUrl
       
+      
     }
   }
 }

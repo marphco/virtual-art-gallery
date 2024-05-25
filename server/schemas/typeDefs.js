@@ -14,18 +14,15 @@ const typeDefs = `#graphql
     artist_titles: [String]
     description: String!
     imageUrl: String!
-    comments: [Comment]
+    comment: [Comment]
   }
   type Comment {
-  _id: ID!
-  text: String!
-  user: User
+  _id: ID
+  text: String
+  
   
 }
-input CommentInput {
-  text: String!
-  artId: ID!
-}
+
 
   type Order {
   _id: ID!
@@ -80,7 +77,7 @@ input CommentInput {
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User 
-  addComment(commentInput: CommentInput!): Comment 
+  addComment(text: String): Comment
 }
 
 `;

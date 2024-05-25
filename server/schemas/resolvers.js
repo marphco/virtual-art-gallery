@@ -88,41 +88,37 @@ const resolvers = {
 
       return { token, user };
     },
-    addComment: async (parent, { commentInput }, context) => {
+    addComment: async (_, { artId, text }, context) => {
       try {
         if (context.user) {
-          // Check if the user exists and is authenticated
           const user = await User.findById(context.user._id);
           if (!user) {
             throw new Error("User not found");
           }
-    
-          // Check if the art exists
-          const art = await Artwork.findById(commentInput.artId);
-          if (!art) {
-            throw new Error("Artwork not found");
+
+          const savedArtwork = user.savedArt.find(art => art.id === artId);
+          if (!savedArtwork) {
+            throw new Error("Artwork not found in saved art");
           }
-    
-          // Create a new comment
+
           const newComment = await Comment.create({
-            text: commentInput.text,
-            user: context.user._id // Save user reference in the comment
+            text: text,
+            user: context.user._id
           });
-    
-          // Add the new comment to the art
-          art.comments.push(newComment);
-          await art.save();
-    
+
+          savedArtwork.comment.push(newComment);
+          await user.save();
+
           return newComment;
         } else {
+
           throw new AuthenticationError("You need to be logged in!");
         }
       } catch (error) {
-        console.error("Error in addComment resolver:", error);
+        console.error("Error in addCommentToSavedArt resolver:", error);
         throw new Error(error.message);
       }
     },
-
     saveArt: async (parent, { artData }, context) => {
       try {
         if (context.user) {

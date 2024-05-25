@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
-import { REMOVE_ART, ADD_COMMENT } from "../utils/mutations";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { ADD_COMMENT , REMOVE_ART } from "../utils/mutations";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
   const { loading, error, data, refetch } = useQuery(GET_USER_DATA);
-
-  // State to store comment text for each art
-  const [commentTexts, setCommentTexts] = useState({});
 
   const [removeArt] = useMutation(REMOVE_ART, {
     refetchQueries: [{ query: GET_USER_DATA }],
@@ -18,6 +15,8 @@ const Profile = () => {
   const [addComment] = useMutation(ADD_COMMENT, {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
+
+  const [commentTexts, setCommentTexts] = useState({});
 
   if (loading) return <p className="text-center py-8">Loading...</p>;
   if (error) return <p className="text-center py-8">Error: {error.message}</p>;
@@ -40,13 +39,11 @@ const Profile = () => {
     try {
       await addComment({
         variables: {
-          commentInput: {
-            text: commentTexts[artId], // Get comment text for the specific art
-            artId: artId,
-          },
+          artId: artId,
+          text: commentTexts[artId],
         },
       });
-      setCommentTexts({ ...commentTexts, [artId]: "" }); // Clear the comment input field after submitting
+      setCommentTexts({ ...commentTexts, [artId]: "" });
       refetch();
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -72,10 +69,10 @@ const Profile = () => {
                 )}
               </div>
               <FontAwesomeIcon
-  icon={faTrash}
-  onClick={() => handleRemoveArt(art.id)}
-  className="text-red-500 cursor-pointer hover:text-red-600"
-/>
+                icon={faTrash}
+                onClick={() => handleRemoveArt(art.id)}
+                className="text-red-500 cursor-pointer hover:text-red-600"
+              />
             </div>
             <div>
               <img
@@ -94,7 +91,7 @@ const Profile = () => {
               <input
                 type="text"
                 placeholder="Add your feeling or impression"
-                value={commentTexts[art.id] || ""} // Set value based on art's comment text
+                value={commentTexts[art.id] || ""}
                 onChange={(e) =>
                   setCommentTexts({
                     ...commentTexts,
