@@ -1,3 +1,4 @@
+// src/components/Modal.jsx
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,20 +7,37 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
+import { useMutation } from "@apollo/client";
+import { SAVE_ART } from "../utils/mutations";
 import "../App.css";
 
 function Modal({ art, onClose, onSave }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [saveArt] = useMutation(SAVE_ART);
 
-  useEffect(() => {
-  }, [art]);
+  useEffect(() => {}, [art]);
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     setIsFavorite(true);
     if (typeof onSave === "function") {
       onSave(art);
     } else {
       console.error("onSave is not a function", onSave);
+    }
+
+    const artData = {
+      id: art.id,
+      title: art.title,
+      artist_titles: art.artist_titles,
+      description: art.description,
+      imageUrl: art.imageUrl,
+    };
+
+    try {
+      const { data } = await saveArt({ variables: { artData } });
+      console.log("Artwork saved:", data.saveArt);
+    } catch (error) {
+      console.error("Error saving artwork:", error);
     }
   };
 
@@ -38,18 +56,20 @@ function Modal({ art, onClose, onSave }) {
         className="bg-white rounded-lg p-8 relative max-w-4xl w-full"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="w-[40rem] h-[40rem] mx-auto mb-4">
+        <div className="w-[44rem] h-[40rem] mx-auto mb-4">
           <img
             src={art.imageUrl}
             alt={art.title}
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
-        <h2 className="text-2xl font-bold mt-4">{art.title}</h2>
-        <p className="text-lg">
-          <strong>Artist:</strong> {art.artist_title}
+        <h2 className="text-2xl pl-16 font-bold mt-4">{art.title}</h2>
+        <p className="text-xl mt-2 pl-16">
+          <strong>Artist:</strong> {art.artist_title || "Unknown"}
         </p>
-        <p className="mt-2">{art.description}</p>
+        <p className="pl-16 text-xl mb-10 mt-2">
+          <strong>Description:</strong> {art.description}
+        </p>
         <button
           className="absolute bottom-4 left-32 bg-transparent text-black border border-black px-4 py-2 rounded hover:text-red-600 flex items-center space-x-2"
           onClick={onClose}
