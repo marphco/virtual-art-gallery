@@ -48,21 +48,17 @@ const Navbar = () => {
           {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
         </button>
       </div>
-      <div
-        className={`nav-desktop lg:flex ${
-          isOpen ? "flex" : "hidden"
-        } flex-col lg:flex-row lg:items-center lg:space-x-8`}
-      >
+      <div className={`nav-desktop lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
         <ul className="flex flex-col lg:flex-row">
           {isLoggedIn ? (
             <>
-              <li className="font-roboto log-out">
+              <li className="font-roboto">
                 <Link
-                  to="/"
-                  onClick={handleLogout}
+                  to="/SavedArtworks"
                   className="text-gray-700 hover:text-black transition-shadow"
+                  onClick={() => setIsOpen(false)}
                 >
-                  Logout
+                  SavedArtworks
                 </Link>
               </li>
               <li className="font-roboto">
@@ -76,26 +72,27 @@ const Navbar = () => {
               </li>
               <li className="font-roboto">
                 <Link
-                  to="/profile"
-                  className="text-gray-700 hover:text-black transition-shadow"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Profile
-                </Link>
-              </li>
-              <li className="font-roboto">
-                <Link
                   to="/checkout"
-                  className="text-gray-700 lg:fixed lg:top-10 lg:right-9 hover:text-black transition-shadow flex items-center"
+                  className="checkout text-gray-700 lg:fixed lg:top-10 lg:right-9 hover:text-black transition-shadow flex items-center"
                   onClick={() => setIsOpen(false)}
                 >
                   <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
                   Checkout
                 </Link>
               </li>
+              <li className="font-roboto log-out">
+                <Link
+                  to="/"
+                  onClick={handleLogout}
+                  className="text-700 hover:text-black transition-shadow"
+                >
+                  Logout
+                </Link>
+              </li>
             </>
           ) : (
             <>
+              <li className="font-roboto">
               <li className="font-roboto sign-up">
                 <Link
                   to="/signup"
@@ -105,7 +102,6 @@ const Navbar = () => {
                   Sign up
                 </Link>
               </li>
-              <li className="font-roboto">
                 <Link
                   to="/login"
                   className="text-gray-700 hover:text-black transition-shadow"
