@@ -118,7 +118,11 @@ const AuthForm = () => {
           <p className="mt-4 text-red-500">{loginError.message}</p>
         )}
         {!isLogin && signupError && (
-          <p className="mt-4 text-red-500">{signupError.message}</p>
+          <p className="mt-4 text-red-500">
+            {signupError.message === "Username already exists. Please choose another one."
+              ? "Username already exists. Please choose another one."
+              : signupError.message}
+          </p>
         )}
         {data && !isLogin && (
           <p className="mt-4 text-green-500">
