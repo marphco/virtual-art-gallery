@@ -28,7 +28,7 @@ function Modal({ art, onClose, onSave }) {
     const artData = {
       id: art.id,
       title: art.title,
-      artist_titles: art.artist_titles, 
+      artist_titles: art.artist_titles,
       description: art.description,
       imageUrl: art.imageUrl,
     };
@@ -63,11 +63,11 @@ function Modal({ art, onClose, onSave }) {
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
-        <h2 className="text-2xl pl-16 font-bold mt-4">{art.title}</h2>
-        <p className="text-xl mt-2 pl-16">
+        <h2 className="text-2xl pl-16  pr-16 font-bold mt-4">{art.title}</h2>
+        <p className="text-xl mt-2 pr-16  pl-16">
           <strong>Artist:</strong> {art.artist_titles || "Unknown"}{" "}
         </p>
-        <p className="pl-16 text-xl mb-10 mt-2">
+        <p className="pl-16 pr-16 text-xl mb-10 mt-2">
           <strong>Description:</strong> {art.description}
         </p>
         <button
