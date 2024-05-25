@@ -80,6 +80,16 @@ body {
   border-radius: 30px;
   color: var(--white) !important;
   border: solid 2px var(--secondary);
+  box-shadow: 0 0px 10px 0 rgba(67, 67, 67, 0.4) !important;
+}
+
+.checkout {
+  background-color: var(--primary);
+  padding: 1rem 1.8rem;
+  border-radius: 30px;
+  color: var(--white) !important;
+  border: solid 2px var(--primary);
+  box-shadow: 0 0px 10px 0 rgba(67, 67, 67, 0.4) !important;
 }
 
 .sign-up:hover,
@@ -87,6 +97,14 @@ body {
   border: solid 2px var(--secondary);
   color: black !important;
   background-color: var(--light-grey);
+}
+
+.checkout:hover {
+  border: solid 2px var(--secondary);
+  color: black !important;
+  background-color: var(--secondary);
+  color: white !important;
+  box-shadow: 0 0px 10px 0 rgba(67, 67, 67, 0.4) !important;
 }
 
 #navbar-logo {
@@ -418,7 +436,20 @@ textarea:focus-visible {
 
 
 /* TABLET AND DESKTOP */
-@media only screen and (min-width: 600px) {
+
+@media (min-width: 992px) {
+      .lg\:top-10 {
+          top: .85rem !important;
+      }
+
+      .lg\:right-9 {
+        right: -10rem !important;
+      }
+  }
+
+
+
+@media only screen and (min-width: 992px) {
   #supernav {
     margin: 1% auto 0 auto;
     width: 50%;
@@ -426,7 +457,6 @@ textarea:focus-visible {
   }
 
   #supernav ul {
-    flex-direction: row-reverse;
     gap: 12px;
   }
 
