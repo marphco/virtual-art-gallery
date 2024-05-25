@@ -480,7 +480,7 @@ textarea:focus-visible {
 
 @media (min-width: 992px) {
       .lg\:top-10 {
-          top: .85rem !important;
+          top: .59rem !important;
       }
 
       .lg\:right-9 {
@@ -509,7 +509,7 @@ textarea:focus-visible {
   #logo {
     padding-top: 20%;
     padding-bottom: 15%;
-    width: 30%;
+    width: 50%;
   }
 
   #intro p {
