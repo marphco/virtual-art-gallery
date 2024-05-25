@@ -10,6 +10,7 @@ const Shop = () => {
     message: "",
   });
   const { addToCart } = useCart();
+
   const subscriptionItems = [
     {
       id: "1",
@@ -162,7 +163,7 @@ const Shop = () => {
           <h2 className="text-3xl font-bold mb-8 text-gray-900">
             Become a member to get unlimited access
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {subscriptionItems.map((item) => (
               <div
                 key={item.id}
@@ -176,7 +177,10 @@ const Shop = () => {
                   ${item.price}
                 </p>
                 <button
-                  onClick={() => handleAddToCart(item)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToCart(item);
+                  }}
                   className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
                 >
                   Add to Cart
