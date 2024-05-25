@@ -161,6 +161,10 @@ h2 {
   color: var(--secondary);
 }
 
+h3 {
+  color: var(--primary);
+}
+
 .container p {
   font-size: 16px;
   color: var(--primary);
@@ -367,7 +371,7 @@ h2 {
   color: #000000;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 30px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
@@ -437,7 +441,17 @@ textarea:focus-visible {
   color: green;
 }
 
+/* FOOTER */
+#footer button {
+  background-color: var(--secondary);
+  min-width: 120px;
+  max-height: 40px;
+  font-size: 12px;
+}
 
+#footer button:hover {
+  background-color: var(--primary);
+}
 
 /* TABLET AND DESKTOP */
 

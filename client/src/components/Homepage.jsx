@@ -10,13 +10,19 @@ import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
 import check from "../assets/check.svg";
+import github from "../assets/github.svg";
 import success from "../assets/success.svg";
 import Auth from "../utils/auth";
 import { useCart } from "../context/CartContext.jsx";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 const Result = () => {
-  return <div className="flex items-center"><img src={success} alt="success" className="h-6 pr-2 flex" /><p className="flex">Your message has been sent successfully!</p></div>;
+  return (
+    <div className="flex items-center">
+      <img src={success} alt="success" className="h-6 pr-2 flex" />
+      <p className="flex">Your message has been sent successfully!</p>
+    </div>
+  );
 };
 
 const Homepage = () => {
@@ -27,16 +33,16 @@ const Homepage = () => {
     e.preventDefault();
 
     emailjs
-      .sendForm('service_5k75c3p', 'template_ycb9v97', form.current, {
-        publicKey: 'e8n6PmtSDDwjsxchJ',
+      .sendForm("service_5k75c3p", "template_ycb9v97", form.current, {
+        publicKey: "e8n6PmtSDDwjsxchJ",
       })
       .then(
         () => {
-          console.log('SUCCESS!');
+          console.log("SUCCESS!");
           showResult(true);
         },
         (error) => {
-          console.log('FAILED...', error.text);
+          console.log("FAILED...", error.text);
         }
       );
     e.target.reset();
@@ -63,9 +69,9 @@ const Homepage = () => {
       title: "1 Month Subscription",
       price: 10,
       perks: [
-        'Monthly Art Newsletter',
-        'Digital Art Workshop',
-        'Exclusive Member Badge'
+        "Monthly Art Newsletter",
+        "Digital Art Workshop",
+        "Exclusive Member Badge",
       ],
     },
     {
@@ -73,9 +79,9 @@ const Homepage = () => {
       title: "6 Month Subscription",
       price: 50,
       perks: [
-        'Everything in 1 Month Subscription',
-        'Access to Premium Galleries',
-        'Early Access to New Exhibits'
+        "Everything in 1 Month Subscription",
+        "Access to Premium Galleries",
+        "Early Access to New Exhibits",
       ],
     },
     {
@@ -83,11 +89,11 @@ const Homepage = () => {
       title: "1 Year Subscription",
       price: 90,
       perks: [
-        'Everything in 6 Month Subscription',
-        'Unlimited Access to All Galleries',
-        'Personalized Art Recommendations'
+        "Everything in 6 Month Subscription",
+        "Unlimited Access to All Galleries",
+        "Personalized Art Recommendations",
       ],
-    }
+    },
   ];
 
   useEffect(() => {
@@ -168,7 +174,10 @@ const Homepage = () => {
       </Row>
 
       <Row id="intro" className="flex justify-center">
-        <Container id="text-intro" className="d-flex justify-center text-center">
+        <Container
+          id="text-intro"
+          className="d-flex justify-center text-center"
+        >
           <h1 className="text-4xl p-5 font-extrabold">
             An Immersive
             <br />
@@ -190,16 +199,25 @@ const Homepage = () => {
       </Row>
 
       <Row id="tranding" className="flex justify-center">
-        <div className="container">
-          <h2 className="text-3xl font-bold mb-4 mt-8 text-center">Explore Our Stunning Galleries</h2>
-          <p className="text-lg mb-6 text-center p-2">Explore our curated galleries and discover masterpieces from around the globe. Immerse yourself in diverse artistic expressions and let your imagination soar. Each gallery offers a unique experience that will captivate your senses. Start your art journey today!</p>
+        <Container>
+          <h2 className="text-3xl font-bold mb-4 mt-8 text-center">
+            Explore Our Stunning Galleries
+          </h2>
+          <p className="text-lg mb-6 text-center p-2">
+            Explore our curated galleries and discover masterpieces from around
+            the globe. Immerse yourself in diverse artistic expressions and let
+            your imagination soar. Each gallery offers a unique experience that
+            will captivate your senses. Start your art journey today!
+          </p>
 
           <div className="swiper tranding-slider">
             <div className="swiper-wrapper">
               {galleries.map((gallery, index) => (
                 <div
                   key={gallery.id}
-                  className={`swiper-slide tranding-slide ${index === clickedIndex ? "clicked" : ""}`}
+                  className={`swiper-slide tranding-slide ${
+                    index === clickedIndex ? "clicked" : ""
+                  }`}
                   onClick={() => handleImageClick(index)}
                 >
                   <div className="tranding-slide-img">
@@ -207,15 +225,24 @@ const Homepage = () => {
                     {index === clickedIndex && (
                       <div className="overlay">
                         {isLoggedIn ? (
-                          <button className="enter-button" onClick={handleEnter}>
+                          <button
+                            className="enter-button"
+                            onClick={handleEnter}
+                          >
                             Enter
                           </button>
                         ) : (
                           <>
-                            <button className="login-button" onClick={handleLogin}>
+                            <button
+                              className="login-button"
+                              onClick={handleLogin}
+                            >
                               Login
                             </button>
-                            <button className="signup-button" onClick={handleSignUp}>
+                            <button
+                              className="signup-button"
+                              onClick={handleSignUp}
+                            >
                               Sign Up
                             </button>
                           </>
@@ -227,12 +254,22 @@ const Homepage = () => {
               ))}
             </div>
           </div>
-        </div>
+        </Container>
       </Row>
 
-      <Container id="subscription-text" className="flex justify-center flex-col mt-8">
-        <h2 className="text-3xl font-bold text-center">Unlock Exclusive Benefits with Our Subscriptions</h2>
-        <p className="text-lg mb-6 text-center p-6">Join our art community and unlock exclusive benefits. Enjoy premium galleries, personalized recommendations, and special events with our subscription plans. Choose a monthly, six-month, or yearly plan to enrich your art experience and stay connected!</p>
+      <Container
+        id="subscription-text"
+        className="flex justify-center flex-col mt-8"
+      >
+        <h2 className="text-3xl font-bold text-center">
+          Unlock Exclusive Benefits with Our Subscriptions
+        </h2>
+        <p className="text-lg mb-6 text-center p-6">
+          Join our art community and unlock exclusive benefits. Enjoy premium
+          galleries, personalized recommendations, and special events with our
+          subscription plans. Choose a monthly, six-month, or yearly plan to
+          enrich your art experience and stay connected!
+        </p>
       </Container>
 
       <Row id="subscription-block" className="flex justify-center mt-4">
@@ -252,7 +289,8 @@ const Homepage = () => {
               <ul className="mb-4 text-left mt-4">
                 {item.perks.map((perk, index) => (
                   <li key={index} className="mb-2 flex items-center">
-                    <img src={check} alt="check" className="h-6 pr-2" />{perk}
+                    <img src={check} alt="check" className="h-6 pr-2" />
+                    {perk}
                   </li>
                 ))}
               </ul>
@@ -270,55 +308,97 @@ const Homepage = () => {
         </div>
       </Row>
 
-
       <Container className="flex justify-center flex-col mt-40">
         <h2 className="text-3xl font-bold text-center">Get in Touch with Us</h2>
-        <p className="text-lg mb-6 text-center p-6 pb-4">Have questions or feedback? Reach out to us using the form below, and we'll respond promptly. We're here to help!</p>
+        <p className="text-lg mb-6 text-center p-6 pb-4">
+          Have questions or feedback? Reach out to us using the form below, and
+          we'll respond promptly. We're here to help!
+        </p>
       </Container>
 
       <Container id="form">
-  <Form ref={form} onSubmit={sendEmail} className="space-y-6 max-w-lg mx-auto p-6 bg-white rounded-lg">
-    <FloatingLabel controlId="floatingName" className="mb-3">
-      <Form.Control
-        type="text"
-        placeholder="Name"
-        name="from_name"
-        className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
-        required
-      />
-    </FloatingLabel>
+        <Form
+          ref={form}
+          onSubmit={sendEmail}
+          className="space-y-6 max-w-lg mx-auto p-6 bg-white rounded-lg"
+        >
+          <FloatingLabel controlId="floatingName" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              name="from_name"
+              className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
+              required
+            />
+          </FloatingLabel>
 
-    <FloatingLabel controlId="floatingEmail" className="mb-3">
-      <Form.Control
-        type="email"
-        placeholder="name@example.com"
-        name="reply_to"
-        className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
-        required
-      />
-    </FloatingLabel>
+          <FloatingLabel controlId="floatingEmail" className="mb-3">
+            <Form.Control
+              type="email"
+              placeholder="name@example.com"
+              name="reply_to"
+              className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
+              required
+            />
+          </FloatingLabel>
 
-    <FloatingLabel controlId="floatingTextarea2" >
-      <Form.Control
-        as="textarea"
-        placeholder="Leave your message here"
-        style={{ height: '200px' }}
-        className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
-        name="message"
-        required
-      />
-    </FloatingLabel>
+          <FloatingLabel controlId="floatingTextarea2">
+            <Form.Control
+              as="textarea"
+              placeholder="Leave your message here"
+              style={{ height: "200px" }}
+              className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
+              name="message"
+              required
+            />
+          </FloatingLabel>
 
-    <Button
-      as="input"
-      type="submit"
-      value="Send Message!"
-      className="button w-full py-3 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
-    />
+          <Button
+            as="input"
+            type="submit"
+            value="Send Message!"
+            className="button w-full py-3 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50"
+          />
 
-    <Row className="success">{result ? <Result /> : null}</Row>
-  </Form>
+          <Row className="success">{result ? <Result /> : null}</Row>
+        </Form>
+      </Container>
+
+      <Container id="footer" className="flex flex-col items-center mt-20">
+  <h3 className="text-xl font-bold mb-4 text-center">Created by</h3>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800">
+      <a className="flex items-center" href="https://github.com/heeyitsrissa/" target="_blank" rel="noopener noreferrer">
+        <img src={github} alt="github" className="flex h-6 pr-2" />
+        Marissa
+      </a>
+    </button>
+    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800">
+      <a className="flex items-center" href="https://github.com/Levangul" target="_blank" rel="noopener noreferrer">
+        <img src={github} alt="github" className="flex h-6 pr-2" />
+        Levan
+      </a>
+    </button>
+    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800">
+      <a className="flex items-center" href="https://github.com/Jetniksyla" target="_blank" rel="noopener noreferrer">
+        <img src={github} alt="github" className="flex h-6 pr-2" />
+        Jetnik
+      </a>
+    </button>
+    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800">
+      <a className="flex items-center" href="https://github.com/marphco" target="_blank" rel="noopener noreferrer">
+        <img src={github} alt="github" className="flex h-6 pr-2" />
+        Marco
+      </a>
+    </button>
+  </div>
 </Container>
+
+<Container id="footer" className="flex flex-col items-center mt-8">
+  <p className="text-xs mb-4 text-center">© 2024 Spicys🌶️ - All Rights Reserved.</p>
+</Container>
+
+
     </>
   );
 };
