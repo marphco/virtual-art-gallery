@@ -17,7 +17,7 @@ const typeDefs = `#graphql
     comment: [Comment]
   }
   type Comment {
-  _id: ID
+  id: ID
   text: String
   
   
@@ -77,7 +77,7 @@ const typeDefs = `#graphql
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User 
-  addComment(text: String): Comment
+  addComment(artId: ID, text: String!): Comment
 }
 
 `;

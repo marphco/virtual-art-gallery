@@ -1,7 +1,8 @@
 
 const { User, Artwork , Comment } = require("../models");
 const Order = require('../models/Order');
-const { signToken, AuthenticationError } = require("../utils/auth");
+const { signToken } = require("../utils/auth");
+const { AuthenticationError } = require('apollo-server-express');
 const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3hMwtrMEpuz5W1V2kqsj4MTsj4oj1Tmcq2wp3tmWQ8GUGo1q6Dbr007CcK1wQH")
 
 
@@ -95,23 +96,27 @@ const resolvers = {
           if (!user) {
             throw new Error("User not found");
           }
-
-          const savedArtwork = user.savedArt.find(art => art.id === artId);
+    
+          // Find the artwork by its _id
+          const savedArtwork = user.savedArt.find(art => art.id.toString() === artId);
           if (!savedArtwork) {
             throw new Error("Artwork not found in saved art");
           }
-
+    
+          // Create a new comment
           const newComment = await Comment.create({
             text: text,
             user: context.user._id
           });
-
-          savedArtwork.comment.push(newComment);
+    
+          // Push the new comment into the comments array of the artwork
+          savedArtwork.comments.push(newComment);
+          
+          // Save the user document to update the comments array
           await user.save();
-
+    
           return newComment;
         } else {
-
           throw new AuthenticationError("You need to be logged in!");
         }
       } catch (error) {

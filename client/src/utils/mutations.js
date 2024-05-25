@@ -26,16 +26,13 @@ export const ADD_USER = gql`
 
 
 export const ADD_COMMENT = gql`
-  mutation AddComment($artId: ID!, $text: String!) { 
-    addComment(artData: $artId, text: $text) { 
-      _id
-      text
-      user {
-        username
-      }
-      
-    }
+  mutation AddComment($artId: ID!, $text: String) { 
+    addComment(artId: $artId, text: $text) { 
+    _id
+    text
   }
+}
+  
 `;
 
 export const SAVE_ART = gql`
