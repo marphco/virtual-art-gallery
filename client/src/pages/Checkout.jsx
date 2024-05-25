@@ -45,11 +45,6 @@ const Checkout = () => {
     console.log("Placing order with products:", products);
     getCheckout({ variables: { products } });
   };
-  
-  
-      
-      // if (loading) return <p>Loading...</p>;
-      // if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
