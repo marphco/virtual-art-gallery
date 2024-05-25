@@ -54,11 +54,11 @@ const Navbar = () => {
             <>
               <li className="font-roboto">
                 <Link
-                  to="/SavedArtworks"
+                  to="/profile"
                   className="text-gray-700 hover:text-black transition-shadow"
                   onClick={() => setIsOpen(false)}
                 >
-                  SavedArtworks
+                  Profile
                 </Link>
               </li>
               <li className="font-roboto">

@@ -37,7 +37,9 @@ const Shop = () => {
 
   const fetchArtworks = async () => {
     try {
-      const response = await fetch("https://api.artic.edu/api/v1/artworks?limit=6");
+      const response = await fetch(
+        "https://api.artic.edu/api/v1/artworks?limit=6"
+      );
       const data = await response.json();
       setProducts(data.data);
     } catch (error) {
@@ -50,7 +52,9 @@ const Shop = () => {
     if (view === "prints") {
       try {
         const response = await fetch(
-          `https://api.artic.edu/api/v1/artworks/search?q=${encodeURIComponent(searchTerm)}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
+          `https://api.artic.edu/api/v1/artworks/search?q=${encodeURIComponent(
+            searchTerm
+          )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
         console.log("Search results:", data); // Debugging line
@@ -109,25 +113,27 @@ const Shop = () => {
         </button>
       </div>
       {notification.visible && (
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300">
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300 z-50">
           {notification.message}
         </div>
       )}
-      <form onSubmit={handleSearch} className="mb-12 flex justify-center">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder={`Search for ${view === 'prints' ? 'art prints' : 'subscriptions'}`}
-          className="p-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
-        />
-        <button
-          type="submit"
-          className="py-2 px-6 bg-indigo-600 text-white rounded-r-full hover:bg-indigo-700"
-        >
-          Search
-        </button>
-      </form>
+      {view === "prints" && (
+        <form onSubmit={handleSearch} className="mb-12 flex justify-center">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search for art prints"
+            className="p-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
+          <button
+            type="submit"
+            className="py-2 px-6 bg-indigo-600 text-white rounded-r-full hover:bg-indigo-700"
+          >
+            Search
+          </button>
+        </form>
+      )}
       {view === "prints" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {products.map((product) => (
