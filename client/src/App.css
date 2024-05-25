@@ -433,6 +433,10 @@ textarea:focus-visible {
   background-color: var(--secondary);
 }
 
+.success p{
+  color: green;
+}
+
 
 
 /* TABLET AND DESKTOP */
