@@ -89,41 +89,35 @@ const resolvers = {
 
       return { token, user };
     },
-    addComment: async (_, { artId, text }, context) => {
+
+    addComment: async (_, { artworkId, text }) => {
       try {
-        if (context.user) {
-          const user = await User.findById(context.user._id);
-          if (!user) {
-            throw new Error("User not found");
-          }
-    
-          // Find the artwork by its _id
-          const savedArtwork = user.savedArt.find(art => art.id.toString() === artId);
-          if (!savedArtwork) {
-            throw new Error("Artwork not found in saved art");
-          }
-    
-          // Create a new comment
-          const newComment = await Comment.create({
-            text: text,
-            user: context.user._id
-          });
-    
-          // Push the new comment into the comments array of the artwork
-          savedArtwork.comments.push(newComment);
-          
-          // Save the user document to update the comments array
-          await user.save();
-    
-          return newComment;
-        } else {
-          throw new AuthenticationError("You need to be logged in!");
+        // Find the artwork by its ID
+        const artwork = await Artwork.findById(artworkId);
+        
+        if (!artwork) {
+          throw new Error('Artwork not found');
         }
+        
+        // Create a new comment object
+        const newComment = new Comment({
+          text,
+          // You may want to add the user ID who posted the comment here
+        });
+        
+        // Add the comment to the artwork's comments array
+        artwork.comments.push(newComment);
+        
+        // Save the artwork
+        await artwork.save();
+        
+        // Return the newly created comment
+        return newComment;
       } catch (error) {
-        console.error("Error in addCommentToSavedArt resolver:", error);
-        throw new Error(error.message);
+        throw new Error(`Failed to add comment: ${error.message}`);
       }
     },
+
     saveArt: async (parent, { artData }, context) => {
       try {
         if (context.user) {

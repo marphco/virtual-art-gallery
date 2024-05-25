@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const commentSchema = new Schema({
     text: {
@@ -8,14 +8,9 @@ const commentSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+}, { timestamps: true }); // Added timestamps option for createdAt and updatedAt fields
 
-const Comment = model("Comment", commentSchema);
+const Comment = model('Comment', commentSchema);
 
-module.exports = Comment;
+module.exports = { Comment, commentSchema };

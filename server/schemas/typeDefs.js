@@ -9,18 +9,17 @@ const typeDefs = `#graphql
   }
 
   type Art {
-    id: ID!
-    title: String!
-    artist_titles: [String]
-    description: String!
-    imageUrl: String!
-    comment: [Comment]
-  }
-  type Comment {
-  id: ID
-  text: String
+  id: ID!
+  title: String!
+  artist_titles: [String]
+  description: String!
+  imageUrl: String!
+  comment: [Comment]  
+}
   
-  
+type Comment {
+  id: ID!
+  text: String!
 }
 
 
@@ -77,7 +76,7 @@ const typeDefs = `#graphql
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User 
-  addComment(artId: ID, text: String!): Comment
+  addComment(artworkId: ID!, text: String!): Comment
 }
 
 `;

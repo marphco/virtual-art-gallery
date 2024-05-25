@@ -35,20 +35,26 @@ const Profile = () => {
     }
   };
 
-  const handleAddComment = async (artId) => {
-    try {
-      await addComment({
-        variables: {
-          artId: artId,
-          text: commentTexts[artId],
-        },
-      });
-      setCommentTexts({ ...commentTexts, [artId]: "" });
-      refetch();
-    } catch (error) {
-      console.error("Error adding comment:", error);
-    }
-  };
+const handleAddComment = async (artId) => {
+  try {
+    await addComment({
+      variables: {
+        artId: artId,
+        text: commentTexts[artId],
+      },
+    });
+    
+    // Clear the comment text for the current artwork
+    setCommentTexts(prevState => ({
+      ...prevState,
+      [artId]: "" 
+    }));
+    
+    refetch(); // Refetch data after adding the comment
+  } catch (error) {
+    console.error("Error adding comment:", error);
+  }
+};
 
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
@@ -95,7 +101,7 @@ const Profile = () => {
                 onChange={(e) =>
                   setCommentTexts({
                     ...commentTexts,
-                    [art.id]: e.target.value,
+                    [art.id]: e.target.value, // Change art._id to art.id
                   })
                 }
                 className="border border-gray-300 rounded-lg px-4 py-2 w-4/5 mr-2"
