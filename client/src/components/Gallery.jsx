@@ -9,7 +9,7 @@ import "../App.css";
 const Gallery = () => {
   const [selectedArt, setSelectedArt] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { favoriteArts, setFavoriteArts } = useContext(AppContext);
+  const { setFavoriteArts } = useContext(AppContext);
 
   const handlePaintingClick = (artDetails) => {
     setSelectedArt(artDetails);
@@ -41,7 +41,7 @@ const Gallery = () => {
         <pointLight position={[-20, 8, 0]} intensity={100} color="#ffffff" />
         <pointLight position={[0, 8, 0]} intensity={100} color="#ffffff" />
 
-        <Room onPaintingClick={handlePaintingClick} onSave={handleSave} />
+        <Room onPaintingClick={handlePaintingClick} />
         <CustomOrbitControls />
       </Canvas>
 

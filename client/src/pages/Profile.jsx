@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
 import { REMOVE_ART, ADD_COMMENT } from "../utils/mutations";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
   const { loading, error, data, refetch } = useQuery(GET_USER_DATA);
@@ -72,10 +72,10 @@ const Profile = () => {
                 )}
               </div>
               <FontAwesomeIcon
-  icon={faTrash}
-  onClick={() => handleRemoveArt(art.id)}
-  className="text-red-500 cursor-pointer hover:text-red-600"
-/>
+                icon={faTrash}
+                onClick={() => handleRemoveArt(art.id)}
+                className="text-red-500 cursor-pointer hover:text-red-600"
+              />
             </div>
             <div>
               <img
