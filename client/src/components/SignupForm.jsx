@@ -87,7 +87,7 @@ const SignupForm = () => {
             </Link>
           </p>
         )}
-        {error && <p className="mt-4 text-red-500">{error.message}</p>}
+        {error && <p className="mt-4 text-red-500"></p>}
       </form>
     </div>
   );

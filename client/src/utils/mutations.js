@@ -26,15 +26,10 @@ export const ADD_USER = gql`
 
 
 export const ADD_COMMENT = gql`
-  mutation AddComment($commentInput: CommentInput!) {
-    addComment(commentInput: $commentInput) {
-      _id
+  mutation AddComment($artworkId: ID!, $text: String!) { 
+    addComment(artworkId: $artworkId, text: $text) { 
+      id
       text
-      user {
-        _id
-        username
-      }
-      createdAt
     }
   }
 `;
@@ -51,6 +46,7 @@ export const SAVE_ART = gql`
         artist_titles
         description
         imageUrl
+        
       }
     }
   }

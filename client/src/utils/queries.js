@@ -22,6 +22,11 @@ query UserFavorites {
       artist_titles
       description
       imageUrl
+      comment {
+        id
+        text
+      }
+      
       
     }
   }
