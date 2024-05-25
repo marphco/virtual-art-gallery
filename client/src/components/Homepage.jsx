@@ -10,12 +10,13 @@ import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
 import check from "../assets/check.svg";
+import success from "../assets/success.svg";
 import Auth from "../utils/auth";
 import { useCart } from "../context/CartContext.jsx";
 import emailjs from '@emailjs/browser';
 
 const Result = () => {
-  return <p>Your message has been sent successfully!</p>;
+  return <div className="flex items-center"><img src={success} alt="success" className="h-6 pr-2 flex" /><p className="flex">Your message has been sent successfully!</p></div>;
 };
 
 const Homepage = () => {
@@ -315,7 +316,7 @@ const Homepage = () => {
       className="button w-full py-3 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
     />
 
-    <Row>{result ? <Result /> : null}</Row>
+    <Row className="success">{result ? <Result /> : null}</Row>
   </Form>
 </Container>
     </>
