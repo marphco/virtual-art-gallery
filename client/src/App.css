@@ -67,7 +67,7 @@ body {
 
 #supernav ul {
   flex-wrap: wrap;
-  padding: 0.5rem;
+  padding: 0.3rem;
   align-items: center;
   font-size: small;
   gap: 16px;
@@ -412,6 +412,10 @@ h3 {
   background-color: var(--secondary);
 }
 
+#subscription-block li {
+  color: var(--primary);
+}
+
 
 /* CHAT GPT BLOCK */
 
@@ -444,14 +448,33 @@ textarea:focus-visible {
 /* FOOTER */
 #footer button {
   background-color: var(--secondary);
-  min-width: 120px;
+  min-width: 110px;
   max-height: 40px;
   font-size: 12px;
+}
+
+.git-buttons {
+  gap: 1.6rem;
 }
 
 #footer button:hover {
   background-color: var(--primary);
 }
+
+.custom-footer-button {
+  background-color: var(--secondary) !important;
+  min-width: 110px;
+  max-height: 40px;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.custom-footer-button:hover {
+  background-color: var(--primary) !important;
+}
+
+
+
 
 /* TABLET AND DESKTOP */
 
@@ -475,7 +498,7 @@ textarea:focus-visible {
   }
 
   #supernav ul {
-    gap: 12px;
+    gap: 20px;
   }
 
   .nav-desktop {
