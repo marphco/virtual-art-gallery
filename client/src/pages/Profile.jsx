@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
 import { ADD_COMMENT, REMOVE_ART } from "../utils/mutations";
@@ -58,9 +59,21 @@ const Profile = () => {
 
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
-      <p className="text-center py-4 mb-4 text-xl">Hello, {username}!</p>
-      <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+      <p className="text-center py-4 mb-4 text-xl">Hello, <strong>{username}</strong>!</p>
+      
+      <Container
+        id="your-favorites"
+        className="flex justify-center flex-col mt-8"
+      >
+        <h2 className="text-3xl font-bold text-center">
+          Your Favorites
+        </h2>
+        <p className="text-lg mb-6 text-center p-6">
+        Discover the masterpieces you've favorited! This section showcases the artworks you've loved the most. Enjoy a personalized collection of your favorite pieces, complete with artist details and your personal comments.
+        </p>
+      </Container>
+      
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-4">
         {favorites.map((art) => (
           <li
             key={art.id} // Ensure each artwork has a unique key
@@ -117,7 +130,7 @@ const Profile = () => {
               />
               <button
                 onClick={() => handleAddComment(art.id)}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                className="comment-btn text-white px-4 py-2 rounded focus:outline-none"
               >
                 Add
               </button>

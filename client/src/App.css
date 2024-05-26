@@ -456,6 +456,16 @@ form .button:hover {
   font-weight: 800;
 }
 
+/* PROFILE PAGE */
+
+.comment-btn {
+  background-color: var(--secondary);
+}
+
+.comment-btn:hover {
+  background-color: var(--primary);
+}
+
 /* FOOTER */
 #footer button {
   background-color: var(--secondary);
@@ -534,12 +544,7 @@ form .button:hover {
     line-height: 4rem !important;
   }
 
-  #tranding p {
-    width: 70%;
-    margin: 0 auto;
-  }
-
-  #subscription-text p {
+  #subscription-text p, #tranding p, #your-favorites p {
     width: 70% !important;
     margin: 0 auto !important;
   }

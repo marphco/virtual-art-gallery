@@ -4,6 +4,7 @@ import { Button, Container } from "react-bootstrap";
 
 
 const Footer = () => {
+  return (
 <Container id="footer" className="flex flex-col items-center mt-20">
   <h3 className="text-xl font-bold mb-4 text-center">Created by</h3>
   <div className="git-buttons flex flex-wrap justify-center">
@@ -32,7 +33,15 @@ const Footer = () => {
       </a>
     </Button>
   </div>
+
+  <Container id="footer" className="flex flex-col items-center mt-8">
+  <p className="text-xs mb-8 mt-8 text-center">© 2024 Spicys🌶️ - All Rights Reserved.</p>
 </Container>
+
+</Container>
+
+
+  )
 }
 
 export default Footer
