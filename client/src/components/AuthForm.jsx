@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER, ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
@@ -52,7 +53,7 @@ const AuthForm = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form
+      <Form
         onSubmit={handleFormSubmit}
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
       >
@@ -109,8 +110,8 @@ const AuthForm = () => {
 
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
+          className="button w-full py-3 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50"
+          >
           {isLogin ? "Login" : "Sign Up"}
         </button>
 
@@ -145,7 +146,7 @@ const AuthForm = () => {
             </button>
           </p>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };

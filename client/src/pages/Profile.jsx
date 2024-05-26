@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
-import { ADD_COMMENT , REMOVE_ART } from "../utils/mutations";
+import { ADD_COMMENT, REMOVE_ART } from "../utils/mutations";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -35,26 +35,26 @@ const Profile = () => {
     }
   };
 
-const handleAddComment = async (artId) => {
-  try {
-    await addComment({
-      variables: {
-        artId: artId,
-        text: commentTexts[artId],
-      },
-    });
-    
-    // Clear the comment text for the current artwork
-    setCommentTexts(prevState => ({
-      ...prevState,
-      [artId]: "" 
-    }));
-    
-    refetch(); // Refetch data after adding the comment
-  } catch (error) {
-    console.error("Error adding comment:", error);
-  }
-};
+  const handleAddComment = async (artId) => {
+    console.log("Adding comment to artwork ID:", artId);
+    try {
+      await addComment({
+        variables: {
+          artworkId: artId,
+          text: commentTexts[artId],
+        },
+      });
+
+      setCommentTexts((prevState) => ({
+        ...prevState,
+        [artId]: "",
+      }));
+
+      refetch();
+    } catch (error) {
+      console.error("Error adding comment:", error.message, error.networkError, error.graphQLErrors);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
@@ -63,7 +63,7 @@ const handleAddComment = async (artId) => {
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {favorites.map((art) => (
           <li
-            key={art.id}
+            key={art.id} // Ensure each artwork has a unique key
             className="flex flex-col justify-between p-4 border border-gray-300 rounded-lg shadow-lg bg-white h-full"
           >
             <div className="flex justify-between items-center mb-4">
@@ -89,9 +89,18 @@ const handleAddComment = async (artId) => {
               <h3 className="text-xl font-semibold mb-2 text-center">
                 {art.title}
               </h3>
-              <p className="text-gray-600 mb-4 text-center">
-                {art.description}
-              </p>
+              <p className="text-gray-600 mb-4 text-center">{art.description}</p>
+              <div>
+                {art.comments && art.comments.length > 0 && (
+                  <ul className="mb-4">
+                    {art.comments.map((comment) => (
+                      <li key={comment.id} className="text-gray-600">  {/* Ensure each comment has a unique key */}
+                        {comment.text}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
             <div className="flex justify-between items-center">
               <input
@@ -101,7 +110,7 @@ const handleAddComment = async (artId) => {
                 onChange={(e) =>
                   setCommentTexts({
                     ...commentTexts,
-                    [art.id]: e.target.value, // Change art._id to art.id
+                    [art.id]: e.target.value,
                   })
                 }
                 className="border border-gray-300 rounded-lg px-4 py-2 w-4/5 mr-2"
