@@ -52,7 +52,7 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen">
       <Form
         onSubmit={handleFormSubmit}
         className="switch-form bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
