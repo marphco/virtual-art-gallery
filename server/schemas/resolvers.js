@@ -10,6 +10,7 @@ const resolvers = {
       return User.findOne({ username }).populate("savedArt");
     },
     me: async (parent, args, context) => {
+      console.log("Context user in 'me' query:", context.user);
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("savedArt");
       }
@@ -97,20 +98,33 @@ const resolvers = {
 
       return { token, user };
     },
-    addComment: async (_, { artworkId, text }) => {
-      try {
-        const artwork = await Artwork.findById(artworkId);
-        if (!artwork) {
-          throw new Error('Artwork not found');
+    addComment: async (_, { artworkId, text }, context) => {
+      console.log("Received artworkId:", artworkId);
+      console.log("Context user:", context.user);
+      if (context.user) {
+        try {
+          // Fetch the user and populate savedArt
+          const user = await User.findById(context.user._id).populate("savedArt");
+          // Find the artwork in the user's savedArt
+          const artwork = user.savedArt.find(art => art.id === artworkId);
+
+          if (!artwork) {
+            console.error(`Artwork with ID ${artworkId} not found in user's favorites`);
+            throw new Error('Artwork not found in user\'s favorites');
+          }
+
+          // Add the comment to the artwork
+          const newComment = new Comment({ text, user: context.user._id });
+          artwork.comments.push(newComment);
+          await user.save();  // Save the user to persist the new comment
+
+          return newComment;
+        } catch (error) {
+          console.error("Error finding artwork or saving comment:", error);
+          throw new Error('Artwork not found or other error');
         }
-
-        const newComment = new Comment({ text });
-        artwork.comments.push(newComment);
-        await artwork.save();
-
-        return newComment;
-      } catch (error) {
-        throw new Error(`Failed to add comment: ${error.message}`);
+      } else {
+        throw new AuthenticationError("You need to be logged in!");
       }
     },
     saveArt: async (parent, { artData }, context) => {

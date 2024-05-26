@@ -1,15 +1,15 @@
 const { Schema, model } = require('mongoose');
 
 const commentSchema = new Schema({
-    text: {
-        type: String,
-        required: true,
-    },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    },
-}, { timestamps: true }); // Added timestamps option for createdAt and updatedAt fields
+  text: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+}, { timestamps: true });
 
 const Comment = model('Comment', commentSchema);
 

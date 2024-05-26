@@ -433,11 +433,11 @@ textarea:focus-visible {
   --tw-ring-opacity: 0.5;
 }
 
-#form .button {
+form .button {
   background-color: var(--primary);
 }
 
-#form .button:hover {
+form .button:hover {
   background-color: var(--secondary);
 }
 
