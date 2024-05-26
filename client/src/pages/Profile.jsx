@@ -6,10 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import OrderHistory from '../components/OrderHistory';
 
+
+
 const Profile = () => {
   const { loading, error, data, refetch } = useQuery(GET_USER_DATA);
-  const [commentTexts, setCommentTexts] = useState({});
-  const [activeTab, setActiveTab] = useState("favorites");
 
   const [removeArt] = useMutation(REMOVE_ART, {
     refetchQueries: [{ query: GET_USER_DATA }],
@@ -19,6 +19,9 @@ const Profile = () => {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
+  const [commentTexts, setCommentTexts] = useState({});
+  const [activeTab, setActiveTab] = useState("favorites")
+
   if (loading) return <p className="text-center py-8">Loading...</p>;
   if (error) return <p className="text-center py-8">Error: {error.message}</p>;
 
@@ -27,6 +30,7 @@ const Profile = () => {
 
   const handleRemoveArt = async (artId) => {
     try {
+      
       await removeArt({
         variables: { artId },
       });
@@ -38,18 +42,22 @@ const Profile = () => {
 
   const handleAddComment = async (artId) => {
     try {
+      console.log(`Adding comment to artwork with id: ${artId}`)
+      console.log('comment text:', commentTexts[artId])
       await addComment({
         variables: {
-          commentInput: {
+          // commentInput: {
             text: commentTexts[artId],
             artId: artId,
-          },
+          // },
         },
       });
+      console.log("Add comment result:", result);
       setCommentTexts({ ...commentTexts, [artId]: "" });
       refetch();
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error("Error adding comment:", error.message);
+      console.error(error.networkError ? error.networkError.result : error);
     }
   };
 
@@ -97,7 +105,7 @@ const Profile = () => {
                 onChange={(e) =>
                   setCommentTexts({
                     ...commentTexts,
-                    [art.id]: e.target.value,
+                    [art.id]: e.target.value, // Change art._id to art.id
                   })
                 }
                 className="border border-gray-300 rounded-lg px-4 py-2 w-4/5 mr-2"

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { artworkSchema } = require('./Artwork');
 const Order = require('./Order')
 
+
 const userSchema = new Schema({
     username: {
         type: String,
@@ -24,6 +25,7 @@ const userSchema = new Schema({
     savedArt: {
         type: [artworkSchema],
         default: [],
+
     },
     orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }]
 });
