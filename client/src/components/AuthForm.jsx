@@ -55,7 +55,7 @@ const AuthForm = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Form
         onSubmit={handleFormSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
+        className="switch-form bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-semibold mb-4">
           {isLogin ? "Login" : "Sign Up"}
@@ -108,12 +108,12 @@ const AuthForm = () => {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
           className="button w-full py-3 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50"
           >
           {isLogin ? "Login" : "Sign Up"}
-        </button>
+        </Button>
 
         {isLogin && loginError && (
           <p className="mt-4 text-red-500">{loginError.message}</p>
@@ -137,13 +137,13 @@ const AuthForm = () => {
         <div className="mt-4">
           <p>
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button
+            <Button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-blue-500 hover:underline"
+              className="switch-button hover:underline"
             >
               {isLogin ? "Sign Up" : "Login"}
-            </button>
+            </Button>
           </p>
         </div>
       </Form>

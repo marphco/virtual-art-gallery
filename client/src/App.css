@@ -445,6 +445,17 @@ form .button:hover {
   color: green;
 }
 
+/* LOGIN - SIGN UP FORM */
+
+.switch-form {
+  margin: 1.5rem;
+}
+
+.switch-button {
+  color: var(--secondary);
+  font-weight: 800;
+}
+
 /* FOOTER */
 #footer button {
   background-color: var(--secondary);
