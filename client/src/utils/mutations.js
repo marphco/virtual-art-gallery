@@ -26,10 +26,11 @@ export const ADD_USER = gql`
 
 
 export const ADD_COMMENT = gql`
-  mutation AddComment($artworkId: ID!, $text: String!) { 
-    addComment(artworkId: $artworkId, text: $text) { 
+  mutation AddComment($artId: ID!, $text: String!) { 
+    addComment(artworkId: $artId, text: $text) { 
       id
       text
+      createdAt
     }
   }
 `;
@@ -71,20 +72,13 @@ export const REMOVE_ART = gql`
 
 
 
-// export const CHECKOUT_MUTATION = gql`
-//   mutation checkout($products: [ID]!) {
-//     checkout(products: $products) {
-//       session
-//     }
-//   }
-// `;
+
 
 // import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 // // Create a new ApolloClient instance
 // const client = new ApolloClient({
 //   uri: 'http://localhost:3000/graphql',
-//   cache: new InMemoryCache(),
-// });
+//   cache: new InMemoryCache(), });
 
 // export default client;

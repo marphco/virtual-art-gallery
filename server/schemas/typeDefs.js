@@ -6,6 +6,7 @@ const typeDefs = `#graphql
     password: String
     artCount: Int
     savedArt: [Art]
+    orders: [Order]
   }
 
   type Art {
@@ -20,6 +21,14 @@ const typeDefs = `#graphql
 type Comment {
   id: ID!
   text: String!
+  user: User
+  createdAt: String
+  updateAt: String
+}
+
+input CommenttInput {
+  text: String!
+  artId: ID!
 }
 
 
@@ -27,6 +36,7 @@ type Comment {
   _id: ID!
   purchaseDate: String
   products: [CartItem]!
+  
 }
 
   type Auth {
@@ -68,7 +78,8 @@ type Comment {
     me: User
     getOrderById(id: ID!): Order
     # product(id: ID!): Product
-  checkout(products: [CartItemInput]!): CheckoutResponse
+   checkout(products: [CartItemInput]!): CheckoutResponse
+  
   }
 
   type Mutation {
@@ -76,7 +87,7 @@ type Comment {
   login(email: String!, password: String!): Auth
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User 
-  addComment(artworkId: ID!, text: String!): Comment
+  addComment(artId: ID!, text: String!): Comment
 }
 
 `;

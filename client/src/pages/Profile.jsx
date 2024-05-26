@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
-import { ADD_COMMENT, REMOVE_ART } from "../utils/mutations";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { REMOVE_ART, ADD_COMMENT} from "../utils/mutations";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import OrderHistory from '../components/OrderHistory';
+
+
 
 const Profile = () => {
   const { loading, error, data, refetch } = useQuery(GET_USER_DATA);
@@ -18,6 +21,7 @@ const Profile = () => {
   });
 
   const [commentTexts, setCommentTexts] = useState({});
+  const [activeTab, setActiveTab] = useState("favorites")
 
   if (loading) return <p className="text-center py-8">Loading...</p>;
   if (error) return <p className="text-center py-8">Error: {error.message}</p>;
@@ -27,6 +31,7 @@ const Profile = () => {
 
   const handleRemoveArt = async (artId) => {
     try {
+      
       await removeArt({
         variables: { artId },
       });
@@ -57,19 +62,12 @@ const Profile = () => {
     }
   };
 
-  return (
-    <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
-      <p className="text-center py-4 mb-4 text-xl">Hello, <strong>{username}</strong>!</p>
-      
-      <Container
-        id="your-favorites"
-        className="flex justify-center flex-col mt-8"
-      >
-        <h2 className="text-3xl font-bold text-center">
-          Your Favorites
-        </h2>
+  const renderFavorites = () => (
+    <>
+      <Container id="your-favorites" className="flex justify-center flex-col mt-8">
+        <h2 className="text-3xl font-bold text-center">Your Favorites</h2>
         <p className="text-lg mb-6 text-center p-6">
-        Discover the masterpieces you've favorited! This section showcases the artworks you've loved the most. Enjoy a personalized collection of your favorite pieces, complete with artist details and your personal comments.
+          Discover the masterpieces you've favorited! This section showcases the artworks you've loved the most. Enjoy a personalized collection of your favorite pieces, complete with artist details and your personal comments.
         </p>
       </Container>
       
@@ -138,6 +136,31 @@ const Profile = () => {
           </li>
         ))}
       </ul>
+    </>
+  );
+
+  return (
+    <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
+      <p className="text-center py-4 mb-4 text-xl">Hello, {username}!</p>
+      <h2 className="text-3xl font-bold mb-8 text-center">Your Profile</h2>
+
+      <div className="mb-8">
+        <button
+          onClick={() => setActiveTab("favorites")}
+          className={`mx-2 px-4 py-2 ${activeTab === "favorites" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md`}
+        >
+          Favorites
+        </button>
+        <button
+          onClick={() => setActiveTab("order-history")}
+          className={`mx-2 px-4 py-2 ${activeTab === "order-history" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md`}
+        >
+          Order History
+        </button>
+      </div>
+
+      {activeTab === "favorites" && renderFavorites()}
+      {activeTab === "order-history" && <OrderHistory />}
     </div>
   );
 };
