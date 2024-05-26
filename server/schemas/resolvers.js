@@ -1,18 +1,16 @@
-
-const { User, Artwork , Comment } = require("../models");
+const { User, Artwork, Comment } = require("../models");
 const Order = require('../models/Order');
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require('apollo-server-express');
-const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3hMwtrMEpuz5W1V2kqsj4MTsj4oj1Tmcq2wp3tmWQ8GUGo1q6Dbr007CcK1wQH")
-
+const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3hMwtrMEpuz5W1V2kqsj4MTsj4oj1Tmcq2wp3tmWQ8GUGo1q6Dbr007CcK1wQH");
 
 const resolvers = {
   Query: {
-
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("savedArt");
     },
     me: async (parent, args, context) => {
+      console.log("Context user in 'me' query:", context.user);
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("savedArt");
       }
@@ -64,13 +62,24 @@ const resolvers = {
         throw new Error('Checkout process failed');
       }
     },
-
   },
-  Mutation: { // Moved Mutation object inside the resolvers object
+  Mutation: {
     addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
+      try {
+        const user = await User.create({ username, email, password });
+        const token = signToken(user);
+        return { token, user };
+      } catch (err) {
+        if (err.code === 11000) {
+          if (err.keyValue.username) {
+            throw new AuthenticationError('Username already exists. Please choose another one.');
+          }
+          if (err.keyValue.email) {
+            throw new AuthenticationError('Email already exists. Please choose another one.');
+          }
+        }
+        throw new AuthenticationError('Something went wrong');
+      }
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -89,45 +98,35 @@ const resolvers = {
 
       return { token, user };
     },
-
     addComment: async (_, { artworkId, text }, context) => {
-      console.log("addComment resolver called")
-      if (!context.user) {
-        console.log('User is not authenticated')
-        throw new AuthenticationError('You need to be logged in!');
-      }
-      console.log('User is authenticated:', context.user)
+      console.log("Received artworkId:", artworkId);
+      console.log("Context user:", context.user);
+      if (context.user) {
+        try {
+          // Fetch the user and populate savedArt
+          const user = await User.findById(context.user._id).populate("savedArt");
+          // Find the artwork in the user's savedArt
+          const artwork = user.savedArt.find(art => art.id === artworkId);
 
-      const artwork = await Artwork.findById(artworkId);
-      console.log('Artwork found:', artwork);
+          if (!artwork) {
+            console.error(`Artwork with ID ${artworkId} not found in user's favorites`);
+            throw new Error('Artwork not found in user\'s favorites');
+          }
 
-      if (!artwork) {
-        console.log('Artwork not found for ID:', artworkid)
-        throw new Error('Artwork not found');
-      }
+          // Add the comment to the artwork
+          const newComment = new Comment({ text, user: context.user._id });
+          artwork.comments.push(newComment);
+          await user.save();  // Save the user to persist the new comment
 
-      const newComment = new Comment({
-        text,
-        user: context.user._id,  // Assuming you want to store the user ID
-      });
-      console.log('New comment created:', newComment)
-
-      artwork.comments.push(newComment);
-
-      try {
-        await newComment.save();
-        console.log("New comment saved");
-    
-        await artwork.save();
-        console.log("Artwork updated with new comment");
-    
-        return newComment;
-      } catch (error) {
-        console.error("Error saving comment or artwork:", error);
-        throw new Error("Failed to add comment");
+          return newComment;
+        } catch (error) {
+          console.error("Error finding artwork or saving comment:", error);
+          throw new Error('Artwork not found or other error');
+        }
+      } else {
+        throw new AuthenticationError("You need to be logged in!");
       }
     },
-
     saveArt: async (parent, { artData }, context) => {
       try {
         if (context.user) {
@@ -140,15 +139,10 @@ const resolvers = {
           throw new Error("You need to be logged in!");
         }
       } catch (error) {
-        // Handle the error here
         console.error("Error in saveArt resolver:", error);
-        throw new Error(error.message); // Rethrow the error for Apollo Server to handle
+        throw new Error(error.message);
       }
-
     },
-
-
-
     removeArt: async (parent, { artId }, context) => {
       try {
         if (context.user) {
@@ -165,9 +159,7 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-
   },
-
 };
 
 module.exports = resolvers;

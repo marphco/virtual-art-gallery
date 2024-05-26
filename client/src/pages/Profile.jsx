@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
-import { REMOVE_ART, ADD_COMMENT } from "../utils/mutations";
+import { REMOVE_ART, ADD_COMMENT} from "../utils/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import OrderHistory from '../components/OrderHistory';
@@ -41,33 +42,39 @@ const Profile = () => {
   };
 
   const handleAddComment = async (artId) => {
+    console.log("Adding comment to artwork ID:", artId);
     try {
-      console.log(`Adding comment to artwork with id: ${artId}`)
-      console.log('comment text:', commentTexts[artId])
       await addComment({
         variables: {
-          // commentInput: {
-            text: commentTexts[artId],
-            artId: artId,
-          // },
+          artworkId: artId,
+          text: commentTexts[artId],
         },
       });
-      console.log("Add comment result:", result);
-      setCommentTexts({ ...commentTexts, [artId]: "" });
+
+      setCommentTexts((prevState) => ({
+        ...prevState,
+        [artId]: "",
+      }));
+
       refetch();
     } catch (error) {
-      console.error("Error adding comment:", error.message);
-      console.error(error.networkError ? error.networkError.result : error);
+      console.error("Error adding comment:", error.message, error.networkError, error.graphQLErrors);
     }
   };
 
   const renderFavorites = () => (
     <>
-      <h2 className="text-3xl font-bold mb-8 text-center">Your Favorites</h2>
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+      <Container id="your-favorites" className="flex justify-center flex-col mt-8">
+        <h2 className="text-3xl font-bold text-center">Your Favorites</h2>
+        <p className="text-lg mb-6 text-center p-6">
+          Discover the masterpieces you've favorited! This section showcases the artworks you've loved the most. Enjoy a personalized collection of your favorite pieces, complete with artist details and your personal comments.
+        </p>
+      </Container>
+      
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-4">
         {favorites.map((art) => (
           <li
-            key={art.id}
+            key={art.id} // Ensure each artwork has a unique key
             className="flex flex-col justify-between p-4 border border-gray-300 rounded-lg shadow-lg bg-white h-full"
           >
             <div className="flex justify-between items-center mb-4">
@@ -93,9 +100,18 @@ const Profile = () => {
               <h3 className="text-xl font-semibold mb-2 text-center">
                 {art.title}
               </h3>
-              <p className="text-gray-600 mb-4 text-center">
-                {art.description}
-              </p>
+              <p className="text-gray-600 mb-4 text-center">{art.description}</p>
+              <div>
+                {art.comments && art.comments.length > 0 && (
+                  <ul className="mb-4">
+                    {art.comments.map((comment) => (
+                      <li key={comment.id} className="text-gray-600">  {/* Ensure each comment has a unique key */}
+                        {comment.text}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
             <div className="flex justify-between items-center">
               <input
@@ -105,14 +121,14 @@ const Profile = () => {
                 onChange={(e) =>
                   setCommentTexts({
                     ...commentTexts,
-                    [art.id]: e.target.value, // Change art._id to art.id
+                    [art.id]: e.target.value,
                   })
                 }
                 className="border border-gray-300 rounded-lg px-4 py-2 w-4/5 mr-2"
               />
               <button
                 onClick={() => handleAddComment(art.id)}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                className="comment-btn text-white px-4 py-2 rounded focus:outline-none"
               >
                 Add
               </button>

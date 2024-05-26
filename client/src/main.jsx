@@ -1,4 +1,3 @@
-// src/main.jsx
 import ReactDOM from "react-dom/client";
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";

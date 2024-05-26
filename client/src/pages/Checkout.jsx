@@ -45,7 +45,7 @@ const Checkout = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8">
         <h1 className="text-3xl font-bold text-center text-gray-800">
           Checkout

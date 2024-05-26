@@ -316,7 +316,7 @@ const Homepage = () => {
         </p>
       </Container>
 
-      <Container id="form">
+      <Container>
         <Form
           ref={form}
           onSubmit={sendEmail}
@@ -363,42 +363,6 @@ const Homepage = () => {
           <Row className="success">{result ? <Result /> : null}</Row>
         </Form>
       </Container>
-
-      <Container id="footer" className="flex flex-col items-center mt-20">
-  <h3 className="text-xl font-bold mb-4 text-center">Created by</h3>
-  <div className="git-buttons flex flex-wrap justify-center">
-    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800 custom-footer-button">
-      <a className="flex items-center" href="https://github.com/heeyitsrissa/" target="_blank" rel="noopener noreferrer">
-        <img src={github} alt="github" className="flex h-6 pr-2" />
-        Marissa
-      </a>
-    </button>
-    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800 custom-footer-button">
-      <a className="flex items-center" href="https://github.com/Levangul" target="_blank" rel="noopener noreferrer">
-        <img src={github} alt="github" className="flex h-6 pr-2" />
-        Levan
-      </a>
-    </button>
-    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800 custom-footer-button">
-      <a className="flex items-center" href="https://github.com/Jetniksyla" target="_blank" rel="noopener noreferrer">
-        <img src={github} alt="github" className="flex h-6 pr-2" />
-        Jetnik
-      </a>
-    </button>
-    <button className="flex items-center justify-center p-2 rounded-full text-white bg-gray-800 custom-footer-button">
-      <a className="flex items-center" href="https://github.com/marphco" target="_blank" rel="noopener noreferrer">
-        <img src={github} alt="github" className="flex h-6 pr-2" />
-        Marco
-      </a>
-    </button>
-  </div>
-</Container>
-
-
-<Container id="footer" className="flex flex-col items-center mt-8">
-  <p className="text-xs mb-8 mt-8 text-center">© 2024 Spicys🌶️ - All Rights Reserved.</p>
-</Container>
-
 
     </>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER, ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
@@ -51,10 +52,10 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form
+    <div className="flex justify-center items-center min-h-screen">
+      <Form
         onSubmit={handleFormSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
+        className="switch-form bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-semibold mb-4">
           {isLogin ? "Login" : "Sign Up"}
@@ -107,18 +108,22 @@ const AuthForm = () => {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
+          className="button w-full py-3 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50"
+          >
           {isLogin ? "Login" : "Sign Up"}
-        </button>
+        </Button>
 
         {isLogin && loginError && (
           <p className="mt-4 text-red-500">{loginError.message}</p>
         )}
         {!isLogin && signupError && (
-          <p className="mt-4 text-red-500">{signupError.message}</p>
+          <p className="mt-4 text-red-500">
+            {signupError.message === "Username already exists. Please choose another one."
+              ? "Username already exists. Please choose another one."
+              : signupError.message}
+          </p>
         )}
         {data && !isLogin && (
           <p className="mt-4 text-green-500">
@@ -132,16 +137,16 @@ const AuthForm = () => {
         <div className="mt-4">
           <p>
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button
+            <Button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-blue-500 hover:underline"
+              className="switch-button hover:underline"
             >
               {isLogin ? "Sign Up" : "Login"}
-            </button>
+            </Button>
           </p>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };

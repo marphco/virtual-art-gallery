@@ -433,16 +433,37 @@ textarea:focus-visible {
   --tw-ring-opacity: 0.5;
 }
 
-#form .button {
+form .button {
   background-color: var(--primary);
 }
 
-#form .button:hover {
+form .button:hover {
   background-color: var(--secondary);
 }
 
 .success p{
   color: green;
+}
+
+/* LOGIN - SIGN UP FORM */
+
+.switch-form {
+  margin: 1.5rem;
+}
+
+.switch-button {
+  color: var(--secondary);
+  font-weight: 800;
+}
+
+/* PROFILE PAGE */
+
+.comment-btn {
+  background-color: var(--secondary);
+}
+
+.comment-btn:hover {
+  background-color: var(--primary);
 }
 
 /* FOOTER */
@@ -523,12 +544,7 @@ textarea:focus-visible {
     line-height: 4rem !important;
   }
 
-  #tranding p {
-    width: 70%;
-    margin: 0 auto;
-  }
-
-  #subscription-text p {
+  #subscription-text p, #tranding p, #your-favorites p {
     width: 70% !important;
     margin: 0 auto !important;
   }

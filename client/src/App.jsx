@@ -1,16 +1,12 @@
 // src/App.jsx
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-} from "@apollo/client";
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import OpenAI from "./components/OpenAI";
+import Footer from "./components/Footer"; // Import the Footer component
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -36,6 +32,7 @@ export const AppContext = React.createContext();
 function App() {
   const [favoriteArts, setFavoriteArts] = useState([]);
   const installButtonRef = useRef(null);
+  const location = useLocation(); // Use the useLocation hook
 
   useEffect(() => {
     const installButton = installButtonRef.current;
@@ -65,6 +62,9 @@ function App() {
     }
   }, []);
 
+  // Define the paths where the Footer should be displayed
+  const footerPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop"];
+
   return (
     <ApolloProvider client={client}>
       <AppContext.Provider value={{ favoriteArts, setFavoriteArts }}>
@@ -75,8 +75,10 @@ function App() {
           <Outlet />
         </div>
         <div>
-          <OpenAI/>
+          <OpenAI />
         </div>
+        {/* Conditionally render Footer based on the current path */}
+        {footerPaths.includes(location.pathname) && <Footer />}
         {/* <button ref={installButtonRef} id="installButton" className="hidden">Install App</button> */}
       </AppContext.Provider>
     </ApolloProvider>

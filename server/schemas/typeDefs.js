@@ -27,7 +27,7 @@ type Comment {
 }
 
 input CommenttInput {
-  text: string!
+  text: String!
   artId: ID!
 }
 
