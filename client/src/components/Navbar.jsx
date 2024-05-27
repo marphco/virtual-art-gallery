@@ -116,9 +116,9 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
         onHide={() => setShowModal(false)}
         aria-labelledby='signup-modal'
         centered
-        className="login-signup-modal fixed inset-0 flex items-center justify-center z-50 w-full"
+        className="login-signup-modal fixed inset-0 flex items-center justify-center z-50 w-full bg-gray-200 bg-opacity-50 backdrop-blur"
       >
-        <Modal.Body className="relative rounded-lg mx-auto w-full">
+        <Modal.Body className="relative rounded-lg mt-24 mx-auto w-full max-w-3xl p-4">
           {activeForm === 'login' ? (
             <LoginForm handleModalClose={() => setShowModal(false)} setActiveForm={setActiveForm} activeForm={activeForm} />
           ) : (
@@ -126,7 +126,7 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
           )}
         </Modal.Body>
       </Modal>
-    </>
+    </> 
   );
 };
 
