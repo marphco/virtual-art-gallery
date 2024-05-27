@@ -37,7 +37,7 @@
   --secondary: #789BC4;
   --light-grey: #E2E2E2;
   --white: #FDFFFF;
-  --playfair: "Playfair Display", serif;
+  --exo2: "Exo 2", sans-serif;
   --lato: "Lato", sans-serif;
 }
 
@@ -151,13 +151,13 @@ input:focus-visible {
 h1 {
   font-size: 3rem !important;
   color: var(--secondary);
-  font-family: var(--playfair);
+  font-family: var(--exo2);
   line-height: 3rem !important;
 }
 
 h2 {
   font-size: medium;
-  font-family: var(--playfair);
+  font-family: var(--exo2);
   color: var(--secondary);
 }
 

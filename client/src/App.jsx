@@ -1,12 +1,13 @@
-// src/App.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import RoomNavbar from "./components/RoomNavbar";
 import "./App.css";
 import OpenAI from "./components/OpenAI";
-import Footer from "./components/Footer"; // Import the Footer component
+import Footer from "./components/Footer";
+import { AuthProvider } from "./context/AuthContext"; // Import the AuthProvider
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -32,7 +33,7 @@ export const AppContext = React.createContext();
 function App() {
   const [favoriteArts, setFavoriteArts] = useState([]);
   const installButtonRef = useRef(null);
-  const location = useLocation(); // Use the useLocation hook
+  const location = useLocation();
 
   useEffect(() => {
     const installButton = installButtonRef.current;
@@ -62,25 +63,29 @@ function App() {
     }
   }, []);
 
-  // Define the paths where the Footer should be displayed
   const footerPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop"];
+  const navbarPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop"];
+  const RoomnavbarPath = ["/gallery"];
 
   return (
     <ApolloProvider client={client}>
-      <AppContext.Provider value={{ favoriteArts, setFavoriteArts }}>
-        <div>
-          <Navbar />
-        </div>
-        <div>
-          <Outlet />
-        </div>
-        <div>
-          <OpenAI />
-        </div>
-        {/* Conditionally render Footer based on the current path */}
-        {footerPaths.includes(location.pathname) && <Footer />}
-        {/* <button ref={installButtonRef} id="installButton" className="hidden">Install App</button> */}
-      </AppContext.Provider>
+      <AuthProvider>
+        <AppContext.Provider value={{ favoriteArts, setFavoriteArts }}>
+          <div>
+            {navbarPaths.includes(location.pathname) && <Navbar />}
+          </div>
+          <div>
+            <Outlet />
+          </div>
+          <div>
+            {RoomnavbarPath.includes(location.pathname) && <RoomNavbar />}
+          </div>
+          <div>
+            <OpenAI />
+          </div>
+          {footerPaths.includes(location.pathname) && <Footer />}
+        </AppContext.Provider>
+      </AuthProvider>
     </ApolloProvider>
   );
 }
