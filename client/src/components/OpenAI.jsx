@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import openaiLogo from "../assets/openai.svg";
-import closeIcon from "../assets/close-icon.svg"; // Add the path to your close icon
+import closeIcon from "../assets/close-icon.svg";
 
 const apiKey = import.meta.env.VITE_APP_OpenAI_API_KEY;
 const urlLink = import.meta.env.VITE_APP_OpenAI_API_URL;
@@ -106,7 +106,7 @@ function App() {
           <div
             id="openai-logo"
             onClick={handleImageClick}
-            className="fixed bottom-8 right-8 z-20 rounded-lg cursor-pointer"
+            className="fixed bottom-8 right-8 z-30 rounded-lg cursor-pointer"
             style={{
               backgroundImage: `url(${openaiLogo})`,
               width: '48px',
@@ -118,7 +118,7 @@ function App() {
           ></div>
         )}
         {showOpenAIContainer && (
-          <div id="chat-gpt" className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col z-10">
+          <div id="chat-gpt" className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col z-50">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Ask a Question</h2>
               <img
