@@ -46,7 +46,7 @@ const Profile = () => {
     try {
       await addComment({
         variables: {
-          artworkId: artId,
+          artId: artId,
           text: commentTexts[artId],
         },
       });

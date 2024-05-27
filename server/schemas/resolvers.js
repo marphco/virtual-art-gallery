@@ -98,18 +98,18 @@ const resolvers = {
 
       return { token, user };
     },
-    addComment: async (_, { artworkId, text }, context) => {
-      console.log("Received artworkId:", artworkId);
+    addComment: async (_, { artId, text }, context) => {
+      console.log("Received artworkId:", artId);
       console.log("Context user:", context.user);
       if (context.user) {
         try {
           // Fetch the user and populate savedArt
           const user = await User.findById(context.user._id).populate("savedArt");
           // Find the artwork in the user's savedArt
-          const artwork = user.savedArt.find(art => art.id === artworkId);
+          const artwork = user.savedArt.find(art => art.id === artId);
 
           if (!artwork) {
-            console.error(`Artwork with ID ${artworkId} not found in user's favorites`);
+            console.error(`Artwork with ID ${artId} not found in user's favorites`);
             throw new Error('Artwork not found in user\'s favorites');
           }
 
