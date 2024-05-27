@@ -1,15 +1,25 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import Room from "./Room";
 import CustomOrbitControls from "./CameraControls";
 import Modal from "../pages/Modal";
 import { AppContext } from "../App";
+import { useAuth } from "../context/AuthContext";
 import "../App.css";
 
 const Gallery = () => {
   const [selectedArt, setSelectedArt] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setFavoriteArts } = useContext(AppContext);
+  const { isAuthenticated } = useAuth();
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate('/login-signup', { replace: true });
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   const handlePaintingClick = (artDetails) => {
     setSelectedArt(artDetails);
@@ -26,7 +36,7 @@ const Gallery = () => {
     console.log("Art saved:", art);
   };
 
-  return (
+  return isAuthenticated ? (
     <div className="App" style={{ height: "100vh", width: "100vw" }}>
       <Canvas camera={{ position: [0, 1, 2], fov: 75 }}>
         <ambientLight intensity={0.8} color="#ffffff" />
@@ -49,7 +59,7 @@ const Gallery = () => {
         <Modal art={selectedArt} onClose={closeModal} onSave={handleSave} />
       )}
     </div>
-  );
+  ) : null;
 };
 
 export default Gallery;

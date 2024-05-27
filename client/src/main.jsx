@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
-import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { useEffect } from "react";
+import { createBrowserRouter, RouterProvider, useNavigate, useLocation } from "react-router-dom";
 import Homepage from "./components/Homepage.jsx";
 import Gallery from "./components/Gallery.jsx";
 import Error from "./pages/Error.jsx";
@@ -13,6 +13,7 @@ import Profile from "./pages/Profile.jsx";
 import Shop from "./pages/Shop.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
+import { useAuth, AuthProvider } from "./context/AuthContext.jsx";
 import "./index.css";
 
 if ("serviceWorker" in navigator) {
@@ -27,6 +28,20 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login-signup', { replace: true, state: { from: location.pathname } });
+    }
+  }, [isAuthenticated, navigate, location.pathname]);
+
+  return isAuthenticated ? children : null;
+};
 
 const router = createBrowserRouter([
   {
@@ -48,23 +63,43 @@ const router = createBrowserRouter([
       },
       {
         path: "/gallery",
-        element: <Gallery />,
+        element: (
+          <ProtectedRoute>
+            <Gallery />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/openai",
-        element: <OpenAI />,
+        element: (
+          <ProtectedRoute>
+            <OpenAI />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/shop",
-        element: <Shop />,
+        element: (
+          <ProtectedRoute>
+            <Shop />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/checkout",
-        element: <Checkout />,
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/login-signup",
@@ -76,8 +111,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

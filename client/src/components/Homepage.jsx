@@ -178,7 +178,7 @@ const Homepage = () => {
           id="text-intro"
           className="d-flex justify-center text-center"
         >
-          <h1 className="text-4xl p-5 font-extrabold">
+          <h1 className="text-4xl p-5 font-bold">
             An Immersive
             <br />
             Art Experience
