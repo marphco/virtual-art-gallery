@@ -145,14 +145,19 @@ const resolvers = {
     },
     updateUsername: async (parent, { newUsername }, context) => {
       if (context.user) {
+        
+        const existingUser = await User.findOne({ username: newUsername });
+        
+        if (existingUser && existingUser._id.toString() !== context.user._id.toString()) {
+          throw new AuthenticationError("Username already exists. Please choose another one.");
+        }
+
         return User.findOneAndUpdate(
           { _id: context.user._id },
           { username: newUsername },
           { new: true, runValidators: true }
         );
-      } else {
-        throw new AuthenticationError("You need to be logged in!");
-      }
+      } 
     },
     removeArt: async (parent, { artId }, context) => {
       try {
