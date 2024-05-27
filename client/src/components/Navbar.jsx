@@ -81,30 +81,29 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                     Checkout
                   </Link>
                 </li>
-                <li className="font-roboto log-out">
                   <Link
                     to="/"
                     onClick={handleLogout}
                     className="text-700 hover:text-black transition-shadow"
                   >
+                <li className="font-roboto log-out">
                     Logout
-                  </Link>
                 </li>
+                  </Link>
               </>
             ) : (
               <>
-                <div className="order-last sm:order-first flex font-roboto sign-up">
-                  <button
-                    className="flex text-white-700 hover:text-black transition-shadow"
-                    onClick={() => {
+                <Link className="order-last sm:order-first flex font-roboto sign-up" onClick={() => {
                       setShowModal(true);
                       setActiveForm('login');
                       setIsOpen(false);
-                    }}
+                    }}>
+                  <button
+                    className="flex text-white-700 hover:text-black transition-shadow"
                   >
                     Login / Sign up
                   </button>
-                </div>
+                </Link>
               </>
             )}
           </ul>
@@ -117,9 +116,9 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
         onHide={() => setShowModal(false)}
         aria-labelledby='signup-modal'
         centered
-        className="fixed inset-0 flex items-center justify-center z-50"
+        className="login-signup-modal fixed inset-0 flex items-center justify-center z-50 w-full"
       >
-        <Modal.Body className="relative bg-white rounded-lg shadow p-6 w-3/4 mx-auto">
+        <Modal.Body className="relative rounded-lg mx-auto w-full">
           {activeForm === 'login' ? (
             <LoginForm handleModalClose={() => setShowModal(false)} setActiveForm={setActiveForm} activeForm={activeForm} />
           ) : (

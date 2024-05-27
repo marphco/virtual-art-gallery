@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
+import closeIcon from "../assets/close-icon.svg";
+
 
 const SignupForm = ({ handleModalClose, setActiveForm, activeForm }) => {
   const [formState, setFormState] = useState({
@@ -35,20 +37,24 @@ const SignupForm = ({ handleModalClose, setActiveForm, activeForm }) => {
 
   return (
     <div className="relative">
-      <button className="absolute top-2 right-2 text-xl font-bold" onClick={handleModalClose}>×</button>
-      <form onSubmit={handleFormSubmit} className="bg-white p-6 rounded-lg shadow-md w-full">
-        <div className="flex justify-center mb-4 gap-4">
+<img
+                src={closeIcon}
+                alt="Close form"
+                className="absolute top-2 right-4 w-6 h-6 cursor-pointer"
+                onClick={handleModalClose}
+              />      <form onSubmit={handleFormSubmit} className="bg-white p-6 rounded-lg shadow-md w-full">
+        <div className="flex justify-center mt-8 mb-4 gap-4">
           <button
             type="button"
             onClick={() => setActiveForm('login')}
-            className={`w-3/4 py-2 ${activeForm === 'login' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} rounded-lg`}
+            className={`modal-login-button py-2 w-full ${activeForm === 'login' ? 'text-white' : 'bg-gray-200 text-gray-700'} rounded-lg`}
           >
             Login
           </button>
           <button
             type="button"
             onClick={() => setActiveForm('signup')}
-            className={`w-3/4 py-2 ${activeForm === 'signup' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} rounded-lg`}
+            className={`modal-signup-button py-2 w-full ${activeForm === 'signup' ? 'bg-white-500 text-white' : 'bg-gray-200 text-gray-700'} rounded-lg`}
           >
             Sign Up
           </button>
@@ -89,7 +95,7 @@ const SignupForm = ({ handleModalClose, setActiveForm, activeForm }) => {
             className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
-        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Sign Up</button>
+        <button type="submit" className="button w-full py-3 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50">Sign Up</button>
         {data && (
           <p className="mt-4 text-green-500">
             Success! You may now head{" "}
