@@ -189,13 +189,13 @@ const Profile = () => {
     placeholder="Type Here"
     value={newUsername}
     onChange={(e) => setNewUsername(e.target.value)}
-    className="me-3" // Add margin to separate the input and button
+    className="me-3" 
   />
   <Button
     variant="primary"
     onClick={handleUpdateUsername}
   >
-    Edit Username
+    Edit 
   </Button>
 </div>
         </div>
