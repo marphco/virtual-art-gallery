@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
-import { Nav } from "react-bootstrap";
+import { Nav, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import icon from "../assets/icon.svg";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 
-const Navbar = () => {
+const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isLoggedIn = Auth.loggedIn();
 
@@ -20,7 +22,6 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  // useEffect to close the menu on screen resize if screen size is large
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -30,93 +31,103 @@ const Navbar = () => {
 
     window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <Nav id="supernav" className="bg-white shadow-md p-1 relative">
-      <div className="flex items-center justify-between w-full">
-        <div id="navbar-logo" className="mr-10">
-          <Link to="/">
-            <img src={icon} alt="Panorama" className="h-10" />
-          </Link>
+    <>
+      <Nav id="supernav" className="bg-white shadow-md p-1 relative">
+        <div className="flex items-center justify-between w-full">
+          <div id="navbar-logo" className="mr-10">
+            <Link to="/">
+              <img src={icon} alt="Panorama" className="h-10" />
+            </Link>
+          </div>
+          <button onClick={toggleMenu} className="text-gray-700 pr-6 lg:hidden">
+            {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+          </button>
         </div>
-        <button onClick={toggleMenu} className="text-gray-700 pr-6 lg:hidden">
-          {isOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-        </button>
-      </div>
-      <div className={`flex nav-desktop lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
-        <ul className="flex flex-col lg:flex-row">
-          {isLoggedIn ? (
-            <>
-              <li className="font-roboto">
-                <Link
-                  to="/profile"
-                  className="text-gray-700 hover:text-black transition-shadow"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Profile
-                </Link>
-              </li>
-              <li className="font-roboto">
-                <Link
-                  to="/shop"
-                  className="text-gray-700 hover:text-black transition-shadow"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Shop-Art
-                </Link>
-              </li>
-              <li className="font-roboto">
-                <Link
-                  to="/checkout"
-                  className="checkout text-gray-700 lg:fixed lg:top-10 lg:right-9 hover:text-black transition-shadow flex items-center"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-                  Checkout
-                </Link>
-              </li>
-              <li className="font-roboto log-out">
-                <Link
-                  to="/"
-                  onClick={handleLogout}
-                  className="text-700 hover:text-black transition-shadow"
-                >
-                  Logout
-                </Link>
-              </li>
-            </>
+        <div className={`flex nav-desktop lg:flex ${isOpen ? "flex" : "hidden"} flex-col lg:flex-row lg:items-center lg:space-x-8`}>
+          <ul className="flex flex-col lg:flex-row">
+            {isLoggedIn ? (
+              <>
+                <li className="font-roboto">
+                  <Link
+                    to="/profile"
+                    className="text-gray-700 hover:text-black transition-shadow"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li className="font-roboto">
+                  <Link
+                    to="/shop"
+                    className="text-gray-700 hover:text-black transition-shadow"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Shop-Art
+                  </Link>
+                </li>
+                <li className="font-roboto">
+                  <Link
+                    to="/checkout"
+                    className="checkout text-gray-700 lg:fixed lg:top-10 lg:right-9 hover:text-black transition-shadow flex items-center"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
+                    Checkout
+                  </Link>
+                </li>
+                <li className="font-roboto log-out">
+                  <Link
+                    to="/"
+                    onClick={handleLogout}
+                    className="text-700 hover:text-black transition-shadow"
+                  >
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <div className="order-last sm:order-first flex font-roboto sign-up">
+                  <button
+                    className="flex text-white-700 hover:text-black transition-shadow"
+                    onClick={() => {
+                      setShowModal(true);
+                      setActiveForm('login');
+                      setIsOpen(false);
+                    }}
+                  >
+                    Login / Sign up
+                  </button>
+                </div>
+              </>
+            )}
+          </ul>
+        </div>
+      </Nav>
+
+      <Modal
+        size='lg'
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        aria-labelledby='signup-modal'
+        centered
+        className="fixed inset-0 flex items-center justify-center z-50"
+      >
+        <Modal.Body className="relative bg-white rounded-lg shadow p-6 w-3/4 mx-auto">
+          {activeForm === 'login' ? (
+            <LoginForm handleModalClose={() => setShowModal(false)} setActiveForm={setActiveForm} activeForm={activeForm} />
           ) : (
-            <>
-             {/* <ul className="flex flex-col sm:flex-row-reverse sm:gap-5 font-roboto space-y-3 sm:space-y-0"> */}
-    <Link
-      to="/login-signup"
-      className="flex text-white-700 hover:text-black transition-shadow"
-      onClick={() => setIsOpen(false)}
-    >
-  <div className="order-last sm:order-first flex font-roboto sign-up">
-      Login / Sign up
-  </div>
-    </Link>
-  {/* <li className="order-first sm:order-last flex items-center justify-center text-gray-700 hover:text-black transition-shadow">
-    <Link
-      to="/login"
-      className="flex items-center justify-center text-gray-700 hover:text-black transition-shadow"
-      onClick={() => setIsOpen(false)}
-    >
-      Login
-    </Link>
-  </li> */}
-{/* </ul> */}
-            </>
+            <SignUpForm handleModalClose={() => setShowModal(false)} setActiveForm={setActiveForm} activeForm={activeForm} />
           )}
-        </ul>
-      </div>
-    </Nav>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
