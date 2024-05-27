@@ -35,6 +35,18 @@ export const ADD_COMMENT = gql`
   }
 `;
 
+
+
+
+export const UPDATE_USERNAME = gql`
+  mutation updateUsername($newUsername: String!) {
+    updateUsername(newUsername: $newUsername) {
+      _id
+      username
+    }
+  }
+`;
+
 export const SAVE_ART = gql`
   mutation SaveArtwork($artData: ArtInput!) {
     saveArt(artData: $artData) {

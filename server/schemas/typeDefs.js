@@ -26,7 +26,7 @@ type Comment {
   updateAt: String
 }
 
-input CommenttInput {
+input CommentInput {
   text: String!
   artId: ID!
 }
@@ -88,6 +88,7 @@ input CommenttInput {
   removeArt(artId: ID!): User
   saveArt(artData: ArtInput!): User 
   addComment(artId: ID!, text: String!): Comment
+  updateUsername(newUsername: String!): User
 }
 
 `;
