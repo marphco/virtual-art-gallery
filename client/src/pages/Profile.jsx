@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
 import { REMOVE_ART, ADD_COMMENT, UPDATE_USERNAME } from "../utils/mutations";
@@ -18,7 +18,7 @@ const Profile = () => {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
-  const [updateUsername] = useMutation(UPDATE_USERNAME, {
+  const [updateUsername, { error: updateUsernameError }] = useMutation(UPDATE_USERNAME, {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
@@ -184,20 +184,21 @@ const Profile = () => {
         <div className="mb-8 w-full max-w-md mx-auto">
           <h3 className="text-2xl font-semibold mb-4">Edit Username</h3>
           <div className="d-flex mb-3">
-  <Form.Control
-    type="text"
-    placeholder="Type Here"
-    value={newUsername}
-    onChange={(e) => setNewUsername(e.target.value)}
-    className="me-3" 
-  />
-  <Button
-    variant="primary"
-    onClick={handleUpdateUsername}
-  >
-    Edit 
-  </Button>
-</div>
+            <Form.Control
+              type="text"
+              placeholder="Type Here"
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
+              className="me-3" 
+            />
+            <Button
+              variant="primary"
+              onClick={handleUpdateUsername}
+            >
+              Edit
+            </Button>
+            {updateUsernameError && <p className="mt-4 text-red-500">{updateUsernameError.message}</p>}
+          </div>
         </div>
       )}
 
