@@ -31,16 +31,15 @@ const RoomNavbar = () => {
   }, []);
 
   return (
-    <div id="room-navbar" className="fixed right-8 bottom-24 z-50">
+    <div id="room-navbar" className="fixed right-8 bottom-24 z-20">
       <button
         onClick={toggleMenu}
-        className="bg-gray-600 p-2 rounded-md shadow-lg"
-        style={{ width: '48px', height: '48px', borderRadius: '0.5rem' }}
+        className="menu-button p-2 rounded-md shadow-lg"
       >
-        <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="text-white w-6 h-6" />
+        <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="hamburger-color w-6 h-6" />
       </button>
       {isOpen && (
-        <div className="rounded-md bg-gray-600 shadow-lg p-4 mt-2 flex flex-col items-center">
+        <div className="expanded-menu rounded-md shadow-lg p-4 mt-2 flex flex-col items-center">
           <Link to="/" className="block mb-4 text-center" onClick={closeMenu}>
             <FontAwesomeIcon icon={faHome} className="text-white w-6 h-6 hover:text-gray-600 transition-all" />
             <p className="text-xs text-white mt-1">Home</p>

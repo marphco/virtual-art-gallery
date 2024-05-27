@@ -4,10 +4,11 @@ import { setContext } from "@apollo/client/link/context";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import RoomNavbar from "./components/RoomNavbar";
+import InfoModal from "./components/InfoModal";
 import "./App.css";
 import OpenAI from "./components/OpenAI";
 import Footer from "./components/Footer";
-import { AuthProvider } from "./context/AuthContext"; // Import the AuthProvider
+import { AuthProvider } from "./context/AuthContext"; 
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -65,7 +66,8 @@ function App() {
 
   const footerPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop"];
   const navbarPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop"];
-  const RoomnavbarPath = ["/gallery"];
+  const RoomNavbarPath = ["/gallery"];
+  const InfoModalPath = ["/gallery"];
 
   return (
     <ApolloProvider client={client}>
@@ -78,7 +80,10 @@ function App() {
             <Outlet />
           </div>
           <div>
-            {RoomnavbarPath.includes(location.pathname) && <RoomNavbar />}
+            {InfoModalPath.includes(location.pathname) && <InfoModal />}
+          </div>
+          <div>
+            {RoomNavbarPath.includes(location.pathname) && <RoomNavbar />}
           </div>
           <div>
             <OpenAI />

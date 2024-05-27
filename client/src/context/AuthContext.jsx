@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('id_token');
     setIsAuthenticated(false);
-    window.location.assign('/login-signup'); // Redirect to login on logout
+    window.location.assign('/'); 
   };
 
   return (

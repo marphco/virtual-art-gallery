@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const { commentSchema } = require('./Comment');
 
 const artworkSchema = new Schema({
-  _id: String,  // Ensure this is a String
+  _id: String,  
   title: {
     type: String,
     required: true,
