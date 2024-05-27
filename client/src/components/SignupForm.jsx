@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 
-const SignupForm = () => {
+const SignupForm = ({ handleModalClose, setActiveForm, activeForm }) => {
   const [formState, setFormState] = useState({
     username: "",
     email: "",
@@ -14,7 +14,6 @@ const SignupForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormState({
       ...formState,
       [name]: value,
@@ -23,23 +22,37 @@ const SignupForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
-
     try {
       const { data } = await addUser({
         variables: { ...formState },
       });
-
       Auth.login(data.addUser.token);
+      handleModalClose();
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form onSubmit={handleFormSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
+    <div className="relative">
+      <button className="absolute top-2 right-2 text-xl font-bold" onClick={handleModalClose}>×</button>
+      <form onSubmit={handleFormSubmit} className="bg-white p-6 rounded-lg shadow-md w-full">
+        <div className="flex justify-center mb-4 gap-4">
+          <button
+            type="button"
+            onClick={() => setActiveForm('login')}
+            className={`w-3/4 py-2 ${activeForm === 'login' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} rounded-lg`}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveForm('signup')}
+            className={`w-3/4 py-2 ${activeForm === 'signup' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} rounded-lg`}
+          >
+            Sign Up
+          </button>
+        </div>
         <div className="mb-4">
           <label htmlFor="username" className="block text-gray-700 mb-2">Username</label>
           <input
@@ -76,18 +89,14 @@ const SignupForm = () => {
             className="w-full p-2 border border-gray-300 rounded-lg"
           />
         </div>
-        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-          Sign Up
-        </button>
+        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Sign Up</button>
         {data && (
           <p className="mt-4 text-green-500">
             Success! You may now head{" "}
-            <Link to="/" className="text-blue-500 hover:underline">
-              back to the homepage.
-            </Link>
+            <Link to="/" className="text-blue-500 hover:underline">back to the homepage.</Link>
           </p>
         )}
-        {error && <p className="mt-4 text-red-500"></p>}
+        {error && <p className="mt-4 text-red-500">Error signing up</p>}
       </form>
     </div>
   );

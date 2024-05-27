@@ -5,16 +5,16 @@ import "swiper/swiper-bundle.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
 import check from "../assets/check.svg";
-import github from "../assets/github.svg";
 import success from "../assets/success.svg";
 import Auth from "../utils/auth";
 import { useCart } from "../context/CartContext.jsx";
 import emailjs from "@emailjs/browser";
+import Navbar from "./Navbar";
 
 const Result = () => {
   return (
@@ -28,6 +28,8 @@ const Result = () => {
 const Homepage = () => {
   const [result, showResult] = useState(false);
   const form = useRef();
+  const [showModal, setShowModal] = useState(false);
+  const [activeForm, setActiveForm] = useState("login");
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -141,22 +143,6 @@ const Homepage = () => {
     });
   }, []);
 
-  const handleImageClick = (index) => {
-    if (index === activeIndex) {
-      setClickedIndex(index);
-    } else {
-      setClickedIndex(null);
-    }
-  };
-
-  const handleLogin = () => {
-    navigate("/login");
-  };
-
-  const handleSignUp = () => {
-    navigate("/signup");
-  };
-
   const handleEnter = () => {
     navigate("/gallery");
   };
@@ -167,6 +153,13 @@ const Homepage = () => {
 
   return (
     <>
+      <Navbar
+        showModal={showModal}
+        setShowModal={setShowModal}
+        activeForm={activeForm}
+        setActiveForm={setActiveForm}
+      />
+
       <Row id="hero" className="flex justify-center">
         <Container id="logo">
           <img src="/logo.svg" alt="Panorama - Virtual Art Gallery" />
@@ -213,42 +206,44 @@ const Homepage = () => {
           <div className="swiper tranding-slider">
             <div className="swiper-wrapper">
               {galleries.map((gallery, index) => (
-                <div
-                  key={gallery.id}
-                  className={`swiper-slide tranding-slide ${
-                    index === clickedIndex ? "clicked" : ""
-                  }`}
-                  onClick={() => handleImageClick(index)}
-                >
-                  <div className="tranding-slide-img">
-                    <img src={gallery.src} alt={gallery.title} />
-                    {index === clickedIndex && (
-                      <div className="overlay">
-                        {isLoggedIn ? (
+                <div key={gallery.id} className="swiper-slide tranding-slide">
+                  <div className="tranding-slide-img relative rounded-lg overflow-hidden">
+                    <img
+                      src={gallery.src}
+                      alt={gallery.title}
+                      className="rounded-lg"
+                    />
+                    <div className="overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg">
+                      {isLoggedIn ? (
+                        <button
+                          className="enter-button bg-white text-black py-2 px-4 rounded-lg"
+                          onClick={handleEnter}
+                        >
+                          Enter
+                        </button>
+                      ) : (
+                        <>
                           <button
-                            className="enter-button"
-                            onClick={handleEnter}
+                            className="login-button bg-white text-black py-2 px-4 rounded-lg mr-4"
+                            onClick={() => {
+                              setActiveForm("login");
+                              setShowModal(true);
+                            }}
                           >
-                            Enter
+                            Login
                           </button>
-                        ) : (
-                          <>
-                            <button
-                              className="login-button"
-                              onClick={handleLogin}
-                            >
-                              Login
-                            </button>
-                            <button
-                              className="signup-button"
-                              onClick={handleSignUp}
-                            >
-                              Sign Up
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    )}
+                          <button
+                            className="signup-button bg-white text-black py-2 px-4 rounded-lg"
+                            onClick={() => {
+                              setActiveForm("signup");
+                              setShowModal(true);
+                            }}
+                          >
+                            Sign Up
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -327,7 +322,7 @@ const Homepage = () => {
               type="text"
               placeholder="Name"
               name="from_name"
-              className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
+              className="block w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
               required
             />
           </FloatingLabel>
@@ -337,7 +332,7 @@ const Homepage = () => {
               type="email"
               placeholder="name@example.com"
               name="reply_to"
-              className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
+              className="block w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
               required
             />
           </FloatingLabel>
@@ -347,7 +342,7 @@ const Homepage = () => {
               as="textarea"
               placeholder="Leave your message here"
               style={{ height: "200px" }}
-              className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
+              className="block w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-md focus:ring-opacity-50"
               name="message"
               required
             />
@@ -363,7 +358,6 @@ const Homepage = () => {
           <Row className="success">{result ? <Result /> : null}</Row>
         </Form>
       </Container>
-
     </>
   );
 };
