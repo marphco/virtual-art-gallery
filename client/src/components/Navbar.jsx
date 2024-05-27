@@ -93,15 +93,15 @@ const Navbar = () => {
           ) : (
             <>
              {/* <ul className="flex flex-col sm:flex-row-reverse sm:gap-5 font-roboto space-y-3 sm:space-y-0"> */}
-  <div className="order-last sm:order-first flex font-roboto sign-up">
     <Link
       to="/login-signup"
       className="flex text-white-700 hover:text-black transition-shadow"
       onClick={() => setIsOpen(false)}
     >
+  <div className="order-last sm:order-first flex font-roboto sign-up">
       Login / Sign up
-    </Link>
   </div>
+    </Link>
   {/* <li className="order-first sm:order-last flex items-center justify-center text-gray-700 hover:text-black transition-shadow">
     <Link
       to="/login"

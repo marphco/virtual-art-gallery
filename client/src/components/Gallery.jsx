@@ -13,13 +13,6 @@ const Gallery = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setFavoriteArts } = useContext(AppContext);
   const { isAuthenticated } = useAuth();
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate('/login-signup', { replace: true });
-  //   }
-  // }, [isAuthenticated, navigate]);
 
   const handlePaintingClick = (artDetails) => {
     setSelectedArt(artDetails);
