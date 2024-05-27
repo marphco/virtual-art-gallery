@@ -7,12 +7,12 @@ const stripe = require('stripe')("sk_test_51PIGigP96n9UX7e8jhZnh76zfsEYfBJPQJZc3
 const resolvers = {
   Query: {
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("savedArt");
+      return User.findOne({ username }).populate("savedArt")
     },
     me: async (parent, args, context) => {
       console.log("Context user in 'me' query:", context.user);
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("savedArt");
+        return User.findOne({ _id: context.user._id }).populate("savedArt")
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -142,6 +142,22 @@ const resolvers = {
         console.error("Error in saveArt resolver:", error);
         throw new Error(error.message);
       }
+    },
+    updateUsername: async (parent, { newUsername }, context) => {
+      if (context.user) {
+        
+        const existingUser = await User.findOne({ username: newUsername });
+        
+        if (existingUser && existingUser._id.toString() !== context.user._id.toString()) {
+          throw new AuthenticationError("Username already exists. Please choose another one.");
+        }
+
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { username: newUsername },
+          { new: true, runValidators: true }
+        );
+      } 
     },
     removeArt: async (parent, { artId }, context) => {
       try {

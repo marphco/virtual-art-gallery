@@ -37,7 +37,7 @@
   --secondary: #789BC4;
   --light-grey: #E2E2E2;
   --white: #FDFFFF;
-  --playfair: "Playfair Display", serif;
+  --exo2: "Exo 2", sans-serif;
   --lato: "Lato", sans-serif;
 }
 
@@ -151,13 +151,13 @@ input:focus-visible {
 h1 {
   font-size: 3rem !important;
   color: var(--secondary);
-  font-family: var(--playfair);
+  font-family: var(--exo2);
   line-height: 3rem !important;
 }
 
 h2 {
   font-size: medium;
-  font-family: var(--playfair);
+  font-family: var(--exo2);
   color: var(--secondary);
 }
 
@@ -419,9 +419,18 @@ h3 {
 
 /* CHAT GPT BLOCK */
 
+#chat-gpt {
+  z-index: 50;
+}
+
 #chat-gpt button {
   background-color: var(--secondary);
 }
+
+#openai-logo {
+  z-index: 30;
+}
+
 
 /* CONTACT FORM */
 
@@ -487,14 +496,47 @@ form .button:hover {
   min-width: 110px;
   max-height: 40px;
   font-size: 12px;
-  transition: background-color 0.3s;
+  transition: 0.3s;
 }
 
 .custom-footer-button:hover {
   background-color: var(--primary) !important;
 }
 
+/* ROOM BUTTONS */
+.menu-button {
+  background-color: var(--primary);
+  width: 48px;
+  height: 48px;
+  border-radius: 0.5rem;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.menu-button:hover {
+  background-color: var(--white);
+  color: var(--primary); 
+  transition: 0.3s ease 0s;
+  box-shadow: 0 0px 0px 0 rgba(67, 67, 67, 0.4), 0 0px 10px 0 rgba(67, 67, 67, 0.4);
+}
+
+.menu-button:hover .hamburger-color {
+  color: var(--primary);
+}
+
+.hamburger-color {
+  color: var(--white);
+}
+
+.expanded-menu {
+  background-color: var(--secondary);
+}
+
+#info-modal .bg-opacity-80 {
+  background-color: rgba(255, 255, 255, 0.8);
+}
 
 
 /* TABLET AND DESKTOP */
