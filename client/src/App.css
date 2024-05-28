@@ -85,7 +85,7 @@ body {
 
 .checkout {
   background-color: var(--primary);
-  padding: 1rem 1.8rem;
+  padding: 11px 1.8rem;
   border-radius: 30px;
   color: var(--white) !important;
   border: solid 2px var(--primary);
@@ -635,5 +635,19 @@ z-index: 1;
     border-radius: 2rem !important;
   }
 
+}
+
+
+@keyframes jump {
+  0%, 100% {
+    transform: scale(0.5) translateY(-14px);
+  }
+  50% {
+    transform: scale(0.8) translateY(-20px);
+  }
+}
+
+.jump {
+  animation: jump 0.7s ease-in-out; 
 }
 
