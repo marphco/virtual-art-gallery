@@ -35,7 +35,7 @@ const Checkout = () => {
       id: item.id,
       name: item.title,
       price: item.price,
-      quantity: item.quantity, // Fix missing comma here
+      quantity: item.quantity, 
     }));
     console.log("Placing order with products:", products);
     getCheckout({ variables: { products } });

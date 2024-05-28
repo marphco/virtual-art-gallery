@@ -637,3 +637,17 @@ z-index: 1;
 
 }
 
+
+@keyframes jump {
+  0%, 100% {
+    transform: scale(0.5) translateY(-14px);
+  }
+  50% {
+    transform: scale(0.8) translateY(-20px);
+  }
+}
+
+.jump {
+  animation: jump 0.7s ease-in-out; 
+}
+
