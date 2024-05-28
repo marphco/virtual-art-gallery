@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login-signup', { replace: true, state: { from: location.pathname } });
+      navigate('/', { replace: true, state: { from: location.pathname } });
     }
   }, [isAuthenticated, navigate, location.pathname]);
 
