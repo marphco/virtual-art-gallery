@@ -1,5 +1,5 @@
 {
-  "name": "googlebooks-app",
+  "name": "panorama",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
@@ -35,6 +35,7 @@
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
+    "react-medium-image-zoom": "^5.2.4",
     "react-router-dom": "^6.11.1",
     "stripe": "^15.7.0",
     "swiper": "^11.1.3",

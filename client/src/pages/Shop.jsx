@@ -113,7 +113,7 @@ const Shop = () => {
         </button>
       </div>
       {notification.visible && (
-        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300 z-50">
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300">
           {notification.message}
         </div>
       )}
