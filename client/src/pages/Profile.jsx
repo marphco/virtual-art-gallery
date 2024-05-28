@@ -158,20 +158,49 @@ const Profile = () => {
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
       <p className="text-center py-4 mb-4 text-xl">Hello, {username}!</p>
       <h2 className="text-3xl font-bold mb-8 text-center">Your Profile</h2>
-
-      <div className="mb-8">
+  
+      <div className="mb-8 flex flex-wrap justify-center">
         <button
           onClick={() => setActiveTab("favorites")}
-          className={`mx-2 px-4 py-2 ${activeTab === "favorites" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md`}
+          className={`mx-2 px-4 py-2 ${activeTab === "favorites" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md mb-2`}
         >
           Favorites
         </button>
         <button
           onClick={() => setActiveTab("order-history")}
-          className={`mx-2 px-4 py-2 ${activeTab === "order-history" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md`}
+          className={`mx-2 px-4 py-2 ${activeTab === "order-history" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md mb-2`}
         >
           Order History
         </button>
+      </div>
+  
+      {showUpdateField && (
+  <div className="mb-8 w-full max-w-md mx-auto">
+    <h3 className="text-2xl font-semibold mb-4">Edit Username</h3>
+    <div className="flex items-center mb-3">
+      <input
+        type="text"
+        placeholder="Type Here"
+        value={newUsername}
+        onChange={(e) => setNewUsername(e.target.value)}
+        className="border border-gray-300 rounded-lg px-4 py-2 w-3/4 placeholder-gray-400 mr-3 focus:outline-none" // Tailwind classes for input field
+      />
+      <button
+        onClick={handleUpdateUsername}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" // Tailwind classes for button
+      >
+        Edit
+      </button>
+    </div>
+    {updateUsernameError && (
+      <p className="text-red-500 mt-2 ml-2">{updateUsernameError.message}</p>
+    )}
+  </div>
+)}
+
+
+  
+      <div className="mb-8">
         <button
           onClick={() => setShowUpdateField(!showUpdateField)}
           className="mx-2 px-4 py-2 bg-green-600 text-white rounded-md"
@@ -179,33 +208,12 @@ const Profile = () => {
           Update Username
         </button>
       </div>
-
-      {showUpdateField && (
-        <div className="mb-8 w-full max-w-md mx-auto">
-          <h3 className="text-2xl font-semibold mb-4">Edit Username</h3>
-          <div className="d-flex mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Type Here"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-              className="me-3" 
-            />
-            <Button
-              variant="primary"
-              onClick={handleUpdateUsername}
-            >
-              Edit
-            </Button>
-            {updateUsernameError && <p className="mt-4 text-red-500">{updateUsernameError.message}</p>}
-          </div>
-        </div>
-      )}
-
+  
       {activeTab === "favorites" && renderFavorites()}
       {activeTab === "order-history" && <OrderHistory />}
     </div>
   );
+  
 };
 
 export default Profile;
