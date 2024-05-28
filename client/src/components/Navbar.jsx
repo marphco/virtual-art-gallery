@@ -100,9 +100,10 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                     <div className="relative">
                       <FontAwesomeIcon
                         icon={faShoppingCart}
-                        size="2x"
-                        className="mr-2"
+                        className="mr-2 mt-1 "
+                        style={{ fontSize: "1.5em" }}
                       />
+
                       <span
                         className={`absolute top-0 right-3.5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-2 text-xs ${
                           animate ? "jump" : ""

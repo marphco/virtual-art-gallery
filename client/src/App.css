@@ -85,7 +85,7 @@ body {
 
 .checkout {
   background-color: var(--primary);
-  padding: 1rem 1.8rem;
+  padding: 11px 1.8rem;
   border-radius: 30px;
   color: var(--white) !important;
   border: solid 2px var(--primary);
