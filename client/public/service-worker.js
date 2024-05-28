@@ -14,6 +14,7 @@ const urlsToCache = [
   "/components/Gallery.jsx",
   "/components/FavoritesCard.jsx",
   "/components/CameraControls.jsx",
+  "/components/OrderHistory.jsx",
   "/pages/Profile.jsx",
   "/pages/Error.jsx",
 ];
