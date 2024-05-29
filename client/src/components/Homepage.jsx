@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Form, Button, FloatingLabel, Row, Container } from "react-bootstrap";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
 import "swiper/swiper-bundle.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
@@ -31,39 +30,18 @@ const Homepage = () => {
   const form = useRef();
   const [showModal, setShowModal] = useState(false);
   const [activeForm, setActiveForm] = useState("login");
-
-  const sendEmail = (e) => {
-    e.preventDefault();
-
-    emailjs
-      .sendForm("service_5k75c3p", "template_ycb9v97", form.current, {
-        publicKey: "e8n6PmtSDDwjsxchJ",
-      })
-      .then(
-        () => {
-          console.log("SUCCESS!");
-          showResult(true);
-        },
-        (error) => {
-          console.log("FAILED...", error.text);
-        }
-      );
-    e.target.reset();
-  };
-
-  const [clickedIndex, setClickedIndex] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null); // Define the state here
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
   const galleries = [
-    { id: 1, src: met, title: "Metropolitan Museum of New York" },
-    { id: 2, src: artic, title: "Art Institute of Chicago" },
-    { id: 3, src: uffizi, title: "Gallerie degli Uffizi" },
-    { id: 4, src: met, title: "Metropolitan Museum of New York" },
-    { id: 5, src: artic, title: "Art Institute of Chicago" },
-    { id: 6, src: uffizi, title: "Gallerie degli Uffizi" },
+    { id: 1, src: met, title: "Metropolitan Museum of New York", locked: true },
+    { id: 2, src: artic, title: "Art Institute of Chicago", locked: false },
+    { id: 3, src: uffizi, title: "Gallerie degli Uffizi", locked: true },
+    { id: 4, src: met, title: "Metropolitan Museum of New York", locked: true },
+    { id: 5, src: artic, title: "Art Institute of Chicago", locked: false },
+    { id: 6, src: uffizi, title: "Gallerie degli Uffizi", locked: true },
   ];
 
   const subscriptionItems = [
@@ -148,8 +126,27 @@ const Homepage = () => {
     navigate("/gallery");
   };
 
-  const handleAddToCart = (item) => {
-    addToCart(item);
+  const handleSubscribe = () => {
+    navigate("/shop?view=subscriptions");
+  };
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm("service_5k75c3p", "template_ycb9v97", form.current, {
+        publicKey: "e8n6PmtSDDwjsxchJ",
+      })
+      .then(
+        () => {
+          console.log("SUCCESS!");
+          showResult(true);
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+    e.target.reset();
   };
 
   return (
@@ -168,10 +165,7 @@ const Homepage = () => {
       </Row>
 
       <Row id="intro" className="flex justify-center">
-        <Container
-          id="text-intro"
-          className="d-flex justify-center text-center"
-        >
+        <Container id="text-intro" className="d-flex justify-center text-center">
           <h1 className="text-4xl p-5 font-bold">
             An Immersive
             <br />
@@ -206,7 +200,7 @@ const Homepage = () => {
 
           <div className="swiper tranding-slider">
             <div className="swiper-wrapper">
-              {galleries.map((gallery, index) => (
+              {galleries.map((gallery) => (
                 <div key={gallery.id} className="swiper-slide tranding-slide">
                   <div className="tranding-slide-img relative rounded-lg overflow-hidden">
                     <img
@@ -216,12 +210,21 @@ const Homepage = () => {
                     />
                     <div className="overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg">
                       {isLoggedIn ? (
-                        <button
-                          className="enter-button bg-white text-black py-2 px-4 rounded-lg"
-                          onClick={handleEnter}
-                        >
-                          Enter
-                        </button>
+                        gallery.locked ? (
+                          <button
+                            className="buy-now-button bg-white text-black py-2 px-4 rounded-lg"
+                            onClick={handleSubscribe}
+                          >
+                            Subscribe
+                          </button>
+                        ) : (
+                          <button
+                            className="enter-button bg-white text-black py-2 px-4 rounded-lg"
+                            onClick={handleEnter}
+                          >
+                            Enter
+                          </button>
+                        )
                       ) : (
                         <>
                           <button
@@ -253,10 +256,7 @@ const Homepage = () => {
         </Container>
       </Row>
 
-      <Container
-        id="subscription-text"
-        className="flex justify-center flex-col mt-8"
-      >
+      <Container id="subscription-text" className="flex justify-center flex-col mt-8">
         <h2 className="text-3xl font-bold text-center">
           Unlock Exclusive Benefits with Our Subscriptions
         </h2>
