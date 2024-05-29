@@ -1,30 +1,26 @@
+
+
 const CACHE_NAME = "panorama-cache-v2";
 
 const urlsToCache = [
   "/",
   "/index.html",
   "/favicon.ico",
-  "/main.js",
-  "/index.css",
-  "/app.js",
-  "/app.css",
-  "/components/Room.js",
-  "/components/Navbar.js",
-  "/components/Homepage.js",
-  "/components/Gallery.js",
-  "/components/FavoritesCard.js",
-  "/components/CameraControls.js",
-  "/components/OrderHistory.js",
-  "/pages/Profile.js",
-  "/pages/Error.js",
+
 ];
 
 self.addEventListener("install", (event) => {
-  self.skipWaiting(); 
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(urlsToCache);
+        return Promise.all(
+          urlsToCache.map(url => {
+            return cache.add(url).catch(err => {
+              console.error(`Failed to cache ${url}:`, err);
+            });
+          })
+        );
       })
       .catch((error) => {
         console.error("Failed to cache resources during install:", error);
@@ -44,14 +40,13 @@ self.addEventListener("activate", (event) => {
         })
       );
     }).then(() => {
-      self.clients.claim(); 
+      self.clients.claim();
     })
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') {
-    // If it's not a GET request, do nothing
     return;
   }
 
