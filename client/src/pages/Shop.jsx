@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
+import check from "../assets/check.svg"; // Ensure to import the check icon used in the Homepage
 
 const Shop = () => {
   const location = useLocation();
@@ -207,12 +208,20 @@ const Shop = () => {
                 className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
                 onClick={() => handleAddToCart(item)}
               >
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900">
+                <h3 className="text-2xl font-semibold mb-4 text-gray-900 sub-title">
                   {item.title}
                 </h3>
-                <p className="text-lg font-semibold text-indigo-600">
+                <p className="text-lg font-semibold text-indigo-600 dollar">
                   ${item.price}
                 </p>
+                <ul className="list-disc list-inside mb-4 text-left mt-4">
+                  {item.perks.map((perk, index) => (
+                    <li key={index} className="mb-2 flex items-center">
+                      <img src={check} alt="check" className="h-6 pr-2" />
+                      {perk}
+                    </li>
+                  ))}
+                </ul>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();

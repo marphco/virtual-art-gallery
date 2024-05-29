@@ -88,12 +88,6 @@ const GalleriesPage = () => {
 
   return (
     <>
-      <Navbar
-        showModal={showModal}
-        setShowModal={setShowModal}
-        activeForm={activeForm}
-        setActiveForm={setActiveForm}
-      />
       <Row id="tranding" className="flex justify-center">
         <Container>
           <h2 className="text-3xl font-bold mb-4 mt-24 text-center">
@@ -163,7 +157,6 @@ const GalleriesPage = () => {
           </div>
         </Container>
       </Row>
-      <Footer />
     </>
   );
 };
