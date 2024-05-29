@@ -4,19 +4,19 @@ const urlsToCache = [
   "/",
   "/index.html",
   "/favicon.ico",
-  "/main.jsx",
+  "/main.js",
   "/index.css",
-  "/app.jsx",
+  "/app.js",
   "/app.css",
-  "/components/Room.jsx",
-  "/components/Navbar.jsx",
-  "/components/Homepage.jsx",
-  "/components/Gallery.jsx",
-  "/components/FavoritesCard.jsx",
-  "/components/CameraControls.jsx",
-  "/components/OrderHistory.jsx",
-  "/pages/Profile.jsx",
-  "/pages/Error.jsx",
+  "/components/Room.js",
+  "/components/Navbar.js",
+  "/components/Homepage.js",
+  "/components/Gallery.js",
+  "/components/FavoritesCard.js",
+  "/components/CameraControls.js",
+  "/components/OrderHistory.js",
+  "/pages/Profile.js",
+  "/pages/Error.js",
 ];
 
 self.addEventListener("install", (event) => {
@@ -56,22 +56,20 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.match(event.request).then(cachedResponse => {
-        // If a cached response is found, return it
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-        // Otherwise, fetch the resource from the network
-        return fetch(event.request).then(networkResponse => {
-          // Check if the response is valid and cache it
+      return caches.open(CACHE_NAME).then((cache) => {
+        return fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
-            const responseToCache = networkResponse.clone();
-            cache.put(event.request, responseToCache);
+            cache.put(event.request, networkResponse.clone());
           }
-
           return networkResponse;
+        }).catch((error) => {
+          console.error("Fetch failed; returning offline page instead.", error);
+          return caches.match('/offline.html');
         });
       });
     })
