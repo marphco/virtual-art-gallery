@@ -9,6 +9,7 @@ const Shop = () => {
     visible: false,
     message: "",
   });
+  const [limit, setLimit] = useState(6);
   const { addToCart } = useCart();
 
   const subscriptionItems = [
@@ -33,12 +34,12 @@ const Shop = () => {
     if (view === "prints") {
       fetchArtworks();
     }
-  }, [view]);
+  }, [view, limit]);
 
   const fetchArtworks = async () => {
     try {
       const response = await fetch(
-        "https://api.artic.edu/api/v1/artworks?limit=6"
+        `https://api.artic.edu/api/v1/artworks?limit=${limit}`
       );
       const data = await response.json();
       setProducts(data.data);
@@ -57,7 +58,7 @@ const Shop = () => {
           )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
-        console.log("Search results:", data); // Debugging line
+        console.log("Search results:", data); 
         setProducts(data.data);
       } catch (error) {
         console.error("Error fetching artworks:", error);
@@ -135,34 +136,44 @@ const Shop = () => {
         </form>
       )}
       {view === "prints" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center"
-            >
-              <h2 className="text-1xl font-semibold mb-4 text-gray-900">
-                {product.title}
-              </h2>
-              <img
-                src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`}
-                alt={product.title}
-                className="w-48 h-48 object-cover mb-4 rounded-md"
-                style={{ width: "200px", height: "200px" }}
-                onError={handleImageError}
-              />
-              <p className="text-gray-700 mb-2">{product.artist_title}</p>
-              <p className="text-lg font-semibold mb-4 text-indigo-600">
-                ${15}
-              </p>
-              <button
-                onClick={() => handleAddToCart({ ...product, price: 15 })}
-                className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center"
               >
-                Add to Cart
-              </button>
-            </div>
-          ))}
+                <h2 className="text-1xl font-semibold mb-4 text-gray-900">
+                  {product.title}
+                </h2>
+                <img
+                  src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`}
+                  alt={product.title}
+                  className="w-48 h-48 object-cover mb-4 rounded-md"
+                  style={{ width: "200px", height: "200px" }}
+                  onError={handleImageError}
+                />
+                <p className="text-gray-700 mb-2">{product.artist_title}</p>
+                <p className="text-lg font-semibold mb-4 text-indigo-600">
+                  ${15}
+                </p>
+                <button
+                  onClick={() => handleAddToCart({ ...product, price: 15 })}
+                  className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center mt-12">
+            <button
+              onClick={() => setLimit((prevLimit) => prevLimit + 6)}
+              className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+            >
+              Load More
+            </button>
+          </div>
         </div>
       ) : (
         <div className="text-center">
