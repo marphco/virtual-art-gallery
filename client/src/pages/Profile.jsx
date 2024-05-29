@@ -6,6 +6,7 @@ import { REMOVE_ART, ADD_COMMENT, UPDATE_USERNAME } from "../utils/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import OrderHistory from '../components/OrderHistory';
+import Comments from '../components/Comments';
 
 const Profile = () => {
   const { loading, error, data, refetch } = useQuery(GET_USER_DATA);
@@ -14,15 +15,15 @@ const Profile = () => {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
-  const [addComment] = useMutation(ADD_COMMENT, {
-    refetchQueries: [{ query: GET_USER_DATA }],
-  });
+  // const [addComment] = useMutation(ADD_COMMENT, {
+  //   refetchQueries: [{ query: GET_USER_DATA }],
+  // });
 
   const [updateUsername, { error: updateUsernameError }] = useMutation(UPDATE_USERNAME, {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
-  const [commentTexts, setCommentTexts] = useState({});
+  // const [commentTexts, setCommentTexts] = useState({});
   const [activeTab, setActiveTab] = useState("favorites");
   const [newUsername, setNewUsername] = useState("");
   const [showUpdateField, setShowUpdateField] = useState(false);
@@ -48,7 +49,7 @@ const Profile = () => {
     try {
       await addComment({
         variables: {
-          artworkId: artId,
+          artId: artId,
           text: commentTexts[artId],
         },
       });
@@ -116,8 +117,9 @@ const Profile = () => {
                 {art.title}
               </h3>
               <p className="text-gray-600 mb-4 text-center">{art.description}</p>
-              <div>
-                {art.comments && art.comments.length > 0 && (
+              <Comments artId={art.id}/>
+              {/* <div> */}
+                {/* {art.comments && art.comments.length > 0 && (
                   <ul className="mb-4">
                     {art.comments.map((comment) => (
                       <li key={comment.id} className="text-gray-600">
@@ -146,8 +148,8 @@ const Profile = () => {
                 className="comment-btn text-white px-4 py-2 rounded focus:outline-none"
               >
                 Add
-              </button>
-            </div>
+              </button>*/}
+            </div> 
           </li>
         ))}
       </ul>

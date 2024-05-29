@@ -1,29 +1,26 @@
+
+
 const CACHE_NAME = "panorama-cache-v2";
 
 const urlsToCache = [
   "/",
   "/index.html",
   "/favicon.ico",
-  "/main.jsx",
-  "/index.css",
-  "/app.jsx",
-  "/app.css",
-  "/components/Room.jsx",
-  "/components/Navbar.jsx",
-  "/components/Homepage.jsx",
-  "/components/Gallery.jsx",
-  "/components/FavoritesCard.jsx",
-  "/components/CameraControls.jsx",
-  "/pages/Profile.jsx",
-  "/pages/Error.jsx",
+
 ];
 
 self.addEventListener("install", (event) => {
-  self.skipWaiting(); 
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(urlsToCache);
+        return Promise.all(
+          urlsToCache.map(url => {
+            return cache.add(url).catch(err => {
+              console.error(`Failed to cache ${url}:`, err);
+            });
+          })
+        );
       })
       .catch((error) => {
         console.error("Failed to cache resources during install:", error);
@@ -43,34 +40,31 @@ self.addEventListener("activate", (event) => {
         })
       );
     }).then(() => {
-      self.clients.claim(); 
+      self.clients.claim();
     })
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') {
-    // If it's not a GET request, do nothing
     return;
   }
 
   event.respondWith(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.match(event.request).then(cachedResponse => {
-        // If a cached response is found, return it
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-        // Otherwise, fetch the resource from the network
-        return fetch(event.request).then(networkResponse => {
-          // Check if the response is valid and cache it
+      return caches.open(CACHE_NAME).then((cache) => {
+        return fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
-            const responseToCache = networkResponse.clone();
-            cache.put(event.request, responseToCache);
+            cache.put(event.request, networkResponse.clone());
           }
-
           return networkResponse;
+        }).catch((error) => {
+          console.error("Fetch failed; returning offline page instead.", error);
+          return caches.match('/offline.html');
         });
       });
     })
