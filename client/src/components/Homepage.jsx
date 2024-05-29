@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.svg";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
@@ -162,7 +163,7 @@ const Homepage = () => {
 
       <Row id="hero" className="flex justify-center">
         <Container id="logo">
-          <img src="/logo.svg" alt="Panorama - Virtual Art Gallery" />
+          <img src={logo} alt="Panorama - Virtual Art Gallery" />
         </Container>
       </Row>
 
