@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 
 const Shop = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialView = searchParams.get("view") || "prints";
+
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [view, setView] = useState("prints");
+  const [view, setView] = useState(initialView);
   const [notification, setNotification] = useState({
     visible: false,
     message: "",
@@ -17,16 +22,31 @@ const Shop = () => {
       id: "1",
       title: "1 Month Subscription",
       price: 10,
+      perks: [
+        "Monthly Art Newsletter",
+        "Digital Art Workshop",
+        "Exclusive Member Badge",
+      ],
     },
     {
       id: "2",
       title: "6 Month Subscription",
       price: 50,
+      perks: [
+        "Everything in 1 Month Subscription",
+        "Access to Premium Galleries",
+        "Early Access to New Exhibits",
+      ],
     },
     {
       id: "3",
       title: "1 Year Subscription",
       price: 90,
+      perks: [
+        "Everything in 6 Month Subscription",
+        "Unlimited Access to All Galleries",
+        "Personalized Art Recommendations",
+      ],
     },
   ];
 
@@ -58,7 +78,7 @@ const Shop = () => {
           )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
-        console.log("Search results:", data); 
+        console.log("Search results:", data);
         setProducts(data.data);
       } catch (error) {
         console.error("Error fetching artworks:", error);

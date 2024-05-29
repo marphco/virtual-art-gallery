@@ -1,6 +1,11 @@
 import ReactDOM from "react-dom/client";
 import React, { useEffect } from "react";
-import { createBrowserRouter, RouterProvider, useNavigate, useLocation } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Homepage from "./components/Homepage.jsx";
 import Gallery from "./components/Gallery.jsx";
 import Error from "./pages/Error.jsx";
@@ -13,6 +18,7 @@ import Checkout from "./pages/Checkout.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
 import { useAuth, AuthProvider } from "./context/AuthContext.jsx";
 import "./index.css";
+import GalleriesPage from "./pages/GalleriesPage";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -34,7 +40,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/', { replace: true, state: { from: location.pathname } });
+      navigate("/", { replace: true, state: { from: location.pathname } });
     }
   }, [isAuthenticated, navigate, location.pathname]);
 
@@ -88,6 +94,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Checkout />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/galleries",
+        element: (
+          <ProtectedRoute>
+            <GalleriesPage />
           </ProtectedRoute>
         ),
       },
