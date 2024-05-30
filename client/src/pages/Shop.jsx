@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
+import check from "../assets/check.svg"; // Ensure to import the check icon used in the Homepage
 
 const Shop = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialView = searchParams.get("view") || "prints";
+
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [view, setView] = useState("prints");
+  const [view, setView] = useState(initialView);
   const [notification, setNotification] = useState({
     visible: false,
     message: "",
@@ -17,16 +23,31 @@ const Shop = () => {
       id: "1",
       title: "1 Month Subscription",
       price: 10,
+      perks: [
+        "Monthly Art Newsletter",
+        "Digital Art Workshop",
+        "Exclusive Member Badge",
+      ],
     },
     {
       id: "2",
       title: "6 Month Subscription",
       price: 50,
+      perks: [
+        "Everything in 1 Month Subscription",
+        "Access to Premium Galleries",
+        "Early Access to New Exhibits",
+      ],
     },
     {
       id: "3",
       title: "1 Year Subscription",
       price: 90,
+      perks: [
+        "Everything in 6 Month Subscription",
+        "Unlimited Access to All Galleries",
+        "Personalized Art Recommendations",
+      ],
     },
   ];
 
@@ -58,7 +79,7 @@ const Shop = () => {
           )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
-        console.log("Search results:", data); 
+        console.log("Search results:", data);
         setProducts(data.data);
       } catch (error) {
         console.error("Error fetching artworks:", error);
@@ -187,12 +208,20 @@ const Shop = () => {
                 className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
                 onClick={() => handleAddToCart(item)}
               >
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900">
+                <h3 className="text-2xl font-semibold mb-4 text-gray-900 sub-title">
                   {item.title}
                 </h3>
-                <p className="text-lg font-semibold text-indigo-600">
+                <p className="text-lg font-semibold text-indigo-600 dollar">
                   ${item.price}
                 </p>
+                <ul className="list-disc list-inside mb-4 text-left mt-4">
+                  {item.perks.map((perk, index) => (
+                    <li key={index} className="mb-2 flex items-center">
+                      <img src={check} alt="check" className="h-6 pr-2" />
+                      {perk}
+                    </li>
+                  ))}
+                </ul>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
