@@ -5,10 +5,14 @@ import { GET_USER_DATA } from "../utils/queries";
 import { REMOVE_ART, ADD_COMMENT, UPDATE_USERNAME } from "../utils/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import Zoom from 'react-medium-image-zoom';
+import Comments from '../components/Comments'
 import OrderHistory from '../components/OrderHistory';
+import { useCart } from '../context/CartContext';
 
 const Profile = () => {
   const { loading, error, data, refetch } = useQuery(GET_USER_DATA);
+  const { addToCart } = useCart();
 
   const [removeArt] = useMutation(REMOVE_ART, {
     refetchQueries: [{ query: GET_USER_DATA }],
@@ -18,9 +22,12 @@ const Profile = () => {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
-  const [updateUsername, { error: updateUsernameError }] = useMutation(UPDATE_USERNAME, {
-    refetchQueries: [{ query: GET_USER_DATA }],
-  });
+  const [updateUsername, { error: updateUsernameError }] = useMutation(
+    UPDATE_USERNAME,
+    {
+      refetchQueries: [{ query: GET_USER_DATA }],
+    }
+  );
 
   const [commentTexts, setCommentTexts] = useState({});
   const [activeTab, setActiveTab] = useState("favorites");
@@ -44,6 +51,18 @@ const Profile = () => {
     }
   };
 
+
+  const handleBuyPrint = (art) => {
+    addToCart({
+      id: art.id,
+      title: art.title,
+      price: 15.0, 
+      quantity: 1,
+    });
+   
+    window.location.href = "/checkout";
+  };
+
   const handleAddComment = async (artId) => {
     try {
       await addComment({
@@ -60,7 +79,12 @@ const Profile = () => {
 
       refetch();
     } catch (error) {
-      console.error("Error adding comment:", error.message, error.networkError, error.graphQLErrors);
+      console.error(
+        "Error adding comment:",
+        error.message,
+        error.networkError,
+        error.graphQLErrors
+      );
     }
   };
 
@@ -79,13 +103,19 @@ const Profile = () => {
 
   const renderFavorites = () => (
     <>
-      <Container id="your-favorites" className="flex justify-center flex-col mt-8">
+      <Container
+        id="your-favorites"
+        className="flex justify-center flex-col mt-8"
+      >
         <h2 className="text-3xl font-bold text-center">Your Favorites</h2>
         <p className="text-lg mb-6 text-center p-6">
-          Discover the masterpieces you've favorited! This section showcases the artworks you've loved the most. Enjoy a personalized collection of your favorite pieces, complete with artist details and your personal comments.
+          Discover the masterpieces you've favorited! This section showcases the
+          artworks you've loved the most. Enjoy a personalized collection of
+          your favorite pieces, complete with artist details and your personal
+          comments.
         </p>
       </Container>
-      
+
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-4">
         {favorites.map((art) => (
           <li
@@ -116,36 +146,14 @@ const Profile = () => {
                 {art.title}
               </h3>
               <p className="text-gray-600 mb-4 text-center">{art.description}</p>
-              <div>
-                {art.comments && art.comments.length > 0 && (
-                  <ul className="mb-4">
-                    {art.comments.map((comment) => (
-                      <li key={comment.id} className="text-gray-600">
-                        {comment.text}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              <Comments artId={art.id}/>
             </div>
-            <div className="flex justify-between items-center">
-              <input
-                type="text"
-                placeholder="Add your feeling or impression"
-                value={commentTexts[art.id] || ""}
-                onChange={(e) =>
-                  setCommentTexts({
-                    ...commentTexts,
-                    [art.id]: e.target.value,
-                  })
-                }
-                className="border border-gray-300 rounded-lg px-4 py-2 w-4/5 mr-2"
-              />
+            <div className="flex justify-between items-center mt-4">
               <button
-                onClick={() => handleAddComment(art.id)}
-                className="comment-btn text-white px-4 py-2 rounded focus:outline-none"
+                onClick={() => handleBuyPrint(art)}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
               >
-                Add
+                Buy Print
               </button>
             </div>
           </li>
@@ -154,66 +162,94 @@ const Profile = () => {
     </>
   );
 
-  return (
-    <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center">
-      <p className="text-center py-4 mb-4 text-xl">Hello, {username}!</p>
-      <h2 className="text-3xl font-bold mb-8 text-center">Your Profile</h2>
   
+  return (
+    <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center bg-light-green">
+      <h2 className="text-3xl font-bold mb-8 text-center">Your Profile</h2>
+      <p className="text-center py-4 mb-4 text-xl">
+        Hello, <strong>{username}</strong>!
+      </p>
+
+      {showUpdateField && (
+        <div className="mb-8 w-full max-w-md mx-auto">
+          <h3 className="text-xl text-center font-semibold mb-4">
+            Edit Username
+          </h3>
+          <div className="flex justify-center items-center mb-3">
+            <input
+              type="text"
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
+              placeholder="Search for art prints"
+              className="search-bar flex p-2 border border-gray-300 rounded-l-full"
+            />
+            <button
+              onClick={handleUpdateUsername}
+              type="submit"
+              className="save-btn py-2 px-6 text-white rounded-r-full"
+            >
+              Save
+            </button>
+
+            {/*             
+            <input
+              type="text"
+              placeholder="Type Here"
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
+              className="border border-gray-300 rounded-lg px-4 py-2 w-3/4 placeholder-gray-400 mr-3 focus:outline-none"
+            />
+            <button
+              onClick={handleUpdateUsername}
+              className="bg-blue-600 text-white px-4 py-2 rounded focus:outline-none"
+            >
+              Save
+            </button> */}
+          </div>
+          {updateUsernameError && (
+            <p className="text-red-500 mt-2 ml-2">
+              {updateUsernameError.message}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="mb-8">
+        <button
+          onClick={() => setShowUpdateField(!showUpdateField)}
+          className="update-btn mx-2 px-4 py-2 text-white rounded-full"
+        >
+          Update Username
+        </button>
+      </div>
+
       <div className="mb-8 flex flex-wrap justify-center">
         <button
           onClick={() => setActiveTab("favorites")}
-          className={`mx-2 px-4 py-2 ${activeTab === "favorites" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md mb-2`}
+          className={`mx-2 px-4 py-2 ${
+            activeTab === "favorites"
+              ? "fav-btn text-white"
+              : "bg-gray-200 text-gray-800 rounded-full"
+          } mb-2`}
         >
           Favorites
         </button>
         <button
           onClick={() => setActiveTab("order-history")}
-          className={`mx-2 px-4 py-2 ${activeTab === "order-history" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} rounded-md mb-2`}
+          className={`mx-2 px-4 py-2 ${
+            activeTab === "order-history"
+              ? "order-history-btn text-white"
+              : "bg-gray-200 text-gray-800 rounded-full"
+          } mb-2`}
         >
           Order History
         </button>
       </div>
-  
-      {showUpdateField && (
-  <div className="mb-8 w-full max-w-md mx-auto">
-    <h3 className="text-2xl font-semibold mb-4">Edit Username</h3>
-    <div className="flex items-center mb-3">
-      <input
-        type="text"
-        placeholder="Type Here"
-        value={newUsername}
-        onChange={(e) => setNewUsername(e.target.value)}
-        className="border border-gray-300 rounded-lg px-4 py-2 w-3/4 placeholder-gray-400 mr-3 focus:outline-none" // Tailwind classes for input field
-      />
-      <button
-        onClick={handleUpdateUsername}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" // Tailwind classes for button
-      >
-        Edit
-      </button>
-    </div>
-    {updateUsernameError && (
-      <p className="text-red-500 mt-2 ml-2">{updateUsernameError.message}</p>
-    )}
-  </div>
-)}
 
-
-  
-      <div className="mb-8">
-        <button
-          onClick={() => setShowUpdateField(!showUpdateField)}
-          className="mx-2 px-4 py-2 bg-green-600 text-white rounded-md"
-        >
-          Update Username
-        </button>
-      </div>
-  
       {activeTab === "favorites" && renderFavorites()}
       {activeTab === "order-history" && <OrderHistory />}
     </div>
   );
-  
 };
 
 export default Profile;

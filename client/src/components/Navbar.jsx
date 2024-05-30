@@ -10,6 +10,7 @@ import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import { useCart } from "../context/CartContext.jsx";
 import "../App.css";
+import GalleriesPage from "../pages/GalleriesPage";
 
 const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,6 +81,15 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                     onClick={() => setIsOpen(false)}
                   >
                     Profile
+                  </Link>
+                </li>
+                <li className="font-roboto">
+                  <Link
+                    to="/galleries"
+                    className="text-gray-700 hover:text-black transition-shadow"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Galleries
                   </Link>
                 </li>
                 <li className="font-roboto">

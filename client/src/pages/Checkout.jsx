@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
 import { useCart } from '../context/CartContext.jsx';
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../utils/queries.js';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe("pk_test_51PIGigP96n9UX7e8wQVmNd8WipwSCI8R6K21mId1GBoCE6D0UZNRPUAYIw0XKcK9Q0MdAnQ02ZEKtZvYauX91glG00cHwlkgqt");
+const stripePromise = loadStripe(import.meta.env.VITE_APP_STRIPE_PUB);
 
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
