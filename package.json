@@ -11,6 +11,10 @@
     "render-build": "npm install && npm run build",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal client/public/logo.svg"
   },
+"engines": {
+  "node": "20.x",
+  "npm": "10.x"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
