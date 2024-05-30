@@ -573,6 +573,39 @@ z-index: 1;
   color: var(--secondary);
 }
 
+/* PROFILE PAGE */
+.fav-btn, .order-history-btn {
+  background-color: var(--secondary);
+  border-radius: 30px;
+}
+
+.fav-btn:hover, .order-history-btn:hover {
+  background-color: var(--primary);
+}
+
+.update-btn {
+  background-color: #5dca6c;
+}
+
+.update-btn:hover {
+  background-color: green;
+}
+
+.save-btn, .add-comment-btn {
+  background-color: var(--secondary);
+}
+
+.save-btn:hover, .add-comment-btn:hover {
+  background-color: var(--primary);
+}
+
+.art-title {
+  font-size: 1.4rem !important;
+  color: var(--secondary) !important;
+}
+
+
+
 
 /* TABLET AND DESKTOP */
 
