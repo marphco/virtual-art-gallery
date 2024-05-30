@@ -113,7 +113,7 @@ const Profile = () => {
             <div className="flex justify-between items-center mb-4">
               <div className="mb-2">
                 {art.artist_titles && (
-                  <span className="inline-block text-xl font-bold  bg-gray-200 text-gray-700 px-2 py-1 mt-2 pl-5 pr-5 rounded-full mr-2 mb-1">
+                  <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-md mr-2 mb-1">
                     {art.artist_titles}
                   </span>
                 )}
@@ -130,48 +130,26 @@ const Profile = () => {
                 alt={art.title}
                 className="w-full h-96 object-cover rounded-lg mb-4"
               />
-              <h3 className="art-title font-bold mb-2 text-center">
+              <h3 className="text-xl font-semibold mb-2 text-center">
                 {art.title}
               </h3>
               <p className="text-gray-600 mb-4 text-center">{art.description}</p>
               <Comments artId={art.id}/>
-              {/* <div> */}
-                {/* {art.comments && art.comments.length > 0 && (
-                  <ul className="mb-4">
-                    {art.comments.map((comment) => (
-                      <li key={comment.id} className="text-gray-600">
-                        {comment.text}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
             </div>
-            <div className="flex justify-between items-center">
-              <input
-                type="text"
-                placeholder="Add your feeling or impression"
-                value={commentTexts[art.id] || ""}
-                onChange={(e) =>
-                  setCommentTexts({
-                    ...commentTexts,
-                    [art.id]: e.target.value,
-                  })
-                }
-                className="border border-gray-300 rounded-lg px-4 py-2 w-4/5 mr-2"
-              />
+            <div className="flex justify-between items-center mt-4">
               <button
                 onClick={() => handleBuyPrint(art)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg"
               >
-                Add
-              </button>*/}
-            </div> 
+                Buy Print
+              </button>
+            </div>
           </li>
         ))}
       </ul>
     </>
   );
+
   
   return (
     <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center bg-light-green">
