@@ -60,7 +60,4 @@ export default defineConfig({
   css: {
     postcss: './postcss.config.cjs',
   },
-  build: {
-    outDir: 'dist'
-  }
 });
