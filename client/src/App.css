@@ -136,6 +136,18 @@ input:focus-visible {
   outline: solid 1px var(--secondary) !important;
 }
 
+.active-link {
+  color: var(--secondary) !important;
+}
+
+.title-page {
+  margin-top: 7rem;
+}
+
+.username-error {
+  color: red !important;
+}
+
 /* HOMEPAGE */
 #hero {
   margin: 0 auto;
@@ -175,6 +187,11 @@ h3 {
   color: var(--primary);
 }
 
+.buy-now-button:hover {
+  background-color: var(--secondary);
+  color: white;
+}
+
 /* SLIDER */
 .container {
   width: 100%;
@@ -186,17 +203,17 @@ h3 {
   text-align: center;
 }
 
-#tranding {
+.tranding {
   padding: 4rem 0;
 }
 
 @media (max-width: 1440px) {
-  #tranding {
+  .tranding, .profile-page, .shop-page, .checkout-page {
     padding: 7rem 0;
   }
 }
 
-#tranding .tranding-slider {
+.tranding .tranding-slider {
   width: 100%;
   height: auto;
   padding: 4% 10%; /* Add padding to show part of the adjacent slides */
@@ -378,6 +395,11 @@ h3 {
   margin: 0 10px; /* Added margin for spacing between buttons */
 }
 
+.enter-button {
+  width: 140px;
+  height: 60px;
+}
+
 .enter-button:hover,
 .login-button:hover,
 .signup-button:hover {
@@ -463,16 +485,6 @@ form .button:hover {
 .switch-button {
   color: var(--secondary);
   font-weight: 800;
-}
-
-/* PROFILE PAGE */
-
-.comment-btn {
-  background-color: var(--secondary);
-}
-
-.comment-btn:hover {
-  background-color: var(--primary);
 }
 
 /* FOOTER */
@@ -574,6 +586,19 @@ z-index: 1;
 }
 
 /* PROFILE PAGE */
+
+.profile-page {
+  padding-top: 4rem;
+}
+
+.comment-btn {
+  background-color: var(--secondary);
+}
+
+.comment-btn:hover {
+  background-color: var(--primary);
+}
+
 .fav-btn, .order-history-btn {
   background-color: var(--secondary);
   border-radius: 30px;
@@ -604,8 +629,36 @@ z-index: 1;
   color: var(--secondary) !important;
 }
 
+.artist-name {
+  font-size: 1.5rem;
+  color: var(--secondary);
+}
 
+.buy-print-btn {
+  background-color: var(--secondary);
+}
 
+.buy-print-btn:hover {
+  background-color: var(--primary);
+}
+
+/* GALLERY PAGE */
+
+.title-gallery-page {
+  margin-top: 4rem;
+}
+
+/* SHOP PAGE */
+
+.shop-page {
+  margin-top: 7rem;
+}
+
+.popup {
+  margin-top: 80px;
+  z-index: 100;
+  background-color: #5dca6c;
+}
 
 /* TABLET AND DESKTOP */
 
@@ -642,7 +695,7 @@ z-index: 1;
     line-height: 4rem !important;
   }
 
-  #subscription-text p, #tranding p, #your-favorites p {
+  #subscription-text p, .tranding p, #your-favorites p {
     width: 70% !important;
     margin: 0 auto !important;
   }
@@ -657,6 +710,10 @@ z-index: 1;
 
   .modal-content {
   width: 60%;
+  }
+
+  .title-gallery-page {
+    margin-top: 6rem;
   }
 }
 
