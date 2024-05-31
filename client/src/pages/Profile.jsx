@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
 import { REMOVE_ART, ADD_COMMENT, UPDATE_USERNAME } from "../utils/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import Zoom from 'react-medium-image-zoom';
 import Comments from '../components/Comments'
 import OrderHistory from '../components/OrderHistory';
@@ -123,9 +123,9 @@ const Profile = () => {
             className="flex flex-col justify-between p-4 border border-gray-300 rounded-lg shadow-lg bg-white h-full"
           >
             <div className="flex justify-between items-center mb-4">
-              <div className="mb-2">
+              <div>
                 {art.artist_titles && (
-                  <span className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded-md mr-2 mb-1">
+                  <span className="artist-name inline-block px-2 py-1 pl-3 pr-3 rounded-full mr-2 mb-1">
                     {art.artist_titles}
                   </span>
                 )}
@@ -151,9 +151,12 @@ const Profile = () => {
             <div className="flex justify-between items-center mt-4">
               <button
                 onClick={() => handleBuyPrint(art)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                className="flex justify-center items-center buy-print-btn text-white mx-auto px-4 pl-4 pr-4 py-2 rounded-full"
               >
-                Buy Print
+                <FontAwesomeIcon
+                icon={faCartPlus}
+                className="text-white-500 pr-3 cursor-pointer "
+              /> Buy Print
               </button>
             </div>
           </li>
