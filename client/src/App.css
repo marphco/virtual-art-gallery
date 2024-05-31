@@ -140,6 +140,10 @@ input:focus-visible {
   color: var(--secondary) !important;
 }
 
+.title-page {
+  margin-top: 7rem;
+}
+
 /* HOMEPAGE */
 #hero {
   margin: 0 auto;
@@ -200,7 +204,7 @@ h3 {
 }
 
 @media (max-width: 1440px) {
-  .tranding {
+  .tranding, .profile-page, .shop-page, .checkout-page {
     padding: 7rem 0;
   }
 }
@@ -479,16 +483,6 @@ form .button:hover {
   font-weight: 800;
 }
 
-/* PROFILE PAGE */
-
-.comment-btn {
-  background-color: var(--secondary);
-}
-
-.comment-btn:hover {
-  background-color: var(--primary);
-}
-
 /* FOOTER */
 #footer button {
   background-color: var(--secondary);
@@ -588,6 +582,19 @@ z-index: 1;
 }
 
 /* PROFILE PAGE */
+
+.profile-page {
+  padding-top: 4rem;
+}
+
+.comment-btn {
+  background-color: var(--secondary);
+}
+
+.comment-btn:hover {
+  background-color: var(--primary);
+}
+
 .fav-btn, .order-history-btn {
   background-color: var(--secondary);
   border-radius: 30px;
@@ -634,9 +641,20 @@ z-index: 1;
 /* GALLERY PAGE */
 
 .title-gallery-page {
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
+/* SHOP PAGE */
+
+.shop-page {
+  margin-top: 7rem;
+}
+
+.popup {
+  margin-top: 80px;
+  z-index: 100;
+  background-color: #5dca6c;
+}
 
 /* TABLET AND DESKTOP */
 
