@@ -10,11 +10,17 @@ import { useMutation } from "@apollo/client";
 import { SAVE_ART } from "../utils/mutations";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
+import { useCart } from "../context/CartContext.jsx";  
 import "../App.css";
 
 function Modal({ art, onClose, onSave }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [saveArt] = useMutation(SAVE_ART);
+  const { addToCart } = useCart();  // Use the useCart hook to get addToCart function
+  const [notification, setNotification] = useState({
+    visible: false,
+    message: "",
+  });
 
   useEffect(() => {}, [art]);
 
@@ -40,6 +46,15 @@ function Modal({ art, onClose, onSave }) {
     } catch (error) {
       console.error("Error saving artwork:", error);
     }
+  };
+
+  const handleAddToCart = (item) => {
+    addToCart(item);
+    setNotification({
+      visible: true,
+      message: `${item.title} has been added to cart!`,
+    });
+    setTimeout(() => setNotification({ visible: false, message: "" }), 3000);
   };
 
   if (!art) {
@@ -92,8 +107,19 @@ function Modal({ art, onClose, onSave }) {
             />
             <span>Save</span>
           </button>
+          <button
+            className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+            onClick={() => handleAddToCart({ ...art, price: 15 })}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
+      {notification.visible && (
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300">
+          {notification.message}
+        </div>
+      )}
     </div>
   );
 }
