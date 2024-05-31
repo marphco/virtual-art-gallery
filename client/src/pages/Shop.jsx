@@ -63,7 +63,8 @@ const Shop = () => {
         `https://api.artic.edu/api/v1/artworks?limit=${limit}`
       );
       const data = await response.json();
-      setProducts(data.data);
+      const validProducts = data.data.filter(product => product.image_id);
+      setProducts(validProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -79,8 +80,8 @@ const Shop = () => {
           )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
-        console.log("Search results:", data);
-        setProducts(data.data);
+        const validProducts = data.data.filter(product => product.image_id);
+        setProducts(validProducts);
       } catch (error) {
         console.error("Error fetching artworks:", error);
       }
@@ -103,32 +104,28 @@ const Shop = () => {
     }
   };
 
-  const handleImageError = (event) => {
-    event.target.src = "https://via.placeholder.com/200";
-  };
-
   return (
     <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 className="title-page text-3xl font-bold mb-4 text-center">
-            Art Gallery Shop
-          </h1>
+        Art Gallery Shop
+      </h1>
       <div className="flex justify-center space-x-4 mb-12 mt-12">
         <button
           onClick={() => handleViewChange("prints")}
-          className={`py-2 px-6 font-semibold rounded-full shadow-lg transition-all duration-300 ${
+          className={`mx-2 px-4 py-2 ${
             view === "prints"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-300 text-gray-700 hover:bg-indigo-600 hover:text-white"
+              ? "shop-prints-btn text-white"
+              : "bg-gray-200 text-gray-800 rounded-full"
           }`}
         >
           Shop Prints
         </button>
         <button
           onClick={() => handleViewChange("subscriptions")}
-          className={`py-2 px-6 font-semibold rounded-full shadow-lg transition-all duration-300 ${
+          className={`mx-2 px-4 py-2 ${
             view === "subscriptions"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-300 text-gray-700 hover:bg-indigo-600 hover:text-white"
+              ? "shop-subscription-btn text-white"
+              : "bg-gray-200 text-gray-800 rounded-full"
           }`}
         >
           Shop Subscriptions
@@ -146,11 +143,11 @@ const Shop = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search for art prints"
-            className="p-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            className="search-bar flex p-2 border border-gray-300 rounded-l-full"
           />
           <button
             type="submit"
-            className="py-2 px-6 bg-indigo-600 text-white rounded-r-full hover:bg-indigo-700"
+            className="save-btn py-2 px-6 text-white rounded-r-full"
           >
             Search
           </button>
@@ -164,7 +161,7 @@ const Shop = () => {
                 key={product.id}
                 className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center"
               >
-                <h2 className="text-1xl font-semibold mb-4 text-gray-900">
+                <h2 className="text-1xl font-semibold mb-4 text-gray-700 text-center">
                   {product.title}
                 </h2>
                 <img
@@ -172,15 +169,14 @@ const Shop = () => {
                   alt={product.title}
                   className="w-48 h-48 object-cover mb-4 rounded-md"
                   style={{ width: "200px", height: "200px" }}
-                  onError={handleImageError}
                 />
                 <p className="text-gray-700 mb-2">{product.artist_title}</p>
-                <p className="text-lg font-semibold mb-4 text-indigo-600">
-                  ${15}
+                <p className="text-lg font-semibold text-600 dollar">
+                  $<span className="price">{15}</span>
                 </p>
                 <button
                   onClick={() => handleAddToCart({ ...product, price: 15 })}
-                  className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+                  className="py-2 mt-4 px-6 text-white rounded-full add-to-cart-btn"
                 >
                   Add to Cart
                 </button>
@@ -190,29 +186,29 @@ const Shop = () => {
           <div className="flex justify-center mt-12">
             <button
               onClick={() => setLimit((prevLimit) => prevLimit + 6)}
-              className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+              className="py-2 px-6 text-white rounded-full load-more-btn"
             >
               Load More
             </button>
           </div>
         </div>
       ) : (
-        <div className="text-center">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900">
+        <div id="subscription-block" className="text-center">
+          <h2 className="text-3xl font-bold mb-8">
             Become a member to get unlimited access
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 text-left">
             {subscriptionItems.map((item) => (
               <div
                 key={item.id}
                 className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
                 onClick={() => handleAddToCart(item)}
               >
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 sub-title">
+                <h3 className="text-2xl font-semibold mb-4 sub-title">
                   {item.title}
                 </h3>
-                <p className="text-lg font-semibold text-indigo-600 dollar">
-                  ${item.price}
+                <p className="text-lg font-semibold dollar">
+                  $<span className="price">{item.price}</span>
                 </p>
                 <ul className="list-disc list-inside mb-4 text-left mt-4">
                   {item.perks.map((perk, index) => (

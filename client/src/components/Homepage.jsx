@@ -307,7 +307,7 @@ const Homepage = () => {
                 {item.title}
               </h3>
               <p className="text-lg font-semibold text-600 dollar">
-                $<span id="price">{item.price}</span>
+                $<span className="price">{item.price}</span>
               </p>
               <ul className="mb-4 text-left mt-4">
                 {item.perks.map((perk, index) => (
