@@ -18,7 +18,7 @@ import Checkout from "./pages/Checkout.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
 import { useAuth, AuthProvider } from "./context/AuthContext.jsx";
 import "./index.css";
-import GalleriesPage from "./pages/GalleriesPage";
+import GalleriesPage from "./pages/GalleriesPage.jsx";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
