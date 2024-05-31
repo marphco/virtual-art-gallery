@@ -41,6 +41,10 @@ const Homepage = () => {
   const [activeForm, setActiveForm] = useState("login");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null); // Define the state here
+  const [notification, setNotification] = useState({
+    visible: false,
+    message: "",
+  });
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
@@ -162,6 +166,14 @@ const Homepage = () => {
         }
       );
     e.target.reset();
+  };
+  const handleAddToCart = (item) => {
+    addToCart(item);
+    setNotification({
+      visible: true,
+      message: `${item.title} has been added to cart!`,
+    });
+    setTimeout(() => setNotification({ visible: false, message: "" }), 3000);
   };
 
   return (
