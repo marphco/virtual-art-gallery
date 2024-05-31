@@ -73,12 +73,12 @@ function Modal({ art, onClose, onSave }) {
         style={{ maxHeight: "90vh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="w-full h-auto mb-4">
+        <div className="w-full h-auto mb-4 flex justify-center">
           <Zoom>
             <img
               src={art.imageUrl}
               alt={art.title}
-              className="w-full h-full object-cover rounded-lg"
+              className="max-w-full max-h-96 object-contain rounded-lg"
             />
           </Zoom>
         </div>
