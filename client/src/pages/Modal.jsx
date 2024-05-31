@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart as faHeartSolid,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartSolid, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/client";
@@ -89,16 +87,25 @@ function Modal({ art, onClose, onSave }) {
         <p className="pl-4 pr-4 text-xl mb-4 mt-2">
           <strong>Description:</strong> {art.description}
         </p>
-        <div className="flex justify-between items-center pl-4 pr-4 mt-4">
+        <div className="hidden md:flex justify-between items-center pl-4 pr-4 mt-4">
           <button
-            className="bg-transparent text-black border border-black px-4 py-2 rounded hover:text-red-600 flex items-center space-x-2"
+            className="bg-transparent text-black border border-red-500 px-4 py-2 rounded-full hover:text-red-600 flex items-center space-x-2"
             onClick={onClose}
           >
             <FontAwesomeIcon icon={faTimes} className="hover:text-red-600" />
             <span>Close</span>
           </button>
           <button
-            className="bg-transparent text-black border border-black px-4 py-2 rounded hover:text-green-600 flex items-center space-x-2"
+            className="add-to-cart-btn py-2 px-6 text-white rounded-full"
+            onClick={() => handleAddToCart({ ...art, price: 15 })}
+          ><FontAwesomeIcon
+          icon={faCartPlus}
+          className="text-white-500 pr-3 cursor-pointer "
+        />
+            Add to Cart
+          </button>
+          <button
+            className="bg-transparent text-black border border-green-500 px-4 py-2 rounded-full hover:text-green-600 flex items-center space-x-2"
             onClick={handleSaveClick}
           >
             <FontAwesomeIcon
@@ -107,16 +114,39 @@ function Modal({ art, onClose, onSave }) {
             />
             <span>Save</span>
           </button>
-          <button
-            className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
-            onClick={() => handleAddToCart({ ...art, price: 15 })}
-          >
-            Add to Cart
-          </button>
+        </div>
+        <div className="flex flex-col md:hidden justify-between items-center pl-4 pr-4 mt-4 space-y-4">
+          <div className="flex justify-between w-full">
+            <button
+              className="bg-transparent text-black border border-red-500 px-4 py-2 rounded-full hover:text-red-600 flex items-center space-x-2"
+              onClick={onClose}
+            >
+              <FontAwesomeIcon icon={faTimes} className="hover:text-red-600" />
+              <span>Close</span>
+            </button>
+            <button
+              className="bg-transparent text-black border border-green-500 px-4 py-2 rounded-full hover:text-green-600 flex items-center space-x-2"
+              onClick={handleSaveClick}
+            >
+              <FontAwesomeIcon
+                icon={isFavorite ? faHeartSolid : faHeartRegular}
+                className="heart-icon"
+              />
+              <span>Save</span>
+            </button>
+          </div>
+          <div className="flex justify-center w-full">
+            <button
+              className="add-to-cart-btn py-2 px-6 text-white rounded-full"
+              onClick={() => handleAddToCart({ ...art, price: 15 })}
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
       {notification.visible && (
-        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300">
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-md shadow-lg transition-all duration-300">
           {notification.message}
         </div>
       )}
