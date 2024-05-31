@@ -46,11 +46,11 @@ const Checkout = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="checkout-page min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8">
-        <h1 className="text-3xl font-bold text-center text-gray-800">
-          Checkout
-        </h1>
+      <h1 className="title-page text-3xl font-bold mb-4 text-center">
+            Checkout
+          </h1>
         <div className="bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">
             Shopping Cart
