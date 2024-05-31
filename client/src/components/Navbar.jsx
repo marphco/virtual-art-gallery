@@ -7,7 +7,7 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import icon from "../assets/icon.svg";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
+import SignUpForm from "./SignupForm";
 import { useCart } from "../context/CartContext.jsx";
 import "../App.css";
 import GalleriesPage from "../pages/GalleriesPage";
