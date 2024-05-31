@@ -65,6 +65,13 @@ const Profile = () => {
   };
 
   const handleAddComment = async (artId) => {
+    const commentText = commentTexts[artId];
+
+  // Check if the comment text is empty
+  if (!commentText) {
+    console.warn("Comment text is empty. No comment will be added.");
+    return;
+  }
     try {
       await addComment({
         variables: {
