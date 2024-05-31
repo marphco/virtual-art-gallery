@@ -12,7 +12,6 @@ const Room = ({ onPaintingClick }) => {
 
   const loadArtworks = useCallback(async () => {
     try {
-      // const category = "painting"
       const response = await fetch(
         `https://api.artic.edu/api/v1/artworks?page=${page}&limit=6&fields=id,title,artist_title,image_id,thumbnail`
       );
