@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"; // Import useLocation
 import Auth from "../utils/auth";
 import { Nav, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,13 +10,13 @@ import LoginForm from "./LoginForm";
 import SignUpForm from "./SignupForm";
 import { useCart } from "../context/CartContext.jsx";
 import "../App.css";
-import GalleriesPage from "../pages/GalleriesPage";
 
 const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isLoggedIn = Auth.loggedIn();
   const { cartItemCount } = useCart();
   const [animate, setAnimate] = useState(false);
+  const location = useLocation(); // Add this line
 
   const handleLogout = () => {
     Auth.logout();
@@ -77,7 +77,9 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                 <li className="font-roboto">
                   <Link
                     to="/profile"
-                    className="text-gray-700 hover:text-black transition-shadow"
+                    className={`text-gray-700 hover:text-black transition-shadow ${
+                      location.pathname === "/profile" ? "active-link" : ""
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     Profile
@@ -86,7 +88,9 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                 <li className="font-roboto">
                   <Link
                     to="/galleries"
-                    className="text-gray-700 hover:text-black transition-shadow"
+                    className={`text-gray-700 hover:text-black transition-shadow ${
+                      location.pathname === "/galleries" ? "active-link" : ""
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     Galleries
@@ -95,7 +99,9 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                 <li className="font-roboto">
                   <Link
                     to="/shop"
-                    className="text-gray-700 hover:text-black transition-shadow"
+                    className={`text-gray-700 hover:text-black transition-shadow ${
+                      location.pathname === "/shop" ? "active-link" : ""
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     Shop-Art

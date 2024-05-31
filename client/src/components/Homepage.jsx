@@ -9,6 +9,15 @@ import logo from "../assets/logo.svg";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
 import artic from "../assets/artic.png";
+import Arnaud from '../assets/arnaud.png';
+import ArtCenterTokyo from '../assets/art-center-tokyo.png';
+import CentroCultural from '../assets/centro-cultural.png';
+import Lacroix from '../assets/lacroix.png';
+import Lam from '../assets/lam.png';
+import Louvre from '../assets/louvre.png';
+import NationalGallery from '../assets/national-gallery.png';
+import Randall from '../assets/randall.png';
+import ScienceMuseum from '../assets/science-museum.png';
 import check from "../assets/check.svg";
 import success from "../assets/success.svg";
 import Auth from "../utils/auth";
@@ -36,12 +45,18 @@ const Homepage = () => {
   const { addToCart } = useCart();
 
   const galleries = [
-    { id: 1, src: met, title: "Metropolitan Museum of New York", locked: true },
-    { id: 2, src: artic, title: "Art Institute of Chicago", locked: false },
+    { id: 1, src: artic, title: "Art Institute of Chicago", locked: false },
+    { id: 2, src: met, title: "Metropolitan Museum of New York", locked: true },
     { id: 3, src: uffizi, title: "Gallerie degli Uffizi", locked: true },
-    { id: 4, src: met, title: "Metropolitan Museum of New York", locked: true },
-    { id: 5, src: artic, title: "Art Institute of Chicago", locked: false },
-    { id: 6, src: uffizi, title: "Gallerie degli Uffizi", locked: true },
+    { id: 4, src: Arnaud, title: "Galeria Raquel Arnaud", locked: true },
+    { id: 5, src: CentroCultural, title: "Centro Cultural Rio De Janeiro", locked: true },
+    { id: 6, src: Lacroix, title: "The Lacroix Art and History", locked: true },
+    { id: 7, src: Lam, title: "Lam Museum of Anthropology", locked: true },
+    { id: 8, src: Louvre, title: "Musée du Louvre", locked: true },
+    { id: 9, src: NationalGallery, title: "National Gallery of Art", locked: true },
+    { id: 10, src: Randall, title: "Randall Museum of Science", locked: true },
+    { id: 11, src: ScienceMuseum, title: "International Science Museum", locked: true },
+    { id: 12, src: ArtCenterTokyo, title: "Tokyo National Art Center", locked: true },
   ];
 
   const subscriptionItems = [
@@ -186,7 +201,7 @@ const Homepage = () => {
         </Container>
       </Row>
 
-      <Row id="tranding" className="flex justify-center">
+      <Row className="tranding flex justify-center">
         <Container>
           <h2 className="text-3xl font-bold mb-4 mt-8 text-center">
             Explore Our Stunning Galleries
@@ -212,14 +227,14 @@ const Homepage = () => {
                       {isLoggedIn ? (
                         gallery.locked ? (
                           <button
-                            className="buy-now-button bg-white text-black py-2 px-4 rounded-lg"
+                            className="buy-now-button bg-white text-grey-700 py-2 px-4 rounded-full"
                             onClick={handleSubscribe}
                           >
                             Subscribe
                           </button>
                         ) : (
                           <button
-                            className="enter-button bg-white text-black py-2 px-4 rounded-lg"
+                            className="enter-button text-xl bg-white text-black py-2 px-4 rounded-full"
                             onClick={handleEnter}
                           >
                             Enter
@@ -228,7 +243,7 @@ const Homepage = () => {
                       ) : (
                         <>
                           <button
-                            className="login-button bg-white text-black py-2 px-4 rounded-lg mr-4"
+                            className="login-button bg-white text-black py-2 px-4 rounded-full mr-4"
                             onClick={() => {
                               setActiveForm("login");
                               setShowModal(true);
@@ -237,7 +252,7 @@ const Homepage = () => {
                             Login
                           </button>
                           <button
-                            className="signup-button bg-white text-black py-2 px-4 rounded-lg"
+                            className="signup-button bg-white text-black py-2 px-4 rounded-full"
                             onClick={() => {
                               setActiveForm("signup");
                               setShowModal(true);

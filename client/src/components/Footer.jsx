@@ -35,7 +35,7 @@ const Footer = () => {
   </div>
 
   <Container id="footer" className="flex flex-col items-center mt-8">
-  <p className="text-xs mb-8 mt-8 text-center">© 2024 Spicys🌶️ - All Rights Reserved.</p>
+  <p className="text-xs mb-8 mt-8 text-center">© 2024 Spicy's🌶️ - All Rights Reserved.</p>
 </Container>
 
 </Container>
