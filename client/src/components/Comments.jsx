@@ -23,6 +23,13 @@ const Comments = ({ artId }) => {
     localStorage.setItem(`comments-${artId}`, JSON.stringify(updatedComments));
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleAddComment();
+    }
+  };
+
   return (
     <div>
       <ul>
@@ -33,16 +40,20 @@ const Comments = ({ artId }) => {
         ))}
       </ul>
       <div className="flex w-full justify-center items-center mb-3">
-      <input
-        type="text"
-        className="comment-bar w-full p-2 border border-gray-300 rounded-l-full"
-        value={commentText}
-        onChange={(e) => setCommentText(e.target.value)}
-        placeholder="Add a comment"
-      />
-      <button
-      className="add-comment-btn py-2 px-6 text-white rounded-r-full"
-      onClick={handleAddComment}>Add</button>
+        <input
+          type="text"
+          className="comment-bar w-full p-2 border border-gray-300 rounded-l-full"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Add a comment"
+          onKeyPress={handleKeyPress}
+        />
+        <button
+          className="add-comment-btn py-2 px-6 text-white rounded-r-full"
+          onClick={handleAddComment}
+        >
+          Add
+        </button>
       </div>
     </div>
   );
