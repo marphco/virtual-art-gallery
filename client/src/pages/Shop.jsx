@@ -109,10 +109,10 @@ const Shop = () => {
 
   return (
     <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 className="text-5xl mt-10 font-bold text-center mb-12 text-gray-900">
-        Art Gallery Shop
-      </h1>
-      <div className="flex justify-center space-x-4 mb-12">
+      <h1 className="title-page text-3xl font-bold mb-4 text-center">
+            Art Gallery Shop
+          </h1>
+      <div className="flex justify-center space-x-4 mb-12 mt-12">
         <button
           onClick={() => handleViewChange("prints")}
           className={`py-2 px-6 font-semibold rounded-full shadow-lg transition-all duration-300 ${
@@ -135,7 +135,7 @@ const Shop = () => {
         </button>
       </div>
       {notification.visible && (
-        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white p-4 rounded-md shadow-lg transition-all duration-300">
+        <div className="popup fixed top-6 left-1/2 transform -translate-x-1/2 text-white p-4 rounded-md shadow-lg transition-all duration-300">
           {notification.message}
         </div>
       )}

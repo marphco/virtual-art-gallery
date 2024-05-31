@@ -167,8 +167,10 @@ const Profile = () => {
 
   
   return (
-    <div className="container mx-auto px-4 pt-44 pb-8 flex flex-col items-center bg-light-green">
-      <h2 className="text-3xl font-bold mb-8 text-center">Your Profile</h2>
+    <div className="profile-page container mx-auto px-4 pb-8 flex flex-col items-center bg-light-green">
+      <h1 className="title-page text-3xl font-bold mb-4 text-center">
+            Your Profile
+          </h1>
       <p className="text-center py-4 mb-4 text-xl">
         Hello, <strong>{username}</strong>!
       </p>
