@@ -185,7 +185,7 @@ const Profile = () => {
               type="text"
               value={newUsername}
               onChange={(e) => setNewUsername(e.target.value)}
-              placeholder="Search for art prints"
+              placeholder="New Username"
               className="search-bar flex p-2 border border-gray-300 rounded-l-full"
             />
             <button
