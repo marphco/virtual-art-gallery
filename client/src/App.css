@@ -604,6 +604,18 @@ z-index: 1;
   color: var(--secondary) !important;
 }
 
+.artist-name {
+  font-size: 1.5rem;
+  color: var(--secondary);
+}
+
+.buy-print-btn {
+  background-color: var(--secondary);
+}
+
+.buy-print-btn:hover {
+  background-color: var(--primary);
+}
 
 
 
