@@ -47,12 +47,10 @@ const InfoModal = () => {
           id="info-modal"
           className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
         >
-          <div className="modal-content bg-white bg-opacity-80 rounded-lg shadow-lg p-4 w-4/5 md:w-1/2 max-w-md">
-            <div className="flex justify-end mb-4">
-              <button onClick={toggleModal} className="text-gray-500 hover:text-gray-700">
-                <FontAwesomeIcon icon={faTimes} className="w-6 h-6" />
-              </button>
-            </div>
+          <div className="modal-content relative bg-white bg-opacity-80 rounded-lg shadow-lg p-4 w-4/5 md:w-1/2 max-w-md">
+            <button onClick={toggleModal} className="modal-close-button absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+              <FontAwesomeIcon icon={faTimes} className="w-6 h-6" />
+            </button>
             <div className="overflow-y-auto">
               <img
                 src={window.innerWidth >= 992 ? desktopInstructions : mobileInstructions}

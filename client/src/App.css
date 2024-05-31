@@ -591,11 +591,11 @@ z-index: 1;
   padding-top: 4rem;
 }
 
-.comment-btn, .add-to-cart-btn {
+.comment-btn, .add-to-cart-btn, .place-order-btn {
   background-color: var(--secondary);
 }
 
-.comment-btn:hover, .add-to-cart-btn:hover {
+.comment-btn:hover, .add-to-cart-btn:hover, .place-order-btn:hover {
   background-color: var(--primary);
 }
 
