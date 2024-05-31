@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Error from '../assets/error.svg';
 
 const Comments = ({ artId }) => {
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState([]);
+  const [commentError, setCommentError] = useState('');
 
   useEffect(() => {
     const storedComments = JSON.parse(localStorage.getItem(`comments-${artId}`)) || [];
@@ -10,6 +12,11 @@ const Comments = ({ artId }) => {
   }, [artId]);
 
   const handleAddComment = () => {
+    if (commentText.trim() === '') {
+      setCommentError('Comment cannot be blank.');
+      return;
+    }
+    setCommentError('');
     const newComment = { text: commentText, date: new Date() };
     const updatedComments = [...comments, newComment];
     setComments(updatedComments);
@@ -55,6 +62,14 @@ const Comments = ({ artId }) => {
           Add
         </button>
       </div>
+      {commentError && (
+        <div className="flex justify-center mx-auto items-center">
+          <img src={Error} alt="error" className="h-4 flex items-center justify-center pr-1" />
+          <p className="username-error flex justify-center items-center">
+            {commentError}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

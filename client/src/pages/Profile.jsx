@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import Zoom from 'react-medium-image-zoom';
 import Error from '../assets/error.svg';
+import CloseIcon from '../assets/close-icon.svg';
 import Comments from '../components/Comments';
 import OrderHistory from '../components/OrderHistory';
 import { useCart } from '../context/CartContext';
@@ -67,11 +68,11 @@ const Profile = () => {
   const handleAddComment = async (artId) => {
     const commentText = commentTexts[artId];
 
-  // Check if the comment text is empty
-  if (!commentText) {
-    console.warn("Comment text is empty. No comment will be added.");
-    return;
-  }
+    if (!commentText) {
+      console.warn("Comment text is empty. No comment will be added.");
+      return;
+    }
+
     try {
       await addComment({
         variables: {
@@ -206,6 +207,7 @@ const Profile = () => {
         <div className="mb-8 w-full max-w-md mx-auto">
           <h3 className="text-xl text-center font-semibold mb-4">Edit Username</h3>
           <div className="flex justify-center items-center mb-3">
+            <img src={CloseIcon} alt="close" className="h-6 pr-2 cursor-pointer" onClick={() => { setShowUpdateField(false); setIsUpdateButtonVisible(true); }} />
             <input
               type="text"
               value={newUsername}
