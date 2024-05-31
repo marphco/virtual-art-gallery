@@ -144,6 +144,10 @@ input:focus-visible {
   margin-top: 7rem;
 }
 
+.username-error {
+  color: red !important;
+}
+
 /* HOMEPAGE */
 #hero {
   margin: 0 auto;

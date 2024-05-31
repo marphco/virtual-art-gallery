@@ -13,3 +13,4 @@ export { default as Louvre } from 'louvre.png';
 export { default as NationalGallery } from 'national-gallery.png';
 export { default as Randall } from 'randall.png';
 export { default as ScienceMuseum } from 'science-museum.png';
+export { default as Error } from 'error.svg';

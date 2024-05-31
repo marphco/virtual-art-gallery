@@ -6,7 +6,8 @@ import { REMOVE_ART, ADD_COMMENT, UPDATE_USERNAME } from "../utils/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import Zoom from 'react-medium-image-zoom';
-import Comments from '../components/Comments'
+import Error from '../assets/error.svg';
+import Comments from '../components/Comments';
 import OrderHistory from '../components/OrderHistory';
 import { useCart } from '../context/CartContext';
 
@@ -33,6 +34,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("favorites");
   const [newUsername, setNewUsername] = useState("");
   const [showUpdateField, setShowUpdateField] = useState(false);
+  const [isUpdateButtonVisible, setIsUpdateButtonVisible] = useState(true);
 
   if (loading) return <p className="text-center py-8">Loading...</p>;
   if (error) return <p className="text-center py-8">Error: {error.message}</p>;
@@ -51,15 +53,14 @@ const Profile = () => {
     }
   };
 
-
   const handleBuyPrint = (art) => {
     addToCart({
       id: art.id,
       title: art.title,
-      price: 15.0, 
+      price: 15.0,
       quantity: 1,
     });
-   
+
     window.location.href = "/checkout";
   };
 
@@ -96,8 +97,16 @@ const Profile = () => {
       refetch();
       setNewUsername("");
       setShowUpdateField(false);
+      setIsUpdateButtonVisible(true);
     } catch (error) {
       console.error("Error updating username:", error);
+    }
+  };
+
+  const handleKeyPress = (event, callback) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      callback();
     }
   };
 
@@ -146,7 +155,18 @@ const Profile = () => {
                 {art.title}
               </h3>
               <p className="text-gray-600 mb-4 text-center">{art.description}</p>
-              <Comments artId={art.id}/>
+              <Comments
+                artId={art.id}
+                commentText={commentTexts[art.id] || ""}
+                setCommentText={(text) =>
+                  setCommentTexts((prevState) => ({
+                    ...prevState,
+                    [art.id]: text,
+                  }))
+                }
+                handleAddComment={() => handleAddComment(art.id)}
+                handleKeyPress={(e) => handleKeyPress(e, () => handleAddComment(art.id))}
+              />
             </div>
             <div className="flex justify-between items-center mt-4">
               <button
@@ -154,9 +174,10 @@ const Profile = () => {
                 className="flex justify-center items-center buy-print-btn text-white mx-auto px-4 pl-4 pr-4 py-2 rounded-full"
               >
                 <FontAwesomeIcon
-                icon={faCartPlus}
-                className="text-white-500 pr-3 cursor-pointer "
-              /> Buy Print
+                  icon={faCartPlus}
+                  className="text-white-500 pr-3 cursor-pointer "
+                />{" "}
+                Buy Print
               </button>
             </div>
           </li>
@@ -165,21 +186,18 @@ const Profile = () => {
     </>
   );
 
-  
   return (
     <div className="profile-page container mx-auto px-4 pb-8 flex flex-col items-center bg-light-green">
       <h1 className="title-page text-3xl font-bold mb-4 text-center">
-            Your Profile
-          </h1>
+        Your Profile
+      </h1>
       <p className="text-center py-4 mb-4 text-xl">
         Hello, <strong>{username}</strong>!
       </p>
 
       {showUpdateField && (
         <div className="mb-8 w-full max-w-md mx-auto">
-          <h3 className="text-xl text-center font-semibold mb-4">
-            Edit Username
-          </h3>
+          <h3 className="text-xl text-center font-semibold mb-4">Edit Username</h3>
           <div className="flex justify-center items-center mb-3">
             <input
               type="text"
@@ -187,6 +205,7 @@ const Profile = () => {
               onChange={(e) => setNewUsername(e.target.value)}
               placeholder="New Username"
               className="search-bar flex p-2 border border-gray-300 rounded-l-full"
+              onKeyPress={(e) => handleKeyPress(e, handleUpdateUsername)}
             />
             <button
               onClick={handleUpdateUsername}
@@ -195,38 +214,31 @@ const Profile = () => {
             >
               Save
             </button>
-
-            {/*             
-            <input
-              type="text"
-              placeholder="Type Here"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-              className="border border-gray-300 rounded-lg px-4 py-2 w-3/4 placeholder-gray-400 mr-3 focus:outline-none"
-            />
-            <button
-              onClick={handleUpdateUsername}
-              className="bg-blue-600 text-white px-4 py-2 rounded focus:outline-none"
-            >
-              Save
-            </button> */}
           </div>
           {updateUsernameError && (
-            <p className="text-red-500 mt-2 ml-2">
-              {updateUsernameError.message}
-            </p>
+            <div className="flex justify-center mx-auto items-center">
+              <img src={Error} alt="success" className="h-4 flex items-center justify-center pr-1" />
+              <p className="username-error flex justify-center items-center">
+                {updateUsernameError.message}
+              </p>
+            </div>
           )}
         </div>
       )}
 
-      <div className="mb-8">
-        <button
-          onClick={() => setShowUpdateField(!showUpdateField)}
-          className="update-btn mx-2 px-4 py-2 text-white rounded-full"
-        >
-          Update Username
-        </button>
-      </div>
+      {isUpdateButtonVisible && (
+        <div className="mb-8">
+          <button
+            onClick={() => {
+              setShowUpdateField(true);
+              setIsUpdateButtonVisible(false);
+            }}
+            className="update-btn mx-2 px-4 py-2 text-white rounded-full"
+          >
+            Update Username
+          </button>
+        </div>
+      )}
 
       <div className="mb-8 flex flex-wrap justify-center">
         <button
