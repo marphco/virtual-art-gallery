@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER_DATA } from "../utils/queries";
-import { REMOVE_ART, ADD_COMMENT, UPDATE_USERNAME } from "../utils/mutations";
+import { REMOVE_ART,  UPDATE_USERNAME } from "../utils/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import Zoom from 'react-medium-image-zoom';
@@ -20,9 +20,9 @@ const Profile = () => {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
-  const [addComment] = useMutation(ADD_COMMENT, {
-    refetchQueries: [{ query: GET_USER_DATA }],
-  });
+  // const [addComment] = useMutation(ADD_COMMENT, {
+  //   refetchQueries: [{ query: GET_USER_DATA }],
+  // });
 
   const [updateUsername, { error: updateUsernameError }] = useMutation(
     UPDATE_USERNAME,

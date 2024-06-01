@@ -13,7 +13,7 @@ const artworkSchema = new Schema({
     required: true,
   },
   imageUrl: String,
-  comments: [commentSchema],
+  // comments: [commentSchema],
 });
 
 const Artwork = model("Artwork", artworkSchema);
