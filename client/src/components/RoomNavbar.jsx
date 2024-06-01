@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext"; // Import the authentication c
 
 const RoomNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout } = useAuth(); // Use the logout function from the context
+  const { logout } = useAuth(); 
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

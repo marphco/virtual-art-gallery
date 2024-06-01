@@ -99,35 +99,7 @@ const resolvers = {
 
       return { token, user };
     },
-    // addComment: async (_, { artId, text }, context) => {
-    //   console.log("Received artworkId:", artId);
-    //   console.log("Context user:", context.user);
-    //   if (context.user) {
-    //     try {
-    //       // Fetch the user and populate savedArt
-    //       const user = await User.findById(context.user._id).populate("savedArt");
-    //       // Find the artwork in the user's savedArt
-    //       const artwork = user.savedArt.find(art => art.id === artId);
 
-    //       if (!artwork) {
-    //         console.error(`Artwork with ID ${artId} not found in user's favorites`);
-    //         throw new Error('Artwork not found in user\'s favorites');
-    //       }
-
-    //       // Add the comment to the artwork
-    //       const newComment = new Comment({ text, user: context.user._id });
-    //       artwork.comments.push(newComment);
-    //       await user.save();  // Save the user to persist the new comment
-
-    //       return newComment;
-    //     } catch (error) {
-    //       console.error("Error finding artwork or saving comment:", error);
-    //       throw new Error('Artwork not found or other error');
-    //     }
-    //   } else {
-    //     throw new AuthenticationError("You need to be logged in!");
-    //   }
-    // },
     saveArt: async (parent, { artData }, context) => {
       try {
         if (context.user) {

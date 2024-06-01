@@ -25,17 +25,6 @@ export const ADD_USER = gql`
 `;
 
 
-// export const ADD_COMMENT = gql`
-//   mutation AddComment($artId: ID!, $text: String!) { 
-//     addComment(artworkId: $artId, text: $text) { 
-//       id
-//       text
-//       createdAt
-//     }
-//   }
-// `;
-
-
 
 
 export const UPDATE_USERNAME = gql`

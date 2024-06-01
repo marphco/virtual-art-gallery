@@ -14,7 +14,7 @@ import "../App.css";
 function Modal({ art, onClose, onSave }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [saveArt] = useMutation(SAVE_ART);
-  const { addToCart } = useCart();  // Use the useCart hook to get addToCart function
+  const { addToCart } = useCart();  
   const [notification, setNotification] = useState({
     visible: false,
     message: "",

@@ -30,6 +30,11 @@ const Checkout = () => {
   }, [data]);
 
   const handlePlaceOrder = () => {
+    if (cart.length === 0) {
+      return;
+      
+    }
+    
     console.log('Placing order with products:', cart);
     const products = cart.map(item => ({
       id: item.id,

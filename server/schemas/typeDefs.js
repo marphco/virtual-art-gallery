@@ -16,19 +16,6 @@ const typeDefs = `#graphql
   description: String!
   imageUrl: String!
 }
-  
-# type Comment {
-#   id: ID!
-#   text: String!
-#   user: User
-#   createdAt: String
-#   updateAt: String
-# }
-
-# input CommentInput {
-#   text: String!
-#   artId: ID!
-# }
 
 
   type Order {
@@ -76,8 +63,7 @@ const typeDefs = `#graphql
     saveArt(artData: [ArtInput]!): User
     me: User
     getOrderById(id: ID!): Order
-    # product(id: ID!): Product
-   checkout(products: [CartItemInput]!): CheckoutResponse
+    checkout(products: [CartItemInput]!): CheckoutResponse
   
   }
 

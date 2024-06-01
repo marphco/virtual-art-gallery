@@ -20,9 +20,6 @@ const Profile = () => {
     refetchQueries: [{ query: GET_USER_DATA }],
   });
 
-  // const [addComment] = useMutation(ADD_COMMENT, {
-  //   refetchQueries: [{ query: GET_USER_DATA }],
-  // });
 
   const [updateUsername, { error: updateUsernameError }] = useMutation(
     UPDATE_USERNAME,
