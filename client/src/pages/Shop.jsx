@@ -7,7 +7,8 @@ import Notification from "../components/Shop/Notification";
 import ProductCard from "../components/Shop/ProductCard";
 import SubscriptionCard from "../components/Shop/SubscriptionCard";
 import LoadMoreButton from "../components/Shop/LoadMoreButton";
-import logo from "../assets/logo.svg"; // Make sure to import the logo
+import logo from "../assets/logo.svg"; 
+
 
 const Shop = () => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const Shop = () => {
       id: "1",
       title: "1 Month Subscription",
       price: 10,
-      imageUrl: logo, // Use the local logo image
+      imageUrl: logo, 
       perks: [
         "Monthly Art Newsletter",
         "Digital Art Workshop",
@@ -41,7 +42,7 @@ const Shop = () => {
       id: "2",
       title: "6 Month Subscription",
       price: 50,
-      imageUrl: logo, // Use the local logo image
+      imageUrl: logo, 
       perks: [
         "Everything in 1 Month Subscription",
         "Access to Premium Galleries",
@@ -52,7 +53,7 @@ const Shop = () => {
       id: "3",
       title: "1 Year Subscription",
       price: 90,
-      imageUrl: logo, // Use the local logo image
+      imageUrl: logo,
       perks: [
         "Everything in 6 Month Subscription",
         "Unlimited Access to All Galleries",
