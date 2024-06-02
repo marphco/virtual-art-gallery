@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faUser, faSignOutAlt, faHome, faStore, faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faUser, faSignOutAlt, faHome, faStore, faBars, faTimes, faPaintBrush } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext"; // Import the authentication context
 
 const RoomNavbar = () => {
@@ -47,6 +47,10 @@ const RoomNavbar = () => {
           <Link to="/profile" className="block mb-4 text-center" onClick={closeMenu}>
             <FontAwesomeIcon icon={faUser} className="text-white w-6 h-6 hover:text-gray-600 transition-all" />
             <p className="text-xs text-white mt-1">Profile</p>
+          </Link>
+          <Link to="/galleries" className="block mb-4 text-center" onClick={closeMenu}>
+            <FontAwesomeIcon icon={faPaintBrush} className="text-white w-6 h-6 hover:text-gray-600 transition-all" />
+            <p className="text-xs text-white mt-1">Galleries</p>
           </Link>
           <Link to="/shop" className="block mb-4 text-center" onClick={closeMenu}>
             <FontAwesomeIcon icon={faStore} className="text-white w-6 h-6 hover:text-gray-600 transition-all" />
