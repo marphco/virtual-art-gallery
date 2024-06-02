@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
-import check from "../assets/check.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import ShopHeader from "../components/Shop/ShopHeader.jsx";
+import SearchForm from "../components/Shop/SearchForm";
+import Notification from "../components/Shop/Notification";
+import ProductCard from "../components/Shop/ProductCard";
+import SubscriptionCard from "../components/Shop/SubscriptionCard";
+import LoadMoreButton from "../components/Shop/LoadMoreButton";
 
 const Shop = () => {
   const location = useLocation();
@@ -117,97 +120,27 @@ const Shop = () => {
       <h1 className="title-page text-3xl font-bold mb-4 text-center">
         Art Gallery Shop
       </h1>
-      <div className="flex justify-center space-x-4 mb-12 mt-12">
-        <button
-          onClick={() => handleViewChange("prints")}
-          className={`mx-2 px-4 py-2 ${
-            view === "prints"
-              ? "shop-prints-btn text-white"
-              : "bg-gray-200 text-gray-800 rounded-full"
-          }`}
-        >
-          Shop Prints
-        </button>
-        <button
-          onClick={() => handleViewChange("subscriptions")}
-          className={`mx-2 px-4 py-2 ${
-            view === "subscriptions"
-              ? "shop-subscription-btn text-white"
-              : "bg-gray-200 text-gray-800 rounded-full"
-          }`}
-        >
-          Shop Subscriptions
-        </button>
-      </div>
-      {notification.visible && (
-        <div className="popup fixed top-6 left-1/2 transform -translate-x-1/2 text-white p-4 rounded-md shadow-lg transition-all duration-300 flex items-center">
-          <img
-            src={notification.imageUrl}
-            alt="item"
-            className="w-10 h-10 rounded-full mr-2"
-          />
-          {notification.message}
-        </div>
-      )}
+      <ShopHeader view={view} handleViewChange={handleViewChange} />
+      <Notification notification={notification} />
       {view === "prints" && (
-        <form onSubmit={handleSearch} className="mb-12 flex justify-center">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search for art prints"
-            className="search-bar flex p-2 border border-gray-300 rounded-l-full"
-          />
-          <button
-            type="submit"
-            className="save-btn py-2 px-6 text-white rounded-r-full"
-          >
-            Search
-          </button>
-        </form>
+        <SearchForm
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          handleSearch={handleSearch}
+        />
       )}
       {view === "prints" ? (
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {products.map((product) => (
-              <div
+              <ProductCard
                 key={product.id}
-                className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center"
-              >
-                <h2 className="text-1xl font-semibold mb-4 text-gray-700 text-center">
-                  {product.title}
-                </h2>
-                <img
-                  src={`https://www.artic.edu/iiif/2/${product.image_id}/full/843,/0/default.jpg`}
-                  alt={product.title}
-                  className="w-48 h-48 object-cover mb-4 rounded-md"
-                  style={{ width: "200px", height: "200px" }}
-                />
-                <p className="text-gray-700 mb-2">{product.artist_title}</p>
-                <p className="text-lg font-semibold text-600 dollar">
-                  $<span className="price">{15}</span>
-                </p>
-                <button
-                  onClick={() => handleAddToCart({ ...product, price: 15 })}
-                  className="py-2 mt-4 px-6 text-white rounded-full add-to-cart-btn"
-                >
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    className="text-white-500 pr-3 cursor-pointer "
-                  />
-                  Add to Cart
-                </button>
-              </div>
+                product={product}
+                handleAddToCart={handleAddToCart}
+              />
             ))}
           </div>
-          <div className="flex justify-center mt-12">
-            <button
-              onClick={() => setLimit((prevLimit) => prevLimit + 6)}
-              className="py-2 px-6 text-white rounded-full load-more-btn"
-            >
-              Load More
-            </button>
-          </div>
+          <LoadMoreButton setLimit={setLimit} />
         </div>
       ) : (
         <div id="subscription-block" className="text-center">
@@ -216,39 +149,11 @@ const Shop = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 text-left">
             {subscriptionItems.map((item) => (
-              <div
+              <SubscriptionCard
                 key={item.id}
-                className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
-                onClick={() => handleAddToCart(item)}
-              >
-                <h3 className="text-2xl font-semibold mb-4 sub-title">
-                  {item.title}
-                </h3>
-                <p className="text-lg font-semibold dollar">
-                  $<span className="price">{item.price}</span>
-                </p>
-                <ul className="list-disc list-inside mb-4 text-left mt-4">
-                  {item.perks.map((perk, index) => (
-                    <li key={index} className="mb-2 flex items-center">
-                      <img src={check} alt="check" className="h-6 pr-2" />
-                      {perk}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddToCart(item);
-                  }}
-                  className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
-                >
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    className="text-white-500 pr-3 cursor-pointer "
-                  />
-                  Add to Cart
-                </button>
-              </div>
+                item={item}
+                handleAddToCart={handleAddToCart}
+              />
             ))}
           </div>
         </div>
