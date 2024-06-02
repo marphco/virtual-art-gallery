@@ -100,7 +100,9 @@ const Homepage = () => {
 
   useEffect(() => {
     setIsLoggedIn(Auth.loggedIn());
+  }, []);
 
+  useEffect(() => {
     const swiper = new Swiper(".tranding-slider", {
       effect: "coverflow",
       grabCursor: true,
@@ -141,7 +143,7 @@ const Homepage = () => {
         },
       },
     });
-  }, []);
+  }, [isLoggedIn]);
 
   const handleEnter = () => {
     navigate("/gallery");
@@ -227,7 +229,7 @@ const Homepage = () => {
             will captivate your senses. Start your art journey today!
           </p>
 
-          <div className="swiper tranding-slider">
+          <div className="swiper tranding-slider" key={isLoggedIn ? "loggedIn" : "loggedOut"}>
             <div className="swiper-wrapper">
               {galleries.map((gallery) => (
                 <div key={gallery.id} className="swiper-slide tranding-slide">
@@ -334,6 +336,11 @@ const Homepage = () => {
             </div>
           ))}
         </div>
+        {notification.visible && (
+    <div className="popup fixed top-6 left-1/2 transform -translate-x-1/2 text-white p-4 rounded-md shadow-lg transition-all duration-300">
+      {notification.message}
+    </div>
+  )}
       </Row>
 
       <Container className="flex justify-center flex-col mt-40">
