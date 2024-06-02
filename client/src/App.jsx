@@ -65,7 +65,7 @@ function App() {
   }, []);
 
   const footerPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop", "/galleries"];
-  const navbarPaths = ["/", "/profile", "/login-signup", "/checkout", "/shop", "/galleries"];
+  const navbarPaths = ["/profile", "/login-signup", "/checkout", "/shop", "/galleries"];
   const RoomNavbarPath = ["/gallery"];
   const InfoModalPath = ["/gallery"];
 

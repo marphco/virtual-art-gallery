@@ -122,8 +122,8 @@ const GalleriesPage = () => {
                       className="rounded-lg"
                     />
                     <div className="overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg">
-                      {isLoggedIn ? (
-                        gallery.locked ? (
+                     
+                        {gallery.locked ? (
                           <button
                             className="buy-now-button bg-white text-grey-700 py-2 px-4 rounded-full"
                             onClick={handleSubscribe}
@@ -138,28 +138,7 @@ const GalleriesPage = () => {
                             Enter
                           </button>
                         )
-                      ) : (
-                        <>
-                          <button
-                            className="login-button bg-white text-black py-2 px-4 rounded-full mr-4"
-                            onClick={() => {
-                              setActiveForm("login");
-                              setShowModal(true);
-                            }}
-                          >
-                            Login
-                          </button>
-                          <button
-                            className="signup-button bg-white text-black py-2 px-4 rounded-full"
-                            onClick={() => {
-                              setActiveForm("signup");
-                              setShowModal(true);
-                            }}
-                          >
-                            Sign Up
-                          </button>
-                        </>
-                      )}
+                       }
                     </div>
                   </div>
                 </div>
