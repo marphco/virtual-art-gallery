@@ -5,6 +5,8 @@ import "swiper/swiper-bundle.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import logo from "../assets/logo.svg";
 import met from "../assets/met.png";
 import uffizi from "../assets/uffizi.png";
@@ -307,7 +309,7 @@ const Homepage = () => {
                 {item.title}
               </h3>
               <p className="text-lg font-semibold text-600 dollar">
-                $<span id="price">{item.price}</span>
+                $<span className="price">{item.price}</span>
               </p>
               <ul className="mb-4 text-left mt-4">
                 {item.perks.map((perk, index) => (
@@ -323,7 +325,10 @@ const Homepage = () => {
                   handleAddToCart(item);
                 }}
                 className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
-              >
+              ><FontAwesomeIcon
+              icon={faCartPlus}
+              className="text-white-500 pr-3 cursor-pointer "
+            />
                 Add to Cart
               </button>
             </div>

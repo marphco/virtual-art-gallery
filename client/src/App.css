@@ -420,7 +420,7 @@ h3 {
   color: var(--secondary);
 }
 
-#price {
+.price {
   font-size: 40px;
   margin-bottom: 20px;
   color: var(--primary);
@@ -591,20 +591,28 @@ z-index: 1;
   padding-top: 4rem;
 }
 
-.comment-btn {
+.comment-btn, .add-to-cart-btn, .place-order-btn {
   background-color: var(--secondary);
 }
 
-.comment-btn:hover {
+.comment-btn:hover, .add-to-cart-btn:hover, .place-order-btn:hover {
   background-color: var(--primary);
 }
 
-.fav-btn, .order-history-btn {
+.load-more-btn {
+  background-color: var(--primary);
+}
+
+.load-more-btn:hover {
+  background-color: var(--secondary);
+}
+
+.fav-btn, .order-history-btn, .shop-prints-btn, .shop-subscription-btn {
   background-color: var(--secondary);
   border-radius: 30px;
 }
 
-.fav-btn:hover, .order-history-btn:hover {
+.fav-btn:hover, .order-history-btn:hover, .shop-prints-btn:hover, .shop-subscription-btn:hover {
   background-color: var(--primary);
 }
 

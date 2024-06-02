@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { commentSchema } = require('./Comment');
 
 const artworkSchema = new Schema({
   _id: String,  
@@ -13,7 +12,6 @@ const artworkSchema = new Schema({
     required: true,
   },
   imageUrl: String,
-  comments: [commentSchema],
 });
 
 const Artwork = model("Artwork", artworkSchema);
