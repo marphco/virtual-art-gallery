@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import check from "../assets/check.svg";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Shop = () => {
   const location = useLocation();
@@ -17,6 +16,7 @@ const Shop = () => {
   const [notification, setNotification] = useState({
     visible: false,
     message: "",
+    imageUrl: "",
   });
   const [limit, setLimit] = useState(6);
   const { addToCart } = useCart();
@@ -66,7 +66,7 @@ const Shop = () => {
         `https://api.artic.edu/api/v1/artworks?limit=${limit}`
       );
       const data = await response.json();
-      const validProducts = data.data.filter(product => product.image_id);
+      const validProducts = data.data.filter((product) => product.image_id);
       setProducts(validProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -83,7 +83,7 @@ const Shop = () => {
           )}&fields=id,title,artist_title,image_id,thumbnail&limit=10`
         );
         const data = await response.json();
-        const validProducts = data.data.filter(product => product.image_id);
+        const validProducts = data.data.filter((product) => product.image_id);
         setProducts(validProducts);
       } catch (error) {
         console.error("Error fetching artworks:", error);
@@ -92,12 +92,17 @@ const Shop = () => {
   };
 
   const handleAddToCart = (item) => {
-    addToCart(item);
+    const imageUrl = `https://www.artic.edu/iiif/2/${item.image_id}/full/843,/0/default.jpg`;
+    addToCart({ ...item, price: 15, imageUrl });
     setNotification({
       visible: true,
       message: `${item.title} has been added to cart!`,
+      imageUrl,
     });
-    setTimeout(() => setNotification({ visible: false, message: "" }), 3000);
+    setTimeout(
+      () => setNotification({ visible: false, message: "", imageUrl: "" }),
+      3000
+    );
   };
 
   const handleViewChange = (newView) => {
@@ -135,7 +140,12 @@ const Shop = () => {
         </button>
       </div>
       {notification.visible && (
-        <div className="popup fixed top-6 left-1/2 transform -translate-x-1/2 text-white p-4 rounded-md shadow-lg transition-all duration-300">
+        <div className="popup fixed top-6 left-1/2 transform -translate-x-1/2 text-white p-4 rounded-md shadow-lg transition-all duration-300 flex items-center">
+          <img
+            src={notification.imageUrl}
+            alt="item"
+            className="w-10 h-10 rounded-full mr-2"
+          />
           {notification.message}
         </div>
       )}
@@ -180,10 +190,11 @@ const Shop = () => {
                 <button
                   onClick={() => handleAddToCart({ ...product, price: 15 })}
                   className="py-2 mt-4 px-6 text-white rounded-full add-to-cart-btn"
-                ><FontAwesomeIcon
-                icon={faCartPlus}
-                className="text-white-500 pr-3 cursor-pointer "
-              />
+                >
+                  <FontAwesomeIcon
+                    icon={faCartPlus}
+                    className="text-white-500 pr-3 cursor-pointer "
+                  />
                   Add to Cart
                 </button>
               </div>
@@ -230,10 +241,11 @@ const Shop = () => {
                     handleAddToCart(item);
                   }}
                   className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
-                ><FontAwesomeIcon
-                icon={faCartPlus}
-                className="text-white-500 pr-3 cursor-pointer "
-              />
+                >
+                  <FontAwesomeIcon
+                    icon={faCartPlus}
+                    className="text-white-500 pr-3 cursor-pointer "
+                  />
                   Add to Cart
                 </button>
               </div>
