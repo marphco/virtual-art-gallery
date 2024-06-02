@@ -109,7 +109,7 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
                     }`}
                     onClick={() => setIsOpen(false)}
                   >
-                    Shop-Art
+                    Shop
                   </Link>
                 </li>
                 <li className="font-roboto">
