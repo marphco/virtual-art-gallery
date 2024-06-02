@@ -40,7 +40,9 @@ const Checkout = () => {
     console.log("Placing order with products:", cart);
     const products = cart.map((item) => ({
       id: item.id,
-      imageUrl: item.isSubscription ? logo : item.imageUrl || "default-image-url.jpg",
+      imageUrl: item.isSubscription
+        ? logo
+        : item.imageUrl || "default-image-url.jpg",
       name: item.title,
       price: item.price,
       quantity: item.quantity,
@@ -66,9 +68,13 @@ const Checkout = () => {
                 key={index}
                 className="flex flex-col md:flex-row justify-between items-center py-4"
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 w-full md:w-auto">
                   <img
-                    src={item.isSubscription ? logo : item.imageUrl || "default-image-url.jpg"}
+                    src={
+                      item.isSubscription
+                        ? logo
+                        : item.imageUrl || "default-image-url.jpg"
+                    }
                     alt={item.title}
                     className="w-16 h-16 rounded-full"
                   />
