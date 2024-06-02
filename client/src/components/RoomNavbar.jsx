@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faUser, faSignOutAlt, faHome, faStore, faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../context/AuthContext"; // Import the authentication context
+import { useAuth } from "../context/AuthContext"; 
 
 const RoomNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -43,6 +43,7 @@ const typeDefs = `#graphql
     name: String!
     price: Float!
     quantity: Int!
+    imageUrl: String!
   }
 
   input CartItemInput {
@@ -50,6 +51,7 @@ const typeDefs = `#graphql
     name: String!
     price: Float!
     quantity: Int!
+    imageUrl: String!
   }
 
   type CheckoutResponse {

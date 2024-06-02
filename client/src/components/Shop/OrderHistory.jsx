@@ -2,8 +2,6 @@ import React from 'react';
 
 const OrderHistory = () => {
   
-
-
   return (
     <div className="container mx-auto px-4 pt-8 pb-8">
       <h2 className="text-3xl font-bold mb-8 text-center">Order History</h2>

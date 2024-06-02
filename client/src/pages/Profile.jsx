@@ -6,7 +6,7 @@ import ProfileHeader from "../components/Profile/ProfileHeader";
 import UpdateUsernameForm from "../components/Profile/UpdateUsernameForm";
 import TabNavigation from "../components/Profile/TabNavigation";
 import Favorites from "../components/Profile/Favorites";
-import OrderHistory from "../components/OrderHistory";
+import OrderHistory from "../components/Shop/OrderHistory";
 import { useCart } from "../context/CartContext";
 
 const Profile = () => {
