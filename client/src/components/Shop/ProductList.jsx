@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from "../../context/CartContext";
 
+// ProductList component to display a list of products
 const ProductList = ({ products }) => {
   const { addToCart } = useCart();
 

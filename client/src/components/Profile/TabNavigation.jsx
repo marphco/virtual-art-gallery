@@ -1,5 +1,6 @@
 import React from "react";
 
+// TabNavigation component allows switching between 'favorites' and 'order-history' tabs
 const TabNavigation = ({ activeTab, setActiveTab }) => (
   <div className="mb-8 flex flex-wrap justify-center">
     <button

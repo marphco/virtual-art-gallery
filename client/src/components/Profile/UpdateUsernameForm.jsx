@@ -2,6 +2,7 @@ import React from "react";
 import CloseIcon from "../../assets/close-icon.svg";
 import Error from "../../assets/error.svg";
 
+// UpdateUsernameForm component allows the user to edit their username
 const UpdateUsernameForm = ({
   showUpdateField,
   setShowUpdateField,

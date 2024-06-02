@@ -1,5 +1,6 @@
 import React from "react";
 
+// ShopHeader component for switching between views in the shop
 const ShopHeader = ({ view, handleViewChange }) => (
   <div className="flex justify-center space-x-4 mb-12 mt-12">
     <button

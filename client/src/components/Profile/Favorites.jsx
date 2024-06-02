@@ -2,7 +2,7 @@ import React from "react";
 import FavoriteItem from "./FavoriteItem";
 import { Container } from 'react-bootstrap';
 
-
+// Favorites component displays a list of favorite art items
 const Favorites = ({
   favorites,
   handleRemoveArt,

@@ -6,21 +6,25 @@ import Modal from "../pages/Modal";
 import { AppContext } from "../App";
 import "../App.css";
 
+// Gallery component displaying a 3D room with paintings
 const Gallery = () => {
-  const [selectedArt, setSelectedArt] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedArt, setSelectedArt] = useState(null); // State for the selected art
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const { setFavoriteArts } = useContext(AppContext);
 
+  // Handle painting click to open the modal with selected art details
   const handlePaintingClick = (artDetails) => {
     setSelectedArt(artDetails);
     setIsModalOpen(true);
   };
 
+  // Close the modal and reset selected art
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedArt(null);
   };
 
+  // Handle saving the art to favorites
   const handleSave = (art) => {
     setFavoriteArts((prev) => [...prev, art]);
     console.log("Art saved:", art);

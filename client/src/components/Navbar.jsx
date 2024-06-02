@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom";
 import Auth from "../utils/auth";
 import { Nav, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,22 +11,26 @@ import SignUpForm from "./SignupForm";
 import { useCart } from "../context/CartContext.jsx";
 import "../App.css";
 
+// Navbar component for navigation and authentication
 const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isLoggedIn = Auth.loggedIn();
   const { cartItemCount } = useCart();
   const [animate, setAnimate] = useState(false);
-  const location = useLocation(); // Add this line
+  const location = useLocation();
 
+  // Handle logout action
   const handleLogout = () => {
     Auth.logout();
     setIsOpen(false);
   };
 
+  // Toggle mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  // Close mobile menu on window resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -41,6 +45,7 @@ const Navbar = ({ showModal, setShowModal, activeForm, setActiveForm }) => {
     };
   }, []);
 
+  // Animate cart icon when items are added
   useEffect(() => {
     if (cartItemCount > 0) {
       setAnimate(true);

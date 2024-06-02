@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
+// ProductCard component to display a product with an option to add to cart
 const ProductCard = ({ product, handleAddToCart }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 flex flex-col items-center">
     <h2 className="text-1xl font-semibold mb-4 text-gray-700 text-center">

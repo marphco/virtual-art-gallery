@@ -1,5 +1,6 @@
 import React from "react";
 
+// LoadMoreButton component to load more items
 const LoadMoreButton = ({ setLimit }) => (
   <div className="flex justify-center mt-12">
     <button

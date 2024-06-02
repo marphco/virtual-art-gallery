@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import Comments from "../../components/Comments";
 
+// FavoriteItem component displays a favorite art item with options to remove, buy, and comment
 const FavoriteItem = ({
   art,
   handleRemoveArt,
