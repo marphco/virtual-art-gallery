@@ -7,6 +7,8 @@ function CustomOrbitControls() {
     camera,
     gl: { domElement },
   } = useThree();
+
+  // Movement and rotation state references
   const moveForward = useRef(false);
   const moveBackward = useRef(false);
   const moveLeft = useRef(false);
@@ -72,6 +74,8 @@ function CustomOrbitControls() {
     );
   };
 
+  // Handle tap navigation for touch devices
+
   const handleTapNavigation = (movement) => {
     if (targetPosition) {
       const distance = targetPosition.distanceTo(camera.position);
@@ -88,6 +92,8 @@ function CustomOrbitControls() {
       }
     }
   };
+
+  // Handle double-tap event for setting target position
 
   const handleDoubleTap = (event) => {
     const currentTime = new Date().getTime();
@@ -123,6 +129,8 @@ function CustomOrbitControls() {
     setLastTap(currentTime);
   };
 
+  // Handle collision detection
+
   const handleCollision = (newPosition) => {
     const cameraBox = new THREE.Box3().setFromCenterAndSize(
       newPosition,
@@ -135,6 +143,8 @@ function CustomOrbitControls() {
     }
     return false;
   };
+
+  // Handle collision detection
 
   useFrame(() => {
     const movement = new THREE.Vector3();
@@ -164,6 +174,8 @@ function CustomOrbitControls() {
       camera.position.copy(newPosition);
     }
   });
+
+  // Event listeners for keyboard inputs
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -243,6 +255,8 @@ function CustomOrbitControls() {
     };
   }, [isMoving]);
 
+  // Event listeners for mouse and touch inputs
+
   useEffect(() => {
     const handleMouseMove = (event) => {
       if (isDragging.current) {
@@ -319,6 +333,8 @@ function CustomOrbitControls() {
     };
   }, [domElement]);
 
+  // Event listener for double-tap
+
   useEffect(() => {
     domElement.addEventListener("touchend", handleDoubleTap);
 
@@ -327,11 +343,15 @@ function CustomOrbitControls() {
     };
   }, [domElement, camera, lastTap]);
 
+  // Update isMoving state when target position changes
+
   useEffect(() => {
     if (!targetPosition && isMoving) {
       setIsMoving(false);
     }
   }, [targetPosition, isMoving]);
+
+  // Reset movement and rotation states when isMoving changes
 
   useEffect(() => {
     if (!isMoving) {
