@@ -4,6 +4,7 @@ import { useCart } from "../context/CartContext.jsx";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_CHECKOUT } from "../utils/queries.js";
 import { loadStripe } from "@stripe/stripe-js";
+import logo from "../assets/logo.svg";
 
 const stripePromise = loadStripe(import.meta.env.VITE_APP_STRIPE_PUB);
 
@@ -39,7 +40,7 @@ const Checkout = () => {
     console.log("Placing order with products:", cart);
     const products = cart.map((item) => ({
       id: item.id,
-      imageUrl: item.imageUrl || "default-image-url.jpg",
+      imageUrl: item.isSubscription ? logo : item.imageUrl || "default-image-url.jpg",
       name: item.title,
       price: item.price,
       quantity: item.quantity,
@@ -67,7 +68,7 @@ const Checkout = () => {
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={item.imageUrl}
+                    src={item.isSubscription ? logo : item.imageUrl || "default-image-url.jpg"}
                     alt={item.title}
                     className="w-16 h-16 rounded-full"
                   />
