@@ -53,14 +53,16 @@ const FavoriteItem = ({
     </div>
     <div className="flex justify-between items-center mt-4">
       <button
-        onClick={() => handleBuyPrint(art)}
+        onClick={() => {
+          handleBuyPrint(art);
+        }}
         className="flex justify-center items-center buy-print-btn text-white mx-auto px-4 pl-4 pr-4 py-2 rounded-full"
       >
         <FontAwesomeIcon
           icon={faCartPlus}
           className="text-white-500 pr-3 cursor-pointer "
         />{" "}
-        Buy Print
+        Add to Cart
       </button>
     </div>
   </li>

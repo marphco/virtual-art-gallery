@@ -39,7 +39,7 @@ const Checkout = () => {
     console.log("Placing order with products:", cart);
     const products = cart.map((item) => ({
       id: item.id,
-      imageUrl: item.imageUrl,
+      imageUrl: item.imageUrl || "default-image-url.jpg",
       name: item.title,
       price: item.price,
       quantity: item.quantity,

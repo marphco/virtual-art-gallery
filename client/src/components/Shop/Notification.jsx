@@ -1,4 +1,6 @@
 import React from "react";
+import logo from "../../assets/logo.svg"; 
+
 
 // Notification component to display a notification popup
 const Notification = ({ notification }) => (

@@ -48,14 +48,15 @@ const Profile = () => {
   };
 
   const handleBuyPrint = (art) => {
+    const imageUrl = art.imageUrl || "default-image-url.jpg";
+
     addToCart({
       id: art.id,
       title: art.title,
+      imageUrl: art.imageUrl,
       price: 15.0,
       quantity: 1,
     });
-
-    window.location.href = "/checkout";
   };
 
   const handleAddComment = async (artId) => {
