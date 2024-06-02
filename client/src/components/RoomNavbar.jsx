@@ -9,6 +9,7 @@ import {
   faStore,
   faBars,
   faTimes,
+  faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
 
@@ -72,6 +73,17 @@ const RoomNavbar = () => {
               className="text-white w-6 h-6 hover:text-gray-600 transition-all"
             />
             <p className="text-xs text-white mt-1">Profile</p>
+          </Link>
+          <Link
+            to="/galleries"
+            className="block mb-4 text-center"
+            onClick={closeMenu}
+          >
+            <FontAwesomeIcon
+              icon={faPaintBrush}
+              className="text-white w-6 h-6 hover:text-gray-600 transition-all"
+            />
+            <p className="text-xs text-white mt-1">Galleries</p>
           </Link>
           <Link
             to="/shop"

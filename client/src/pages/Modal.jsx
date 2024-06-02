@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as faHeartSolid, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart as faHeartSolid,
+  faTimes,
+  faCartPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/client";
 import { SAVE_ART } from "../utils/mutations";
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
-import { useCart } from "../context/CartContext.jsx";  
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import { useCart } from "../context/CartContext.jsx";
 import "../App.css";
 
 function Modal({ art, onClose, onSave }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [saveArt] = useMutation(SAVE_ART);
-  const { addToCart } = useCart();  
+  const { addToCart } = useCart();
+  const [buttonText, setButtonText] = useState("Add to Cart");
   const [notification, setNotification] = useState({
     visible: false,
     message: "",
@@ -48,11 +52,8 @@ function Modal({ art, onClose, onSave }) {
 
   const handleAddToCart = (item) => {
     addToCart(item);
-    setNotification({
-      visible: true,
-      message: `${item.title} has been added to cart!`,
-    });
-    setTimeout(() => setNotification({ visible: false, message: "" }), 3000);
+    setButtonText("Your art has been added!");
+    setTimeout(() => setButtonText("Add to Cart"), 3000);
   };
 
   if (!art) {
@@ -98,11 +99,12 @@ function Modal({ art, onClose, onSave }) {
           <button
             className="add-to-cart-btn py-2 px-6 text-white rounded-full"
             onClick={() => handleAddToCart({ ...art, price: 15 })}
-          ><FontAwesomeIcon
-          icon={faCartPlus}
-          className="text-white-500 pr-3 cursor-pointer "
-        />
-            Add to Cart
+          >
+            <FontAwesomeIcon
+              icon={faCartPlus}
+              className="text-white-500 pr-3 cursor-pointer "
+            />
+            {buttonText}
           </button>
           <button
             className="bg-transparent text-black border border-green-500 px-4 py-2 rounded-full hover:text-green-600 flex items-center space-x-2"
@@ -140,7 +142,7 @@ function Modal({ art, onClose, onSave }) {
               className="add-to-cart-btn py-2 px-6 text-white rounded-full"
               onClick={() => handleAddToCart({ ...art, price: 15 })}
             >
-              Add to Cart
+              {buttonText}
             </button>
           </div>
         </div>
