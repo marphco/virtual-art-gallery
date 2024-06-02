@@ -10,6 +10,7 @@ const SubscriptionCard = ({ item, handleAddToCart }) => (
     onClick={() => handleAddToCart(item)}
   >
     <img src={item.imageUrl} alt={item.title} className="w-16 h-16 mx-auto mb-4 hidden" />
+
     <h3 className="text-2xl font-semibold mb-4 sub-title">{item.title}</h3>
     <p className="text-lg font-semibold dollar">
       $<span className="price">{item.price}</span>

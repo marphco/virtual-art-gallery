@@ -9,6 +9,7 @@ import SubscriptionCard from "../components/Shop/SubscriptionCard";
 import LoadMoreButton from "../components/Shop/LoadMoreButton";
 import logo from "../assets/logo.svg"; 
 
+
 const Shop = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
