@@ -4,12 +4,14 @@ import { TextureLoader } from "three";
 import { Box } from "@react-three/drei";
 import * as THREE from "three";
 
+// Room component to display artworks in a 3D environment
 const Room = ({ onPaintingClick }) => {
   const [artworks, setArtworks] = useState([]);
   const [textures, setTextures] = useState([]);
   const [page, setPage] = useState(1);
   const observer = useRef();
 
+  // Fetch artworks from the API
   const loadArtworks = useCallback(async () => {
     try {
       const response = await fetch(
@@ -33,10 +35,12 @@ const Room = ({ onPaintingClick }) => {
     }
   }, [page]);
 
+  // Load artworks when the component mounts or page changes
   useEffect(() => {
     loadArtworks();
   }, [loadArtworks]);
 
+  // Load textures for the artworks
   useEffect(() => {
     if (artworks.length > 0) {
       const loadTextures = async () => {
@@ -90,6 +94,7 @@ const Room = ({ onPaintingClick }) => {
     [-1.57, 0, Math.PI / 2],
   ];
 
+  // Observer to load more artworks when the last element is visible
   useEffect(() => {
     const options = {
       root: null,
@@ -270,8 +275,6 @@ const Room = ({ onPaintingClick }) => {
 };
 
 export default Room;
-
-
 
 // // src/components/Room.jsx
 // import React, { useState, useEffect, useRef, useCallback } from "react";

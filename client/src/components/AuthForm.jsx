@@ -5,6 +5,8 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER, ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 
+// AuthForm component handles user authentication (login and signup)
+
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formState, setFormState] = useState({
@@ -16,6 +18,8 @@ const AuthForm = () => {
   const [loginUser, { error: loginError }] = useMutation(LOGIN_USER);
   const [addUser, { error: signupError, data }] = useMutation(ADD_USER);
 
+  // Handle input change
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -24,6 +28,8 @@ const AuthForm = () => {
       [name]: value,
     });
   };
+
+  // Handle form submission
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -111,7 +117,7 @@ const AuthForm = () => {
         <Button
           type="submit"
           className="button w-full py-3 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50"
-          >
+        >
           {isLogin ? "Login" : "Sign Up"}
         </Button>
 
@@ -120,7 +126,8 @@ const AuthForm = () => {
         )}
         {!isLogin && signupError && (
           <p className="mt-4 text-red-500">
-            {signupError.message === "Username already exists. Please choose another one."
+            {signupError.message ===
+            "Username already exists. Please choose another one."
               ? "Username already exists. Please choose another one."
               : signupError.message}
           </p>

@@ -5,6 +5,7 @@ import closeIcon from "../assets/close-icon.svg";
 const apiKey = import.meta.env.VITE_APP_OpenAI_API_KEY;
 const urlLink = import.meta.env.VITE_APP_OpenAI_API_URL;
 
+// App component for interacting with OpenAI's API
 function App() {
   const [showOpenAIContainer, setShowOpenAIContainer] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -14,10 +15,12 @@ function App() {
   const [CoolDown, setCoolDown] = useState(false);
   const textareaRef = useRef(null);
 
+  // Toggle the visibility of the OpenAI container
   const handleImageClick = () => {
     setShowOpenAIContainer((prevState) => !prevState);
   };
 
+  // Handle Enter key press to submit the prompt
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Enter") {
@@ -38,6 +41,7 @@ function App() {
     };
   }, [prompt, CoolDown]);
 
+  // Handle form submission
   const handleSubmit = async () => {
     if (CoolDown || !prompt.trim()) return;
 
@@ -54,6 +58,7 @@ function App() {
     }
   };
 
+  // Make API request with retry logic
   const makeRequestWithRetry = async (retries) => {
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
@@ -109,16 +114,19 @@ function App() {
             className="fixed bottom-8 right-8 z-30 rounded-lg cursor-pointer"
             style={{
               backgroundImage: `url(${openaiLogo})`,
-              width: '48px',
-              height: '48px',
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              transition: 'background-image 0.3s ease',
+              width: "48px",
+              height: "48px",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              transition: "background-image 0.3s ease",
             }}
           ></div>
         )}
         {showOpenAIContainer && (
-          <div id="chat-gpt" className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col z-50">
+          <div
+            id="chat-gpt"
+            className="fixed bottom-0 right-0 w-72 h-96 bg-white border border-gray-300 shadow-lg m-5 p-4 rounded-lg flex flex-col z-50"
+          >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Ask a Question</h2>
               <img

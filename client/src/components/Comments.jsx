@@ -1,37 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import Error from '../assets/error.svg';
+import React, { useState, useEffect } from "react";
+import Error from "../assets/error.svg";
+
+// Comments component to manage and display comments for a specific art item
 
 const Comments = ({ artId }) => {
-  const [commentText, setCommentText] = useState('');
+  const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
-  const [commentError, setCommentError] = useState('');
+  const [commentError, setCommentError] = useState("");
 
+  // Load comments from local storage when the component mounts
   useEffect(() => {
-    const storedComments = JSON.parse(localStorage.getItem(`comments-${artId}`)) || [];
+    const storedComments =
+      JSON.parse(localStorage.getItem(`comments-${artId}`)) || [];
     setComments(storedComments);
   }, [artId]);
 
+  // Handle adding a new comment
   const handleAddComment = () => {
-    if (commentText.trim() === '') {
-      setCommentError('Comment cannot be blank.');
+    if (commentText.trim() === "") {
+      setCommentError("Comment cannot be blank.");
       return;
     }
-    setCommentError('');
+    setCommentError("");
     const newComment = { text: commentText, date: new Date() };
     const updatedComments = [...comments, newComment];
     setComments(updatedComments);
     localStorage.setItem(`comments-${artId}`, JSON.stringify(updatedComments));
-    setCommentText('');
+    setCommentText("");
   };
 
+  // Handle deleting a comment
   const handleDeleteComment = (index) => {
     const updatedComments = comments.filter((_, i) => i !== index);
     setComments(updatedComments);
     localStorage.setItem(`comments-${artId}`, JSON.stringify(updatedComments));
   };
 
+  // Handle pressing the Enter key to add a comment
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       handleAddComment();
     }
@@ -42,7 +49,13 @@ const Comments = ({ artId }) => {
       <ul>
         {comments.map((comment, index) => (
           <li className="mb-3 italic" key={index}>
-            {comment.text} <button className="text-sm ml-2 pt-1 pb-1 pl-3 pr-3 bg-red-600 rounded-full text-white hover:bg-red-800" onClick={() => handleDeleteComment(index)}>Delete</button>
+            {comment.text}{" "}
+            <button
+              className="text-sm ml-2 pt-1 pb-1 pl-3 pr-3 bg-red-600 rounded-full text-white hover:bg-red-800"
+              onClick={() => handleDeleteComment(index)}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -64,7 +77,11 @@ const Comments = ({ artId }) => {
       </div>
       {commentError && (
         <div className="flex justify-center mx-auto items-center">
-          <img src={Error} alt="error" className="h-4 flex items-center justify-center pr-1" />
+          <img
+            src={Error}
+            alt="error"
+            className="h-4 flex items-center justify-center pr-1"
+          />
           <p className="username-error flex justify-center items-center">
             {commentError}
           </p>

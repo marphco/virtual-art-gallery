@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
+// OrderHistory component to display user's order history
 const OrderHistory = () => {
-  
-
-
   return (
     <div className="container mx-auto px-4 pt-8 pb-8">
       <h2 className="text-3xl font-bold mb-8 text-center">Order History</h2>
