@@ -6,7 +6,8 @@ Welcome to Panorama, where art meets technology to provide you with an unparalle
 
 ## Description
 
-Panorama is a cutting-edge virtual 3D art gallery that enables users to explore, interact with, and purchase high-resolution artworks from renowned APIs such as the Met, Uffizi, and Chicago Art Institute. This immersive application offers a realistic gallery experience with intuitive navigation, detailed artwork information, and robust accessibility features. Users can unlock exclusive benefits through our subscription plans.
+Panorama is a cutting-edge virtual 3D art gallery that enables users to explore, interact with, and purchase high-resolution artworks from renowned APIs such as the Met, Uffizi, Chicago Art Institute and more...
+This immersive application offers a realistic gallery experience with intuitive navigation, detailed artwork information, and robust accessibility features. Users can unlock exclusive benefits through our subscription plans.
 
 ## Table of Contents
 
@@ -94,7 +95,7 @@ Your contributions make this project better. If you have an idea for improving P
 
 ## Deployment
 
-This application is deployed on Heroku. You can access it [here](https://your-heroku-app-link).
+This application is deployed on Heroku. You can access it [here](https://virtual-art-gallery-panorama-35035413312c.herokuapp.com/).
 
 ## Authors and Acknowledgments
 
@@ -107,7 +108,7 @@ Special thanks to everyone who has contributed to making this project a success.
 
 ## License
 
-This project is licensed under the Apache License Version 2.0, January 2004.
+This project is licensed under the [Apache License Version 2.0, January 2004](http://www.apache.org/licenses/LICENSE-2.0).
 
 ## User Story
 
@@ -138,7 +139,6 @@ Panorama aims to bring the art gallery experience to users' homes by leveraging 
 
 ## Future Development
 
-- **Enhanced Art Interaction:** Add features like virtual tours with guided narration and interactive art descriptions.
 - **User-Generated Galleries:** Allow users to curate their own virtual galleries from the available artworks.
 - **Social Features:** Enable users to share their favorite artworks and galleries on social media platforms.
 - **Art Community:** Build a community platform within Panorama where users can discuss and review artworks.
