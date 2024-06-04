@@ -56,7 +56,7 @@ This immersive application offers a realistic gallery experience with intuitive 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Jetniksyla/panorama.git
+   git clone https://github.com/marphco/panorama.git
    ```
 
 2. **Navigate to the project directory:**
