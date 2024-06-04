@@ -55,7 +55,7 @@ Panorama is a cutting-edge virtual 3D art gallery that enables users to explore,
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Jetniksyla/panorama.git
+   git clone https://github.com/marphco/panorama.git
    ```
 
 2. **Navigate to the project directory:**
