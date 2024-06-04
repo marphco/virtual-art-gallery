@@ -14,7 +14,7 @@ const Checkout = () => {
   const [getCheckout, { data, loading, error }] = useLazyQuery(QUERY_CHECKOUT);
 
   const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cart.reduce((total, item) => total + (item.price || 0) * item.quantity, 0);
   };
 
   useEffect(() => {
@@ -42,15 +42,22 @@ const Checkout = () => {
       id: item.id,
       imageUrl: item.isSubscription ? logo : item.imageUrl || "default-image-url.jpg",
       name: item.title,
-      price: item.price,
+      price: item.price || 0, // Ensure price is defined
       quantity: item.quantity,
     }));
-    console.log("Placing order with products:", products);
+    console.log("Formatted products for checkout:", products);
     getCheckout({ variables: { products } });
   };
 
+  useEffect(() => {
+    console.log("Cart state:", cart); // Log the cart state
+  }, [cart]);
+
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) {
+    console.error("GraphQL error:", error);
+    return <p>Error: {error.message}</p>;
+  }
 
   return (
     <div className="checkout-page min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -71,6 +78,10 @@ const Checkout = () => {
                     src={item.isSubscription ? logo : item.imageUrl || "default-image-url.jpg"}
                     alt={item.title}
                     className="w-16 h-16 rounded-full"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "default-image-url.jpg";
+                    }}
                   />
                   <div className="flex flex-col">
                     <span className="text-lg font-semibold text-gray-800">
@@ -91,7 +102,7 @@ const Checkout = () => {
                       className="w-20 text-center border rounded-full py-1 px-2"
                     />
                     <span className="text-lg font-semibold text-gray-800">
-                      ${item.price.toFixed(2)}
+                      ${item.price ? item.price.toFixed(2) : "0.00"}
                     </span>
                   </div>
                   <button
