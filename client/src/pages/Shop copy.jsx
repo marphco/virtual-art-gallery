@@ -7,10 +7,8 @@ import Notification from "../components/Shop/Notification";
 import ProductCard from "../components/Shop/ProductCard";
 import SubscriptionCard from "../components/Shop/SubscriptionCard";
 import LoadMoreButton from "../components/Shop/LoadMoreButton";
-import logo from "../assets/logo.svg";
-import check from "../assets/check.svg";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import logo from "../assets/logo.svg"; 
+
 
 const Shop = () => {
   const location = useLocation();
@@ -33,7 +31,7 @@ const Shop = () => {
       id: "1",
       title: "1 Month Subscription",
       price: 10,
-      imageUrl: logo,
+      imageUrl: logo, 
       perks: [
         "Monthly Art Newsletter",
         "Digital Art Workshop",
@@ -44,7 +42,7 @@ const Shop = () => {
       id: "2",
       title: "6 Month Subscription",
       price: 50,
-      imageUrl: logo,
+      imageUrl: logo, 
       perks: [
         "Everything in 1 Month Subscription",
         "Access to Premium Galleries",
@@ -101,9 +99,11 @@ const Shop = () => {
     }
   };
 
-  const handleAddToCart = (item, price = 15) => {
-    const imageUrl = item.perks ? logo : `https://www.artic.edu/iiif/2/${item.image_id}/full/843,/0/default.jpg`;
-    addToCart({ ...item, price, imageUrl });
+  const handleAddToCart = (item) => {
+    const imageUrl =
+      item.imageUrl ||
+      `https://www.artic.edu/iiif/2/${item.image_id}/full/843,/0/default.jpg`;
+    addToCart({ ...item, price: 15, imageUrl });
     setNotification({
       visible: true,
       message: `${item.title} has been added to cart!`,
@@ -156,38 +156,11 @@ const Shop = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 text-left">
             {subscriptionItems.map((item) => (
-              <div
+              <SubscriptionCard
                 key={item.id}
-                className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer"
-                onClick={() => handleAddToCart(item, item.price)}
-              >
-                <img src={logo} alt="subscription" className="hidden" />
-                <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>
-                <p className="text-lg font-semibold text-600 dollar">
-                  $<span className="price">{item.price}</span>
-                </p>
-                <ul className="list-disc list-inside mb-4 text-left mt-4">
-                  {item.perks.map((perk, index) => (
-                    <li key={index} className="mb-2 flex items-center">
-                      <img src={check} alt="check" className="h-6 pr-2" />
-                      {perk}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddToCart(item, item.price);
-                  }}
-                  className="py-2 px-6 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
-                >
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    className="text-white-500 pr-3 cursor-pointer "
-                  />
-                  Add to Cart
-                </button>
-              </div>
+                item={item}
+                handleAddToCart={handleAddToCart}
+              />
             ))}
           </div>
         </div>
