@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
-// ProductCard component to display a product with an option to add to cart
 const ProductCard = ({ product, handleAddToCart }) => {
   const [isAdded, setIsAdded] = useState(false);
 
