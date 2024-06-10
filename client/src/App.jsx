@@ -9,6 +9,7 @@ import "./App.css";
 import OpenAI from "./components/OpenAI";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./context/AuthContext"; 
+import dotenv from 'dotenv';
 
 const httpLink = createHttpLink({
   uri: "/graphql",
