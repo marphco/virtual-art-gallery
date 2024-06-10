@@ -162,9 +162,12 @@ const Homepage = () => {
     e.preventDefault();
 
     emailjs
-      .sendForm("service_5k75c3p", "template_ycb9v97", form.current, {
-        publicKey: "e8n6PmtSDDwjsxchJ",
-      })
+      .sendForm(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        form.current,
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      )
       .then(
         () => {
           console.log("SUCCESS!");
