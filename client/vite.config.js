@@ -3,8 +3,6 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig(({ mode }) => {
-  const graphqlEndpoint = process.env.VITE_GRAPHQL_ENDPOINT || 'http://localhost:3001/graphql';
-
   return {
     base: "./",
     plugins: [
@@ -52,13 +50,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       open: true,
-      proxy: {
-        '/graphql': {
-          target: graphqlEndpoint,
-          changeOrigin: true,
-          secure: false,
-        },
-      },
     },
     css: {
       postcss: './postcss.config.cjs',

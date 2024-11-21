@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/graphql",
+        "destination": "/api/index.js"
+      }
+    ]
+  }
+  
